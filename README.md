@@ -7,11 +7,11 @@ Ticket-driven, verifier-backed engineering discipline, split by repo type so no 
 | Plugin | Enable in | Contents |
 |---|---|---|
 | kanon-core | every repo | karpathy-guidelines, implementer, backend-architect, architect-review, failure-mode-engineer, adr-manager, docker-dev, remove-ai-marks, diagram-on-the-fly, common rules, git/doc policy, references, all hooks, Serena MCP, CLAUDE.md/AGENTS.md templates |
-| kanon-java | Java repos | quarkus-reviewer, java-discipline, rules/java (+ quarkus.md), java-services |
+| kanon-java | Java repos | quarkus-reviewer, spring-reviewer, java-discipline, rules/java (+ quarkus.md, spring.md), java-services |
 | kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, rules/typescript (+ nestjs.md) |
 | kanon-web | frontend repos | frontend-discipline, rules/web, frontend.md |
 
-Monorepos with mixed stacks enable all four. A pure frontend repo enables core + web only, so quarkus/nestjs agents and rules never enter its context.
+Monorepos with mixed stacks enable all four. A pure frontend repo enables core + web only, so quarkus/spring/nestjs agents and rules never enter its context.
 
 ## Install
 

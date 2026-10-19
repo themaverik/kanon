@@ -153,5 +153,5 @@ public class OrderNotFoundMapper implements ExceptionMapper<OrderNotFoundExcepti
 
 ## References
 
-See skill: `springboot-patterns` for Spring Boot architecture patterns.
+See `rules/java/spring.md` for Spring Boot architecture patterns.
 See skill: `jpa-patterns` for entity design and query optimization.

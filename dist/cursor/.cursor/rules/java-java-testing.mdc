@@ -113,7 +113,7 @@ class OrderRepositoryIT {
 }
 ```
 
-For Spring Boot integration tests, see skill: `springboot-tdd`.
+For Spring Boot integration tests, see `rules/java/spring.md` (Testing).
 
 ## Test Naming
 
@@ -129,5 +129,5 @@ Use descriptive names with `@DisplayName`:
 
 ## References
 
-See skill: `springboot-tdd` for Spring Boot TDD patterns with MockMvc and Testcontainers.
+See `rules/java/spring.md` (Testing) for Spring Boot slice tests, MockMvc and Testcontainers.
 See skill: `java-coding-standards` for testing expectations.

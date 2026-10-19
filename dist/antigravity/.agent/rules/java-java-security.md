@@ -97,5 +97,5 @@ try {
 
 ## References
 
-See skill: `springboot-security` for Spring Security authentication and authorization patterns.
+See `rules/java/spring.md` (Security) for Spring Security `SecurityFilterChain` patterns.
 See skill: `security-review` for general security checklists.

@@ -6,7 +6,7 @@
     { "name": "kanon-core", "source": "./plugins/kanon-core", "version": "1.0.0",
       "description": "Engineering standard core: execution discipline, implementer/design/review/failure-mode agents, ADRs, guard hooks, Serena MCP. Enable in every repo." },
     { "name": "kanon-java", "source": "./plugins/kanon-java", "version": "1.0.0",
-      "description": "Java + Quarkus discipline: rules, quarkus-reviewer agent. Enable in Java repos." },
+      "description": "Java discipline for Quarkus or Spring Boot: rules, quarkus-reviewer and spring-reviewer agents. Enable in Java repos." },
     { "name": "kanon-ts", "source": "./plugins/kanon-ts", "version": "1.0.0",
       "description": "TypeScript + NestJS discipline: rules, nestjs-boundary-reviewer agent. Enable in TS backend repos." },
     { "name": "kanon-web", "source": "./plugins/kanon-web", "version": "1.0.0",

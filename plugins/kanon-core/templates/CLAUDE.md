@@ -1,7 +1,8 @@
 # Claude Code - <REPO NAME> (kanon standard v1)
 
 **Rules**: kanon-core (+ stack plugin) rules/, loaded via discipline skills
-**Stack**: <e.g. Quarkus services | NestJS APIs | Next.js portal>
+**Stack**: <e.g. Quarkus services | Spring Boot services | NestJS APIs | Next.js portal>
+**Java framework**: <quarkus | spring - delete if no Java; if omitted, detected from the build file>
 **Architecture**: <pick ONE and delete the rest: Spec-Driven BCE ([org].[app].[bc].[boundary|control|entity]) | hexagonal (ports/adapters; domain imports no framework code) | layered MVC>
 **Work items**: <Jira|Linear> - every Standard/Milestone task carries a ticket key
 
@@ -49,7 +50,7 @@ If unsure, default to Trivial and ask before escalating.
 3. **Design** (contracts/schemas change) - dispatch `backend-architect`; capture the decision via `adr-manager` (ticket-linked).
 4. **Implement** - dispatch `implementer` with ticket key + success criteria in the brief. Its handoff report is the interface; never resume its transcript for questions the report should answer.
 5. **Verify** - build/test gates; risky paths get `failure-mode-engineer` (mutation/property verdicts, not coverage percent).
-6. **Review** - official code-review plugin generally; `architect-review` for structural changes; stack reviewer (`quarkus-reviewer` / `nestjs-boundary-reviewer`) per repo type.
+6. **Review** - official code-review plugin generally; `architect-review` for structural changes; stack reviewer (`quarkus-reviewer` / `spring-reviewer` / `nestjs-boundary-reviewer`) per repo type.
 7. **Record** - ADR for decisions. Work-item status lives in the ticket, not in repo files.
 8. **Deliverables** - run `remove-ai-marks` on generated docs/artifacts before publishing.
 
@@ -62,6 +63,7 @@ If unsure, default to Trivial and ask before escalating.
 | Structural review | architect-review | read-only, opus, Milestone tier |
 | How does this break | failure-mode-engineer | writes tests; verifier-backed |
 | Quarkus idiom review | quarkus-reviewer (kanon-java) | read-only |
+| Spring Boot idiom review | spring-reviewer (kanon-java) | read-only |
 | NestJS/TS boundary review | nestjs-boundary-reviewer (kanon-ts) | read-only |
 
 Reviewers never edit. Only implementer and failure-mode-engineer write.

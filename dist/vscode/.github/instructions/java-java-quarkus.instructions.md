@@ -6,8 +6,8 @@ applyTo: "**/*.java"
 
 > Extends java/patterns.md. Applies when the build is Quarkus (io.quarkus in pom/gradle).
 
-## CDI, not Spring
-- Bean-defining annotations: `@ApplicationScoped` default for stateless services. Never Spring's `@Service/@Component/@Autowired/@Value`.
+## CDI, not Spring stereotypes
+- Bean-defining annotations: `@ApplicationScoped` default for stateless services. Don't mix frameworks in a Quarkus module: no Spring's `@Service/@Component/@Autowired/@Value` here (Spring repos use rules/java/spring.md).
 - Constructor injection preferred; `@Inject` fields only in tests.
 - Config via `@ConfigProperty` / `@ConfigMapping`, never hand-read env vars in code.
 
