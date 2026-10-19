@@ -30,7 +30,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
 code,pre,.path{font-family:var(--mono);font-size:.875em}
 code,.path{background:var(--surface-2);padding:.1em .4em;border-radius:4px;overflow-wrap:anywhere}
@@ -44,8 +44,8 @@ a:hover{color:var(--accent-hover);text-decoration-thickness:2px}
 .skip:focus{top:12px;color:var(--on-accent)}
 
 header.hero{padding:72px 0 40px;border-bottom:1px solid var(--border)}
-h1{font-size:clamp(40px,6vw,60px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 16px}
-.lede{font-size:20px;line-height:1.55;color:var(--text-2);max-width:680px}
+h1{font-size:clamp(36px,5.5vw,52px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 16px}
+.lede{font-size:18px;line-height:1.55;color:var(--text-2);max-width:680px}
 .lede b{color:var(--text);font-weight:600}
 .chips{margin-top:28px;display:flex;gap:8px;flex-wrap:wrap;list-style:none;margin-left:0}
 .chips li{margin:0;padding:6px 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:14px;font-weight:600}
@@ -55,7 +55,7 @@ h1{font-size:clamp(40px,6vw,60px);font-weight:700;letter-spacing:-.02em;line-hei
 .btn:hover{background:var(--accent-hover);color:var(--on-accent)}
 .btn.ghost{background:none;color:var(--link);border:1px solid var(--border)}
 .btn.ghost:hover{background:var(--accent-tint);color:var(--accent-hover)}
-.small{font-size:14.5px;color:var(--text-2)}
+.small{font-size:14px;color:var(--text-2)}
 .fine{font-size:14px;color:var(--text-2)}
 
 nav.toc{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap;padding:8px 0;font-size:14px}
@@ -63,12 +63,12 @@ nav.toc a{text-decoration:none;font-weight:600;color:var(--text);padding:4px 12p
 nav.toc a:hover{background:var(--accent-tint);color:var(--accent-hover)}
 
 section{padding:56px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
-h2{font-size:32px;font-weight:600;letter-spacing:-.01em;line-height:1.25;margin-bottom:8px}
-h3{font-size:18px;font-weight:600;margin:28px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
+h2{font-size:28px;font-weight:600;letter-spacing:-.01em;line-height:1.25;margin-bottom:8px}
+h3{font-size:17px;font-weight:600;margin:28px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
 p{margin:10px 0;max-width:72ch}
 ul,ol{margin:8px 0 8px 22px;max-width:72ch}
 li{margin:5px 0}
-.note{border:1px solid var(--border);border-left:4px solid var(--accent);background:var(--surface);border-radius:var(--radius);padding:12px 16px;margin:18px 0;font-size:15px}
+.note{border:1px solid var(--border);border-left:4px solid var(--accent);background:var(--surface);border-radius:var(--radius);padding:12px 16px;margin:18px 0;font-size:14px}
 .note strong:first-child{color:var(--text)}
 .note ol{margin:6px 0 2px 20px}
 
@@ -80,13 +80,13 @@ details{margin:10px 0}
 summary{font-weight:600;cursor:pointer;margin:8px 0 4px}
 
 .table-scroll{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:var(--radius)}
-table{border-collapse:collapse;width:100%;min-width:560px;font-size:15px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
 th{font-size:13px;font-weight:600;text-align:left;background:var(--surface);color:var(--text-2);padding:10px 14px;border-bottom:1px solid var(--border)}
 td{border-top:1px solid var(--border);padding:10px 14px;vertical-align:top}
 tbody tr:first-child td{border-top:none}
-tbody th{background:none;color:var(--text);font-size:15px;border-bottom:none;border-top:1px solid var(--border);vertical-align:top}
+tbody th{background:none;color:var(--text);font-size:14px;border-bottom:none;border-top:1px solid var(--border);vertical-align:top}
 tbody tr:first-child th{border-top:none}
-.num{font-family:var(--mono);font-size:13.5px;white-space:nowrap}
+.num{font-family:var(--mono);font-size:13px;white-space:nowrap}
 .good{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}
 
 .diagram{overflow-x:auto;margin:12px 0}
@@ -116,7 +116,7 @@ footer p{max-width:none}
   /* One scrolling row keeps the sticky bar from eating the viewport on phones. */
   nav.toc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   nav.toc a{white-space:nowrap}
-  h2{font-size:26px}
+  h2{font-size:24px}
 }
 </style>
 </head>
