@@ -11,7 +11,7 @@ Ticket-driven, verifier-backed engineering discipline, split by repo type so no 
 | kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, rules/typescript (+ nestjs.md) |
 | kanon-web | frontend repos | frontend-discipline, rules/web, frontend.md |
 
-Monorepos with mixed stacks enable all four. A pure frontend repo enables core + web only, so quarkus/spring/nestjs agents and rules never enter its context.
+Monorepos with mixed stacks enable all four. The three mods below are optional session tools that work in any repo. A pure frontend repo enables core + web only, so quarkus/spring/nestjs agents and rules never enter its context.
 
 ## Install
 
@@ -46,6 +46,36 @@ Then:
 - Register the fork under Organization settings > Plugins, pin semver and enforce it with managed settings.
 - Where the org runs SonarQube, merge `templates/mcp.enterprise.json` into the managed `.mcp.json`.
 - Run `scripts/leak-check.sh` in the fork's CI, with your internal names added to BANNED.
+
+## Mods: session tools above the prompt
+
+Three optional plugins that draw a band above the Claude Code prompt. Each one works in any repo and doesn't need the others. They use Claude Code's hooks modules, so they need a build that supports them.
+
+```
+/plugin install cache-keeper@kanon
+/plugin install collision-guard@kanon
+/plugin install prompt-enhancer@kanon
+```
+
+**cache-keeper**: shows what the session costs and when its prompt cache goes cold.
+- The band reads `cache 55m/60m · ctx 110k (11%) · 5h 20% · wk 23% · $14.39 · cold ~$1.10`. That is: time left before the prompt cache expires, context size, the 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold.
+- **Handoff & Clear** (`h`) or `/handoff`: writes a handoff brief, clears the session and puts the brief in the prompt for you to review and send.
+- **Fresh** (`f`): clears the session without a brief.
+- `/autohandoff 80k` hands off automatically at that context size; `/autohandoff off` stops it.
+- `/cache-ttl <minutes|auto>` sets the cache TTL by hand. By default it is detected from cache hits and misses.
+- Settings: `ttlMinutes` (60), `warnTokens` (50000; yellow at this size, red at twice it), `inputUsdPerMtok` (5).
+
+**collision-guard**: for several Claude Code sessions in the same folder.
+- Before an edit to a file another session changed in the last 30 minutes, it asks: **Proceed**, **Move to a worktree** or **Cancel**.
+- The band lists the other live sessions and what each is working on.
+- Setting: `windowMinutes` (30).
+
+**prompt-enhancer**: turns a rough draft into a sharper prompt, without sending it.
+- Type a draft, then press **Enhance** (`e`) or run `/enhance`. A small model rewrites the draft and wraps it in your template; the result stays in the prompt for you to edit.
+- **Undo** (`u`) restores your draft until you send.
+- Templates are Markdown files in `~/.claude/prompt-templates/`. `{{task}}` marks where the rewritten prompt goes and `{{reviewer}}` where the picked reviewer goes. `discipline.md` is seeded on first run.
+- `/enhance <name>` uses another template; `/templates` lists them.
+- Setting: `model` (haiku).
 
 ## Policies enforced by hooks (not prose)
 

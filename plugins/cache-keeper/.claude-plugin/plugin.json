@@ -1,0 +1,29 @@
+{
+  "name": "cache-keeper",
+  "version": "0.1.0",
+  "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, and one-click handoff.",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "ttlMinutes": {
+      "type": "number",
+      "title": "Cache TTL (minutes)",
+      "description": "Used until the TTL is detected from a warm or cold turn. /cache-ttl overrides it.",
+      "default": 60
+    },
+    "warnTokens": {
+      "type": "number",
+      "title": "Context warning (tokens)",
+      "description": "Context size where quality may start degrading. Turns yellow here, red at twice this.",
+      "default": 50000
+    },
+    "inputUsdPerMtok": {
+      "type": "number",
+      "title": "Input price (USD per million tokens)",
+      "description": "Base input price for the cold-cache estimate. Replaced by the engine's own rate once it reports one.",
+      "default": 5
+    }
+  },
+  "author": {
+    "name": "themaverik"
+  }
+}

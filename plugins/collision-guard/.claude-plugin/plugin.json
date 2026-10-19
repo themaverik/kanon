@@ -1,0 +1,17 @@
+{
+  "name": "collision-guard",
+  "version": "0.1.0",
+  "description": "Warns before editing a file another Claude Code session in the same folder changed recently, and shows what the other sessions are working on.",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "windowMinutes": {
+      "type": "number",
+      "title": "Collision window (minutes)",
+      "description": "Ask before editing a file another session changed within this many minutes.",
+      "default": 30
+    }
+  },
+  "author": {
+    "name": "themaverik"
+  }
+}

@@ -1,15 +1,53 @@
 {
   "name": "kanon",
-  "owner": { "name": "themaverik" },
-  "metadata": { "description": "Kanōn: a ticket-driven, verifier-backed engineering standard, split by stack so each repo loads only the rules it uses." },
+  "owner": {
+    "name": "themaverik"
+  },
+  "metadata": {
+    "description": "Kanōn: a ticket-driven, verifier-backed engineering standard, split by stack so each repo loads only the rules it uses."
+  },
   "plugins": [
-    { "name": "kanon-core", "source": "./plugins/kanon-core", "version": "1.0.0",
-      "description": "Engineering standard core: execution discipline, implementer/design/review/failure-mode agents, ADRs, guard hooks, Serena MCP. Enable in every repo." },
-    { "name": "kanon-java", "source": "./plugins/kanon-java", "version": "1.0.0",
-      "description": "Java discipline for Quarkus or Spring Boot: rules, quarkus-reviewer and spring-reviewer agents. Enable in Java repos." },
-    { "name": "kanon-ts", "source": "./plugins/kanon-ts", "version": "1.0.0",
-      "description": "TypeScript + NestJS discipline: rules, nestjs-boundary-reviewer agent. Enable in TS backend repos." },
-    { "name": "kanon-web", "source": "./plugins/kanon-web", "version": "1.0.0",
-      "description": "Frontend discipline: web rules and router skill. Enable in frontend repos." }
+    {
+      "name": "kanon-core",
+      "source": "./plugins/kanon-core",
+      "version": "1.0.0",
+      "description": "Engineering standard core: execution discipline, implementer/design/review/failure-mode agents, ADRs, guard hooks, Serena MCP. Enable in every repo."
+    },
+    {
+      "name": "kanon-java",
+      "source": "./plugins/kanon-java",
+      "version": "1.0.0",
+      "description": "Java discipline for Quarkus or Spring Boot: rules, quarkus-reviewer and spring-reviewer agents. Enable in Java repos."
+    },
+    {
+      "name": "kanon-ts",
+      "source": "./plugins/kanon-ts",
+      "version": "1.0.0",
+      "description": "TypeScript + NestJS discipline: rules, nestjs-boundary-reviewer agent. Enable in TS backend repos."
+    },
+    {
+      "name": "kanon-web",
+      "source": "./plugins/kanon-web",
+      "version": "1.0.0",
+      "description": "Frontend discipline: web rules and router skill. Enable in frontend repos."
+    },
+    {
+      "name": "cache-keeper",
+      "source": "./plugins/cache-keeper",
+      "version": "0.1.0",
+      "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, and one-click handoff. Needs a Claude Code build with hooks modules."
+    },
+    {
+      "name": "collision-guard",
+      "source": "./plugins/collision-guard",
+      "version": "0.1.0",
+      "description": "Warns before editing a file another Claude Code session in the same folder changed recently, and shows what the other sessions are working on. Needs a Claude Code build with hooks modules."
+    },
+    {
+      "name": "prompt-enhancer",
+      "source": "./plugins/prompt-enhancer",
+      "version": "0.1.0",
+      "description": "Band above the prompt: rewrite the draft as a sharper prompt and wrap it in your standing template (~/.claude/prompt-templates). Needs a Claude Code build with hooks modules."
+    }
   ]
 }

@@ -139,14 +139,14 @@ footer p{max-width:none}
 
 <nav class="toc" aria-label="Page sections">
   <a href="#layout">What ships</a><a href="#install">Install</a><a href="#recipes">Stack recipes</a>
-  <a href="#workflow">Workflow</a><a href="#context">Context cost</a><a href="#tools">Companion tools</a><a href="#memory">Memory</a>
+  <a href="#workflow">Workflow</a><a href="#context">Context cost</a><a href="#mods">Mods</a><a href="#tools">Companion tools</a><a href="#memory">Memory</a>
   <a href="#compare">Efficiency</a><a href="#repo">Install &amp; fork</a>
 </nav>
 
 <main id="main">
 <section id="layout">
   <h2>What ships</h2>
-  <p>Four plugins, one marketplace. A repo enables <code>kanon-core</code> plus its stack; a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
+  <p>Four standard plugins, one marketplace, plus three optional <a href="#mods">mods</a>. A repo enables <code>kanon-core</code> plus its stack; a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Plugins table">
   <table>
     <thead><tr><th scope="col">Plugin</th><th scope="col">Enable in</th><th scope="col">Carries</th></tr></thead>
@@ -376,6 +376,46 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   </div>
   <p class="fine">*Ceilings are the theoretical worst case if every rule/skill body loaded at once; a typical task loads 2–4 of them (~6–8K). The java skills ceiling is high because of the vendored airails pack — its verbose descriptions (~1.4K of the java floor) are what make auto-triggering reliable. Docs-only repos can also run coreless: just AGENTS.md (~1K).</p>
   <div class="note"><strong>Budget gate:</strong> beyond these fixed costs, every subagent dispatch is classed S (&lt;20K) / M (20–60K) / L (&gt;60K) before launch; M and L require explicit approval, opus is per-invocation approval only, transcripts are never resumed. That contract, not the plugin size, is what keeps a $20/month account inside budget.</div>
+</section>
+
+<section id="mods">
+  <h2>Mods: session tools above the prompt</h2>
+  <p>Three optional plugins that draw a band above the Claude Code prompt. Each one works in any repo and doesn't need the others. They use Claude Code's hooks modules, so they need a build that supports them.</p>
+  <pre><code>/plugin install cache-keeper@kanon
+/plugin install collision-guard@kanon
+/plugin install prompt-enhancer@kanon</code></pre>
+  <div class="stations">
+    <div class="station">
+      <span class="stationlabel">Cost and cache</span>
+      <h3>cache-keeper</h3>
+      <pre><code>cache 55m/60m · ctx 110k (11%) · 5h 20% · wk 23% · $14.39 · cold ~$1.10   [Handoff &amp; Clear] [Fresh]</code></pre>
+      <p>Left to right: time before the prompt cache expires, context size, 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold.</p>
+      <ul>
+        <li><strong>Handoff &amp; Clear</strong> (<code>h</code>) or <code>/handoff</code>: writes a handoff brief, clears the session and puts the brief in the prompt to review and send.</li>
+        <li><strong>Fresh</strong> (<code>f</code>): clears the session without a brief.</li>
+        <li><code>/autohandoff 80k</code> hands off at that context size; <code>/autohandoff off</code> stops it.</li>
+        <li><code>/cache-ttl &lt;minutes|auto&gt;</code> sets the cache TTL by hand; by default it is detected.</li>
+      </ul>
+    </div>
+    <div class="station">
+      <span class="stationlabel">Parallel sessions</span>
+      <h3>collision-guard</h3>
+      <ul>
+        <li>Before an edit to a file another session in the same folder changed in the last 30 minutes, it asks: <strong>Proceed</strong>, <strong>Move to a worktree</strong> or <strong>Cancel</strong>.</li>
+        <li>The band lists the other live sessions and what each is working on.</li>
+      </ul>
+    </div>
+    <div class="station">
+      <span class="stationlabel">Prompting</span>
+      <h3>prompt-enhancer</h3>
+      <ul>
+        <li>Type a draft, then press <strong>Enhance</strong> (<code>e</code>) or run <code>/enhance</code>. A small model rewrites it and wraps it in your template. Nothing is sent; you edit and press Enter.</li>
+        <li><strong>Undo</strong> (<code>u</code>) restores your draft until you send.</li>
+        <li>Templates are Markdown files in <code>~/.claude/prompt-templates/</code>: <code>{{task}}</code> takes the rewritten prompt, <code>{{reviewer}}</code> the picked reviewer. <code>/enhance &lt;name&gt;</code> picks one; <code>/templates</code> lists them.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fine">Settings for each mod are under <code>/plugin</code>: cache-keeper <code>ttlMinutes</code>, <code>warnTokens</code>, <code>inputUsdPerMtok</code>; collision-guard <code>windowMinutes</code>; prompt-enhancer <code>model</code>.</p>
 </section>
 
 <section id="tools">
