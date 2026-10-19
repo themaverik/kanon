@@ -1,119 +1,70 @@
-# Kanōn - Enterprise Engineering Standard for Claude Code
+# Kanōn
 
-Ticket-driven, verifier-backed engineering discipline, split by repo type so no repo pays context for rules it cannot use.
+A ticket-driven, verifier-backed engineering standard for AI coding agents. One canonical source, with generated versions for Claude Code, Cursor, VS Code, Codex and Antigravity.
+
+**Discipline**, as Kanōn uses the word: a named set of rules, roles and checks that the agent follows the same way on every task. Hooks and verifiers enforce it, so nothing depends on the model remembering.
+
+The full guide is the landing page, [`index.html`](index.html).
+
+## Highlights
+
+- **Split by stack.** Each repo loads only the rules it can use. A frontend repo never sees Quarkus text.
+- **Scaled to the task.** Trivial changes skip the process, while milestones get the full plan, build, verify and review loop.
+- **Enforced, not suggested.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses.
+- **Proven by verifiers.** Reviewers are read-only and lean on ArchUnit, dependency-cruiser, PIT and Stryker rather than opinion.
+- **Lean.** About 2.3–4K tokens are always loaded per session, not counting MCP tool schemas.
+- **Session mods.** Optional bands above the prompt for cache and cost, parallel-session collisions, and prompt rewriting.
 
 ## Plugins
 
-| Plugin | Enable in | Contents |
+| Plugin | Enable in | Brings |
 |---|---|---|
-| kanon-core | every repo | karpathy-guidelines, implementer, backend-architect, architect-review, failure-mode-engineer, adr-manager, docker-dev, remove-ai-marks, diagram-on-the-fly, common rules, git/doc policy, references, all hooks, Serena MCP, CLAUDE.md/AGENTS.md templates |
-| kanon-java | Java repos | quarkus-reviewer, spring-reviewer, java-discipline, rules/java (+ quarkus.md, spring.md), java-services |
-| kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, rules/typescript (+ nestjs.md) |
-| kanon-web | frontend repos | frontend-discipline, rules/web, frontend.md |
+| kanon-core | every repo | implementer, backend-architect, architect-review and failure-mode-engineer agents, karpathy-guidelines, adr-manager, commit-craft, common rules, the 6 guard hooks, Serena MCP, CLAUDE.md/AGENTS.md templates |
+| kanon-java | Java/Kotlin repos | Quarkus or Spring Boot, picked from the repo. quarkus-reviewer, spring-reviewer, java-discipline, java rules, 8 vendored [airails](plugins/kanon-java/skills/AIRAILS-NOTICE.md) skills |
+| kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript and NestJS rules |
+| kanon-web | frontend repos | frontend-discipline, web rules |
+| cache-keeper | any repo (mod) | cache countdown, context size, rate limits, session cost, Handoff & Clear |
+| collision-guard | any repo (mod) | asks before editing a file another session just changed |
+| prompt-enhancer | any repo (mod) | rewrites a draft prompt into your template, unsent |
 
-Monorepos with mixed stacks enable all four. The three mods below are optional session tools that work in any repo. A pure frontend repo enables core + web only, so quarkus/spring/nestjs agents and rules never enter its context.
+The mods need a Claude Code build with hooks modules. The landing page's [Mods section](index.html#mods) covers their buttons, commands and settings.
 
 ## Install
 
 ```
 /plugin marketplace add themaverik/kanon
 /plugin install kanon-core@kanon
+/plugin install kanon-java@kanon      # or kanon-ts, kanon-web
 ```
 
-Or per repo in `.claude/settings.json` (example: TS backend repo):
+Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo root and fill in the placeholders, including `Java framework:` for Java repos. To make a repo install the plugins for everyone who trusts it, commit this to `.claude/settings.json`:
+
 ```json
 {
   "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "themaverik/kanon" } } },
-  "enabledPlugins": {
-    "kanon-core@kanon": true,
-    "kanon-ts@kanon": true
-  }
+  "enabledPlugins": { "kanon-core@kanon": true, "kanon-ts@kanon": true }
 }
 ```
-Copy `plugins/*-core/templates/CLAUDE.md` and `AGENTS.md` to the repo root and fill placeholders.
 
-## Forking for your organisation
+**Other editors:** run `python3 scripts/sync-editors.py --repo <repo> --stacks java --tools cursor`, or copy the matching tree from `dist/`. [Editor-Parity.md](Editor-Parity.md) lists what ports and what doesn't.
 
-Optional: give the plugins your own prefix and org name.
+**Prerequisites:**
+- `uv`, for Serena MCP.
+- `python3`, for the hooks.
+- Your stack's JDK or Node.
+- `graphify` (optional), for the tiered read protocol.
 
-```
-python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run
-python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>"
-```
+**Settings:**
+- `TICKET_REGEX` overrides the ticket-key pattern used by ticket-guard.
+- `GRAPH_SYNC_CMD` sets your graphify incremental command.
+- `COMMIT_AI=1` turns on AI drafts in the `prepare-commit-msg` git hook. Install that hook with `scripts/install-githooks.sh`.
 
-Then:
+## Forking
 
-- Register the fork under Organization settings > Plugins, pin semver and enforce it with managed settings.
-- Where the org runs SonarQube, merge `templates/mcp.enterprise.json` into the managed `.mcp.json`.
-- Run `scripts/leak-check.sh` in the fork's CI, with your internal names added to BANNED.
-
-## Mods: session tools above the prompt
-
-Three optional plugins that draw a band above the Claude Code prompt. Each one works in any repo and doesn't need the others. They use Claude Code's hooks modules, so they need a build that supports them.
-
-```
-/plugin install cache-keeper@kanon
-/plugin install collision-guard@kanon
-/plugin install prompt-enhancer@kanon
-```
-
-**cache-keeper**: shows what the session costs and when its prompt cache goes cold.
-- The band reads `cache 55m/60m · ctx 110k (11%) · 5h 20% · wk 23% · $14.39 · cold ~$1.10`. That is: time left before the prompt cache expires, context size, the 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold.
-- **Handoff & Clear** (`h`) or `/handoff`: writes a handoff brief, clears the session and puts the brief in the prompt for you to review and send.
-- **Fresh** (`f`): clears the session without a brief.
-- `/autohandoff 80k` hands off automatically at that context size. `/autohandoff off` stops it.
-- `/cache-ttl <minutes|auto>` sets the cache TTL by hand. By default it is detected from cache hits and misses.
-- Settings: `ttlMinutes` (60), `warnTokens` (50000, yellow at this size and red at twice it), `inputUsdPerMtok` (5).
-
-**collision-guard**: for several Claude Code sessions in the same folder.
-- Before an edit to a file another session changed in the last 30 minutes, it asks: **Proceed**, **Move to a worktree** or **Cancel**.
-- The band lists the other live sessions and what each is working on.
-- Setting: `windowMinutes` (30).
-
-**prompt-enhancer**: turns a rough draft into a sharper prompt, without sending it.
-- Type a draft, then press **Enhance** (`e`) or run `/enhance`. A small model rewrites the draft and wraps it in your template. The result stays in the prompt for you to edit.
-- **Undo** (`u`) restores your draft until you send.
-- Templates are Markdown files in `~/.claude/prompt-templates/`. `{{task}}` marks where the rewritten prompt goes and `{{reviewer}}` where the picked reviewer goes. `discipline.md` is seeded on first run.
-- `/enhance <name>` uses another template, and `/templates` lists them.
-- Setting: `model` (haiku).
-
-## Policies enforced by hooks (not prose)
-
-- ticket-guard: git commits must reference a ticket key (Jira/Linear pattern, `TICKET_REGEX` override).
-- artifact-guard: no session/memory artifacts committed (MEMORY.md, SESSION*/PROGRESS* notes, generated knowledge bases). ADRs/diagrams/runbooks are the committed docs.
-- env-mutation-guard: agents cannot start/stop containers/services or run destructive DB commands. `ECC_ALLOW_ENV=1` is granted deliberately from the main context.
-- cooldown-guard: dependency install cooldown cannot be bypassed.
-- post-edit-lint: fast lint after edits. Slow verifiers (PIT, Stryker, Sonar) stay in CI/on-demand.
-
-## Design notes
-
-- Work-item truth lives in the ticket system, with no roadmap files.
-- CLI over MCP. Serena is the only always-on code MCP.
-- Reviewers are read-only. Only implementer and failure-mode-engineer write.
-- Handoff reports replace transcript resumption.
-
-## Commit messages
-
-- `commit-craft` skill (core) disciplines AI-written commits: `KEY: one-liner` + pointwise bullets from the staged diff, no footers.
-- `templates/githooks/prepare-commit-msg` covers human commits deterministically: prepends the branch's ticket key, inserts the bullet skeleton on empty messages. Opt-in AI draft via `COMMIT_AI=1`. Install per repo with `scripts/install-githooks.sh` (commits `.githooks/` + `core.hooksPath`).
-- ticket-guard remains the enforcement backstop on unkeyed branches only.
-
-## Other editors (Cursor, VS Code Copilot, Antigravity)
-
-`scripts/sync-editors.py` generates each editor's config from this canonical
-standard: rules to .cursor/rules / .github/instructions / .agents/rules,
-skills verbatim (shared SKILL.md standard), agents as VS Code custom agents
-and persona skills elsewhere, plus per-editor Serena MCP config.
-`--legacy-agent-dir` also emits Antigravity's pre-rename `.agent/` layout.
-See Editor-Parity.md for the full mapping and what intentionally does not
-port (editor hooks, where parity comes from git hooks and CI).
-
-## Prerequisites (per machine)
-
-- `uv` (Serena MCP launches via uvx, and the first Java project also downloads Eclipse JDT.LS ~500MB)
-- `graphify` for the tier-0 read protocol, plus one initial `graphify` run per repo. The `graph-sync` hook then refreshes it incrementally after source edits. It does nothing when graphify is absent. Set `GRAPH_SYNC_CMD` if your graphify version uses a different incremental command.
-- JDK + Maven/Gradle wrappers, Node/npx per stack, and `python3` (hooks). `jq` is not required
+To use your own plugin prefix and org name, run `python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run`, then run it again without `--dry-run`. Then:
+- Add your internal names to `BANNED` and run `scripts/leak-check.sh` in CI.
+- Pin a semver tag and enforce it with managed settings.
 
 ## License
 
-[MIT](LICENSE). The landing page's Open Sans font is under the [SIL Open Font License](assets/fonts/OFL.txt).
+[MIT](LICENSE). Open Sans is under the [SIL Open Font License](assets/fonts/OFL.txt).
