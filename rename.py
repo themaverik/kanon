@@ -6,7 +6,7 @@ ORG_PLACEHOLDER author field. Run from anywhere; operates on the repo root
 containing this script's parent.
 
 Usage:
-  python3 scripts/rename.py --prefix kanon --org "Kanon" [--dry-run]
+  python3 rename.py --prefix kanon --org "Kanon" [--dry-run]
 
 Result: marketplace 'kanon', plugins 'kanon-core', 'kanon-java',
 'kanon-ts', 'kanon-web'; all JSON/MD references updated.
