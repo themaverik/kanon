@@ -1,0 +1,8 @@
+{
+  "name": "kanon-core",
+  "version": "1.0.0",
+  "description": "Engineering standard core: discipline, agent fleet, ADRs, guards, Serena MCP.",
+  "author": {
+    "name": "ORG_PLACEHOLDER"
+  }
+}

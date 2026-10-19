@@ -1,0 +1,6 @@
+{
+  "name": "kanon-java",
+  "version": "1.0.0",
+  "description": "Java and Quarkus rules plus quarkus-reviewer agent.",
+  "author": { "name": "ORG_PLACEHOLDER" }
+}

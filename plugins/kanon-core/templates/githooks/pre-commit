@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# Strips invisible Unicode watermarks from staged code and docs before they are committed.
+#
+# Layer A only: the deterministic Unicode and metadata pass. It removes zero-width and
+# bidi characters and leaves every visible character alone - an em dash stays an em dash,
+# code structure is untouched, and an already-clean file comes back byte-identical.
+#
+# It deliberately does NOT run the statistical rewrite (Layer B). That needs a model and
+# changes wording, which must never happen unattended inside a commit.
+#
+# NEVER BLOCKS A COMMIT. Not installed, not running, missing dependency, malformed response,
+# internal error - every one of them means "skip cleaning" and never "fail the commit". A hook
+# that blocks work when an optional local daemon is absent gets disabled by everyone in a week.
+#
+# Escape hatch: SKIP_WATERMARK_HOOK=1 git commit ...
+
+# Deliberately no `set -e` and no `set -u`: an unset variable or a failing command must not
+# abort the hook with a non-zero status, because git reads that as "reject this commit".
+set -o pipefail 2>/dev/null || true
+
+[ "${SKIP_WATERMARK_HOOK:-0}" = "1" ] && exit 0
+
+# Not installed is a normal state, not an error. Say nothing and get out of the way.
+for tool in curl python3 base64 git; do
+  command -v "$tool" >/dev/null 2>&1 || exit 0
+done
+
+WM="${WATERMARKS_SERVICE_URL:-http://127.0.0.1:8765}"
+MAX_BYTES=${WATERMARK_MAX_BYTES:-1048576}
+
+if ! curl -sf --max-time 3 "$WM/health" >/dev/null 2>&1; then
+  [ "${WATERMARK_QUIET:-0}" = "1" ] || \
+    echo "watermarks: service not available at $WM - skipping (commit continues)" >&2
+  exit 0
+fi
+
+# Files staged for add/copy/modify only.
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+# Files whose worktree differs from the index are partially staged; cleaning them would
+# stage content the author did not choose to commit.
+partial=$(git diff --name-only)
+
+cleaned_list=""
+skipped_partial=""
+
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  [ -f "$f" ] || continue
+
+  case "$f" in
+    *.kt|*.kts|*.java|*.ts|*.tsx|*.js|*.jsx|*.py|*.sh|*.sql|*.xml|*.yaml|*.yml|\
+    *.json|*.properties|*.gradle|*.md|*.markdown|*.txt|*.adoc|*.rst|*.html) ;;
+    *) continue ;;
+  esac
+
+  if printf '%s\n' "$partial" | grep -qxF "$f"; then
+    skipped_partial="$skipped_partial $f"
+    continue
+  fi
+
+  size=$(wc -c < "$f" | tr -d ' ')
+  [ "$size" -gt "$MAX_BYTES" ] && continue
+  [ "$size" -eq 0 ] && continue
+
+  # The service routes by extension and rejects source extensions such as .kt, .xml and .sh.
+  # Markdown keeps its own name so frontmatter is handled; everything else is presented as
+  # .txt so the text cleaner accepts it. Content is unaffected either way.
+  case "$f" in
+    *.md|*.markdown) send_name="$(basename "$f")" ;;
+    *)               send_name="$(basename "$f").txt" ;;
+  esac
+
+  b64=$(base64 < "$f" | tr -d '\n')
+  resp=$(printf '{"file":"%s","name":"%s"}' "$b64" "$send_name" \
+    | curl -sf --max-time 20 -X POST "$WM/clean" -H 'Content-Type: application/json' --data-binary @- 2>/dev/null)
+  [ -z "$resp" ] && continue
+
+  tmp="$f.watermark.tmp"
+  if printf '%s' "$resp" | python3 -c "
+import json,sys,base64,pathlib
+r=json.load(sys.stdin)
+if not r.get('ok') or not r.get('cleaned'): raise SystemExit(1)
+out=base64.b64decode(r['cleaned'])
+src=pathlib.Path('$f').read_bytes()
+if out==src: raise SystemExit(2)          # already clean, nothing to do
+pathlib.Path('$tmp').write_bytes(out)
+" 2>/dev/null; then
+    mv "$tmp" "$f"
+    git add -- "$f"
+    cleaned_list="$cleaned_list $f"
+  else
+    rm -f "$tmp"
+  fi
+done <<< "$staged"
+
+if [ -n "$cleaned_list" ]; then
+  echo "watermarks: cleaned and re-staged:" >&2
+  for f in $cleaned_list; do echo "  $f" >&2; done
+fi
+
+if [ -n "$skipped_partial" ]; then
+  echo "watermarks: skipped (partially staged, worktree differs from index):" >&2
+  for f in $skipped_partial; do echo "  $f" >&2; done
+fi
+
+exit 0

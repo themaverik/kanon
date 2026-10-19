@@ -1,0 +1,10 @@
+{
+  "_comment": "Enterprise additions. Merge into managed .mcp.json only where the org runs the backing service.",
+  "mcpServers": {
+    "sonarqube": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-e", "SONARQUBE_TOKEN", "-e", "SONARQUBE_URL", "mcp/sonarqube"],
+      "env": { "SONARQUBE_TOKEN": "${SONARQUBE_TOKEN}", "SONARQUBE_URL": "${SONARQUBE_URL}" }
+    }
+  }
+}

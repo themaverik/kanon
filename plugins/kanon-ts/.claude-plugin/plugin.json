@@ -1,0 +1,6 @@
+{
+  "name": "kanon-ts",
+  "version": "1.0.0",
+  "description": "TypeScript and NestJS rules plus nestjs-boundary-reviewer agent.",
+  "author": { "name": "ORG_PLACEHOLDER" }
+}

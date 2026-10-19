@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanōn · Engineering Standard for AI Coding Agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mist:#F4F7F5; --ink:#15211D; --spruce:#1E5C4A; --spruce-deep:#123B30;
+  --amber:#B26A0B; --line:#D6DEDA; --card:#FFFFFF; --mono-bg:#0E1815; --mono-fg:#CFE3DB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--mist);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px 96px}
+h1,h2,h3,.eyebrow,.stationlabel,nav{font-family:"Archivo",sans-serif}
+code,pre,.path{font-family:"IBM Plex Mono",monospace;font-size:.86em}
+code{background:#E7EEEA;padding:.1em .38em;border-radius:4px}
+pre{background:var(--mono-bg);color:var(--mono-fg);padding:16px 18px;border-radius:8px;overflow-x:auto;line-height:1.5;margin:14px 0}
+pre code{background:none;padding:0;color:inherit}
+a{color:var(--spruce);text-decoration:none;border-bottom:1px solid #9CBFB3}
+a:hover{border-bottom-color:var(--spruce)}
+
+/* rail signature */
+.rail{position:fixed;left:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(to bottom,var(--spruce) 0 26px,transparent 26px 34px)}
+@media(max-width:1100px){.rail{display:none}}
+
+header.hero{padding:88px 0 56px;border-bottom:2px solid var(--ink)}
+.eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:600;color:var(--spruce)}
+h1{font-size:clamp(40px,6vw,68px);font-weight:800;letter-spacing:-.02em;line-height:1.02;margin:10px 0 18px}
+.hero p.lede{font-size:20px;max-width:640px}
+.gauge{margin-top:28px;display:flex;gap:0;align-items:center;font-family:"Archivo";font-size:12px;letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap}
+.gauge span{padding:7px 14px;border:1.5px solid var(--ink);border-right:none}
+.gauge span:last-child{border-right:1.5px solid var(--ink)}
+
+nav.toc{position:sticky;top:0;background:var(--mist);border-bottom:1px solid var(--line);z-index:5;padding:10px 0;font-size:13px;display:flex;gap:18px;flex-wrap:wrap;letter-spacing:.02em}
+nav.toc a{border:none;font-weight:600;color:var(--ink)}
+nav.toc a:hover{color:var(--spruce)}
+
+section{padding:56px 0 8px}
+h2{font-size:30px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+h2 .no{color:var(--spruce);margin-right:10px}
+h3{font-size:19px;font-weight:600;margin:26px 0 8px}
+p{margin:10px 0;max-width:72ch}
+ul{margin:8px 0 8px 22px;max-width:72ch}
+li{margin:5px 0}
+.note{border-left:3px solid var(--amber);background:#FBF3E6;padding:12px 16px;margin:16px 0;font-size:15.5px}
+.note strong{color:var(--amber)}
+
+/* stations: install per editor */
+.station{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:22px 24px;margin:18px 0;position:relative}
+.station::before{content:"";position:absolute;left:-9px;top:26px;width:16px;height:16px;border-radius:50%;background:var(--card);border:4px solid var(--spruce)}
+.stationlabel{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--spruce)}
+.station h3{margin-top:2px}
+.stations{border-left:3px solid var(--spruce);margin-left:8px;padding-left:26px}
+
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;background:var(--card)}
+th{font-family:"Archivo";font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;text-align:left;background:var(--spruce-deep);color:#fff;padding:9px 12px}
+td{border:1px solid var(--line);padding:8px 12px;vertical-align:top}
+tr td:first-child{font-weight:600}
+.num{font-family:"IBM Plex Mono";font-size:13.5px;white-space:nowrap}
+.good{color:var(--spruce);font-weight:600}.bad{color:#9C2B1F}
+
+footer{margin-top:72px;border-top:2px solid var(--ink);padding-top:18px;font-size:14px;color:#4A5A54}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="rail" aria-hidden="true"></div>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">One standard gauge · every agent runs on it</div>
+  <h1>Kanōn</h1>
+  <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~2.3–4K tokens fixed per session.</p>
+  <div class="gauge">
+    <span>Claude Code</span><span>Cursor</span><span>VS Code</span><span>Codex</span><span>Antigravity</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#layout">Layout</a><a href="#standards">Repo standards</a><a href="#install">Install</a><a href="#recipes">Stack recipes</a>
+  <a href="#workflow">Workflow</a><a href="#context">Context cost</a><a href="#tools">Companion tools</a><a href="#memory">Memory</a>
+  <a href="#compare">Efficiency</a><a href="#repo">As a GitHub repo</a>
+</nav>
+
+<section id="layout">
+  <h2><span class="no">01</span>What ships</h2>
+  <p>Four plugins, one marketplace. A repo enables <code>core</code> plus its stack; a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
+  <table>
+    <tr><th>Plugin</th><th>Enable in</th><th>Carries</th></tr>
+    <tr><td>core</td><td>every repo</td><td>karpathy-guidelines, implementer, backend-architect, architect-review, failure-mode-engineer, adr-manager, commit-craft, docker-dev, remove-ai-marks, diagram-on-the-fly, common rules, git/ticket policy, guard hooks, Serena MCP, CLAUDE.md &amp; AGENTS.md templates</td></tr>
+    <tr><td>java</td><td>Java / Kotlin repos</td><td>quarkus-reviewer, java + kotlin + quarkus rules, and 8 vendored <a href="https://github.com/AdamBien/airails">airails</a> skills (MIT): java-conventions, bce, sbce, microprofile-server, continuous-testing, ears-tests, system-tests, java-distiller</td></tr>
+    <tr><td>ts</td><td>TS backend repos</td><td>nestjs-boundary-reviewer, typescript + nestjs rules</td></tr>
+    <tr><td>web</td><td>frontend repos</td><td>frontend-discipline, web rules (design quality, performance, a11y, testing)</td></tr>
+  </table>
+
+  <h3 id="standards">Repo standards — documents, not plugins</h3>
+  <p>The plugins govern the <em>session</em>; two sibling documents govern the <em>repository</em>: layout, naming, docs/ADR structure, compose policy, README template, and the pre-merge checklist. They live next to this bundle and are the human-readable contract the plugin rules enforce.</p>
+  <table>
+    <tr><th>Standard</th><th>Applies to</th><th>Covers</th></tr>
+    <tr><td><a href="../quarkus-backend-repo-standard.md">quarkus-backend-repo-standard.md</a></td><td>Quarkus services (Java/Kotlin)</td><td>Repo layout + root allowlist, package structure (layered → feature-sliced), naming, size caps, CDI/reactive/platform rules, Flyway, compose (base + override, monorepo <code>include:</code>/<code>profiles:</code>), <code>.gitignore</code> policy, docs/ADR tree, README template, checklist</td></tr>
+    <tr><td><a href="../typescript-frontend-repo-standard.md">typescript-frontend-repo-standard.md</a></td><td>Frontend (Vite SPA / Next.js)</td><td>Feature-first structure, strict TS + Zod boundaries, state-per-kind table, tokens + anti-template design bar, CWV/bundle budgets, WCAG 2.2 AA, ESLint 9 flat config + pinned pnpm, Vitest/Playwright/MSW, README template, checklist</td></tr>
+  </table>
+  <div class="note"><strong>Alignment (Aug 2026):</strong> standards and rule files were reconciled — errors are RFC 9457 Problem Details (<code>application/problem+json</code>) org-wide, replacing the old <code>ApiResponse</code> envelope in <span class="path">common/patterns.md</span>, <span class="path">java/patterns.md</span>, and <span class="path">typescript/patterns.md</span>; ADRs follow MADR <span class="path">ADR-NNN-&lt;slug&gt;.md</span> with auto-maintained <span class="path">index.md</span>; compose files use the org-standard <code>docker-compose.&lt;qualifier&gt;.yml</code> naming (the familiar name kept deliberately over the newer <code>compose.yaml</code> spec name); Quarkus schema strategy is <code>quarkus.hibernate-orm.schema-management.strategy</code> (the <code>database.generation</code> property is deprecated). A NestJS backend-TS standard is planned; until then <span class="path">rules/typescript/nestjs.md</span> governs.</div>
+</section>
+
+<section id="install">
+  <h2><span class="no">02</span>Install per editor</h2>
+  <p>Claude Code consumes the plugin package natively. Every other editor gets a generated dialect: run <code>scripts/sync-editors.py</code> against your repo, or copy the matching pre-generated tree from <code>dist/</code> (full java+ts+web builds).</p>
+
+  <div class="stations">
+    <div class="station">
+      <div class="stationlabel">Station 1 · native package</div>
+      <h3>Claude Code</h3>
+<pre><code>/plugin marketplace add kanon      # or a local path
+/plugin install kanon-core@kanon
+/plugin install kanon-java@kanon        # per repo type: -java | -ts | -web</code></pre>
+      <p>Per repo: copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the root, fill placeholders, then commit this to <span class="path">.claude/settings.json</span> so trusting the repo auto-installs:</p>
+<pre><code>{ "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "&lt;org&gt;/kanon" } } },
+  "enabledPlugins": { "kanon-core@kanon": true, "kanon-java@kanon": true } }</code></pre>
+      <p>Enterprise: register the private repo under Organization settings → Plugins, pin semver, enforce with managed settings. Finish with <code>scripts/install-githooks.sh</code> inside the repo.</p>
+    </div>
+
+    <div class="station">
+      <div class="stationlabel">Station 2 · generated</div>
+      <h3>Cursor</h3>
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools cursor
+# or: cp -r dist/cursor/.cursor &lt;repo&gt;/</code></pre>
+      <p>Produces <span class="path">.cursor/rules/*.mdc</span> (glob auto-attach), <span class="path">.cursor/skills/</span> (verbatim SKILL.md standard, incl. agent charters as <code>persona-*</code> skills), <span class="path">.cursor/mcp.json</span> (Serena). AGENTS.md at the root is read natively.</p>
+    </div>
+
+    <div class="station">
+      <div class="stationlabel">Station 3 · generated</div>
+      <h3>VS Code (Copilot)</h3>
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks ts,web --tools vscode
+# or: cp -r dist/vscode/.github dist/vscode/.vscode &lt;repo&gt;/</code></pre>
+      <p>Produces <span class="path">.github/instructions/*.instructions.md</span> (applyTo globs), <span class="path">.github/skills/</span>, real custom agents in <span class="path">.github/agents/*.agent.md</span>, <span class="path">.github/copilot-instructions.md</span> pointing at AGENTS.md, and <span class="path">.vscode/mcp.json</span>.</p>
+    </div>
+
+    <div class="station">
+      <div class="stationlabel">Station 4 · generated</div>
+      <h3>Codex</h3>
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools codex
+# or: cp -r dist/codex/.codex &lt;repo&gt;/</code></pre>
+      <p>Codex reads <span class="path">AGENTS.md</span> natively (it originated the standard); skills land in <span class="path">.codex/skills/</span>. Verify the project-level skills path against your Codex version; the global fallback is <span class="path">~/.codex/skills</span>.</p>
+    </div>
+
+    <div class="station">
+      <div class="stationlabel">Station 5 · generated, two gauges</div>
+      <h3>Antigravity — latest and legacy</h3>
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools antigravity --legacy-agent-dir
+# or: cp -r dist/antigravity/.agents &lt;repo&gt;/          (current installs)
+#     cp -r dist/antigravity/.agent  &lt;repo&gt;/          (pre-rename installs)</code></pre>
+      <p>Current Antigravity reads <span class="path">.agents/</span> (rules, skills, workflows, mcp_config.json); pre-rename installs read the singular <span class="path">.agent/</span> — the generator emits both with <code>--legacy-agent-dir</code>. Rules stay under Antigravity's 12,000-char/file cap (the generator warns if a rule outgrows it). Set the env-mutation equivalent in Settings → Security → Terminal Command Deny List (<code>rm -rf</code>, <code>docker rm</code>, <code>DROP TABLE</code>…).</p>
+    </div>
+
+    <div class="station">
+      <div class="stationlabel">Station 6 · no editor at all</div>
+      <h3>Plain chat — Claude, ChatGPT, Gemini</h3>
+      <p>For copy-paste work in a bare chat interface, the standard compresses into one ~1.5K-char instruction block per stack. Paste it once into <strong>Claude</strong> Project instructions, <strong>ChatGPT</strong> Custom Instructions / a Project / a GPT, or a <strong>Gemini</strong> Gem — then every snippet you request follows the same conventions as the full plugin. Keep exactly one option in the Architecture line and delete the other. Source files: <span class="path">templates/chat-instructions-backend.md</span> · <span class="path">chat-instructions-frontend.md</span>.</p>
+      <details open><summary style="font-family:Archivo;font-weight:600;cursor:pointer;margin:8px 0 4px">Backend — Java/Kotlin · Quarkus</summary>
+<pre style="white-space:pre-wrap"><code>You are a senior Quarkus backend engineer. Follow these rules in every answer.
+
+Discipline: surgical changes only. Touch what the task requires, match existing style, and list adjacent issues under "Noticed, not touched" instead of fixing them. Simplest code that works; no speculative abstractions. State assumptions before coding; if a premise in my request looks wrong, say so first. Flag any deviation from my request with its reason.
+
+Architecture: [KEEP ONE] Spec-Driven BCE, packages org.app.&lt;bc&gt;.&lt;boundary|control|entity&gt; | hexagonal: domain imports no framework code. Never mix the two.
+
+Java/Kotlin + Quarkus: CDI, never Spring annotations. @ApplicationScoped default, constructor injection, @ConfigProperty for config. Never block the event loop: blocking work behind @Blocking or @RunOnVirtualThread; reactive endpoints use reactive persistence. Prefer the platform over hand-rolled code: Dev Services, Panache, @Retry/@Timeout/@CircuitBreaker. Kotlin: val by default, no !! outside tests, data classes, all-open handles CDI proxying, suspend endpoints over manual Mutiny chains. Target the Java/Kotlin version I state; immutability by default.
+
+Testing: claims about failure modes need tests. Propose jqwik/kotest properties for invariants and PIT mutation score over coverage percent. Never delete or weaken a failing test; report it.
+
+Output: code in fenced blocks. End nontrivial answers with four short sections: Deviations / Premises assumed / Noticed, not touched / How to verify. Commit messages: "KEY-123: imperative one-liner" plus up to 5 one-line bullets. No AI attribution footers anywhere.</code></pre></details>
+      <details open><summary style="font-family:Archivo;font-weight:600;cursor:pointer;margin:8px 0 4px">TypeScript — NestJS · Next.js · general TS</summary>
+<pre style="white-space:pre-wrap"><code>You are a senior TypeScript engineer (NestJS backend, Next.js frontend). Follow these rules in every answer.
+
+Discipline: surgical changes only. Touch what the task requires, match existing style, and list adjacent issues under "Noticed, not touched" instead of fixing them. Simplest code that works; no speculative abstractions. State assumptions before coding; if a premise in my request looks wrong, say so first. Flag any deviation from my request with its reason.
+
+TypeScript: strict mode. No `any` or non-null `!` on nullable paths without justification. Immutability by default. Every promise awaited or explicitly handled, error paths included; no floating promises.
+
+NestJS: constructor DI, never `new` an injectable. Import other modules only via their exported surface; forwardRef needs written justification. Validate every inbound DTO at the controller edge (class-validator or zod). ORM entities never cross service boundaries; map to DTOs. Hexagonal repos: domain/use-case layers import zero @nestjs/* code.
+
+Next.js/React: respect server/client component boundaries; no server-only imports in client bundles; fetch data in the right layer; accessibility and Core Web Vitals are requirements, not polish.
+
+Testing: propose fast-check properties for invariants and Stryker mutation score over coverage percent. When a boundary violation repeats, propose the dependency-cruiser rule that freezes the fix. Never delete or weaken a failing test; report it.
+
+Output: code in fenced blocks. End nontrivial answers with four short sections: Deviations / Premises assumed / Noticed, not touched / How to verify. Commit messages: "KEY-123: imperative one-liner" plus up to 5 one-line bullets. No AI attribution footers anywhere.</code></pre></details>
+      <p style="font-size:14.5px">What deliberately does not compress into chat mode: hooks, git enforcement, Serena/graphify, and mutation runs — the snippet makes the model <em>propose</em> the right verifiers, but running them stays on your machine. The four-section answer footer (Deviations / Premises assumed / Noticed, not touched / How to verify) is the chat-sized version of the implementer's handoff report.</p>
+    </div>
+  </div>
+
+  <div class="note"><strong>All editors, always:</strong> run <code>scripts/install-githooks.sh</code> in the repo. The <code>prepare-commit-msg</code> git hook (ticket key from branch, pointwise skeleton) and CI verifiers are the enforcement layer every editor shares; editor-specific hooks are Claude Code only. See <span class="path">Editor-Parity.md</span> for exactly what does not port.</div>
+</section>
+
+<section id="recipes">
+  <h2><span class="no">03</span>Stack recipes — what you actually do</h2>
+  <p>Every repo starts with the same four steps; the recipe then tells you which plugins to enable and which lines to put in your copied CLAUDE.md/AGENTS.md.</p>
+  <div class="note"><strong>Per-repo setup, always:</strong>
+    <ol style="margin:6px 0 2px 20px">
+      <li>Enable plugins in the repo's <span class="path">.claude/settings.json</span> (snippet per recipe below).</li>
+      <li>Copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the repo root. Fill the three header lines: repo name, <strong>Stack</strong>, and <strong>Architecture</strong> (pick one option, delete the rest). That Architecture line is what activates BCE vs hexagonal rules — nothing else needs editing.</li>
+      <li>Run <code>scripts/install-githooks.sh</code> in the repo (ticket key + commit skeleton for every committer).</li>
+      <li>Run <code>graphify</code> once at the repo root (tier-0 graph; the graph-sync hook maintains it after).</li>
+    </ol>
+    Non-Claude editors: replace step 1 with <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools &lt;editor&gt;</code> and commit the generated directory.
+  </div>
+
+  <h3>Quarkus backend — Java, with BCE</h3>
+  <ul>
+    <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-java@kanon": true</code></li>
+    <li><strong>Step 2 Architecture line:</strong> keep <em>Spec-Driven BCE</em> in both files. That single line makes the <code>bce</code> skill govern packaging and suppresses hexagonal vocabulary.</li>
+    <li>Nothing else to configure: <code>microprofile-server</code> covers REST/config/fault-tolerance idioms (Quarkus implements MicroProfile); <span class="path">rules/java/quarkus.md</span> wins on Quarkus-specific conflicts automatically.</li>
+    <li><strong>Optional adoption, per team decision:</strong> the <code>sbce</code> spec-driven workflow (one capability spec per business component) with <code>ears-tests</code> generating table-driven tests from the spec — invoke by asking for it; it never activates on its own.</li>
+    <li><strong>Recommended follow-up:</strong> ask Claude to "freeze our layering as Taikai/ArchUnit tests" once, so future violations fail the build instead of appearing in review comments.</li>
+  </ul>
+
+  <h3>Quarkus backend — Java, without BCE (hexagonal or layered)</h3>
+  <ul>
+    <li>Identical to the above except <strong>Step 2:</strong> keep <em>hexagonal (ports/adapters)</em> — or <em>layered MVC</em> — in the Architecture line instead. The router then applies our ports/adapters layering rules and the BCE skill stays silent; the two are never mixed in one module.</li>
+    <li>Everything else is automatic: java-conventions applies at the repo's real Java version (it checks the toolchain first), continuous-testing loop, quarkus-reviewer on PRs, failure-mode-engineer with PIT + jqwik.</li>
+  </ul>
+
+  <h3>Quarkus backend — Kotlin</h3>
+  <ul>
+    <li>Same plugins and steps as Java (the <code>java</code> plugin covers Kotlin). <strong>Step 2 Stack line:</strong> mention Kotlin, e.g. <em>"Quarkus services (Kotlin)"</em> — <span class="path">rules/java/kotlin.md</span> already self-activates on <code>.kt</code> files regardless.</li>
+    <li><strong>One choice to make in the repo:</strong> detekt or ktlint-via-spotless as the lint baseline — add whichever to the build; the rules accept either but require one.</li>
+    <li>Everything else carries over unchanged: same ArchUnit/Taikai rules (they run on Kotlin bytecode), all-open handles CDI proxying, PIT with the Kotlin plugin, kotest-property or jqwik. BCE vs hexagonal works exactly as for Java — packages define layers, not the language.</li>
+  </ul>
+
+  <h3>NestJS backend (TypeScript)</h3>
+  <ul>
+    <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-ts@kanon": true</code></li>
+    <li><strong>Step 2:</strong> Stack line e.g. <em>"NestJS APIs"</em>; Architecture line <em>hexagonal</em> if your domain/use-case layers must stay framework-free (the boundary reviewer's first check), otherwise <em>layered MVC</em>.</li>
+    <li><strong>One-time in the repo:</strong> add <span class="path">.dependency-cruiser.js</span> and knip config if absent — ask Claude to "add dependency-cruiser boundary rules for our module layout"; the nestjs-boundary-reviewer quotes their output instead of opining.</li>
+  </ul>
+
+  <h3>Next.js frontend</h3>
+  <ul>
+    <li><strong>Step 1 plugins:</strong> core + <code>-ts</code> + <code>-web</code> (all three).</li>
+    <li><strong>Step 2:</strong> Stack line e.g. <em>"Next.js portal"</em>; Architecture line: <em>layered MVC</em> is usually right for frontends — delete BCE/hexagonal.</li>
+    <li>Web rules (design quality, performance, a11y, server/client component boundaries) activate on <code>.tsx</code> automatically; add Playwright as the e2e layer (see Companion tools).</li>
+  </ul>
+
+  <h3>Other TypeScript projects (libraries, CLIs, workers)</h3>
+  <ul>
+    <li><strong>Step 1 plugins:</strong> core + <code>-ts</code> only.</li>
+    <li>No extra configuration: the NestJS rule file self-scopes (activates only when <code>@nestjs/*</code> is in package.json), so plain TS repos get strictness, knip, Stryker, fast-check, and commit discipline with nothing to turn off.</li>
+  </ul>
+
+  <p style="font-size:14.5px">Plugin names above assume the post-rename prefix <code>kanon</code>; substitute yours. Docs-only or mixed repos: enable core alone — everything stack-specific stays out of context.</p>
+</section>
+
+
+<section id="workflow">
+  <h2><span class="no">04</span>Execution workflow</h2>
+  <p>Every Standard/Milestone task runs this track. Trivial work forks off after the premise check and skips dispatch entirely. Source lives at <span class="path">docs/workflow.mmd</span>.</p>
+  <svg width="100%" viewBox="0 0 680 780" role="img" style="max-width:680px;display:block;margin:10px auto" xmlns="http://www.w3.org/2000/svg">
+    <title>Kanōn execution workflow</title>
+    <desc>Ticket, tiered read, premise check, trivial or standard fork, budget gate, guarded implementer, verification, review, clean commit.</desc>
+    <defs><marker id="wfarrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <style>
+      .wfth{font:600 14px Archivo,sans-serif}.wfts{font:400 12px Archivo,sans-serif}
+      .wfa{stroke:#5F5E5A;stroke-width:1.5;fill:none}
+      .ev rect{fill:#E4F0EB;stroke:#1E5C4A}.ev .wfth{fill:#123B30}.ev .wfts{fill:#1E5C4A}
+      .gt rect{fill:#FBF1E1;stroke:#B26A0B}.gt .wfth{fill:#6B3F06}.gt .wfts{fill:#B26A0B}
+      .ag rect{fill:#EBE9F6;stroke:#4A3E8F}.ag .wfth{fill:#2E2660}.ag .wfts{fill:#4A3E8F}
+      .nt rect{fill:#EFEFEA;stroke:#5F5E5A}.nt .wfth{fill:#2C2C2A}.nt .wfts{fill:#5F5E5A}
+      .sh rect{fill:#DCEEE5;stroke:#123B30}.sh .wfth{fill:#0B2A21}.sh .wfts{fill:#123B30}
+      svg rect{stroke-width:1.2}
+    </style>
+    <g class="nt"><rect x="140" y="20" width="200" height="56" rx="8"/><text class="wfth" x="240" y="42" text-anchor="middle">Ticket + brief</text><text class="wfts" x="240" y="62" text-anchor="middle">PROJ-123 · success criteria</text></g>
+    <line x1="240" y1="76" x2="240" y2="108" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="ev"><rect x="140" y="110" width="200" height="56" rx="8"/><text class="wfth" x="240" y="132" text-anchor="middle">Tiered read</text><text class="wfts" x="240" y="152" text-anchor="middle">graph → symbols → lines</text></g>
+    <line x1="240" y1="166" x2="240" y2="198" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="ev"><rect x="140" y="200" width="200" height="56" rx="8"/><text class="wfth" x="240" y="222" text-anchor="middle">Premise check</text><text class="wfts" x="240" y="242" text-anchor="middle">verify load-bearing facts</text></g>
+    <text class="wfts" x="389" y="220" text-anchor="middle" fill="#5F5E5A">trivial</text>
+    <line x1="340" y1="228" x2="436" y2="228" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="nt"><rect x="440" y="200" width="200" height="56" rx="8"/><text class="wfth" x="540" y="222" text-anchor="middle">Direct edit</text><text class="wfts" x="540" y="242" text-anchor="middle">main context, no dispatch</text></g>
+    <path d="M540 256 L540 498 L346 498" class="wfa" marker-end="url(#wfarrow)"/>
+    <text class="wfts" x="250" y="276" fill="#5F5E5A">standard</text>
+    <line x1="240" y1="256" x2="240" y2="288" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="gt"><rect x="140" y="290" width="200" height="56" rx="8"/><text class="wfth" x="240" y="312" text-anchor="middle">Budget gate</text><text class="wfts" x="240" y="332" text-anchor="middle">S/M/L · approval for M/L</text></g>
+    <line x1="240" y1="346" x2="240" y2="378" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="ag"><rect x="140" y="380" width="200" height="56" rx="8"/><text class="wfth" x="240" y="402" text-anchor="middle">Implementer</text><text class="wfts" x="240" y="422" text-anchor="middle">guards · handoff report</text></g>
+    <line x1="240" y1="436" x2="240" y2="468" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="ev"><rect x="140" y="470" width="200" height="56" rx="8"/><text class="wfth" x="240" y="492" text-anchor="middle">Verify</text><text class="wfts" x="240" y="512" text-anchor="middle">mutation + property tests</text></g>
+    <line x1="240" y1="526" x2="240" y2="558" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="ag"><rect x="140" y="560" width="200" height="56" rx="8"/><text class="wfth" x="240" y="582" text-anchor="middle">Review</text><text class="wfts" x="240" y="602" text-anchor="middle">architect + stack agents</text></g>
+    <line x1="240" y1="616" x2="240" y2="648" class="wfa" marker-end="url(#wfarrow)"/>
+    <g class="sh"><rect x="140" y="650" width="200" height="56" rx="8"/><text class="wfth" x="240" y="672" text-anchor="middle">Commit &amp; deliver</text><text class="wfts" x="240" y="692" text-anchor="middle">ticket key · marks removed</text></g>
+    <g class="ev"><rect x="140" y="736" width="12" height="12" rx="3"/></g><text class="wfts" x="158" y="746" fill="#1E5C4A">evidence</text>
+    <g class="gt"><rect x="250" y="736" width="12" height="12" rx="3"/></g><text class="wfts" x="268" y="746" fill="#B26A0B">approval gate</text>
+    <g class="ag"><rect x="380" y="736" width="12" height="12" rx="3"/></g><text class="wfts" x="398" y="746" fill="#4A3E8F">agent dispatch</text>
+  </svg>
+  <ul>
+    <li><strong>Ticket + brief</strong> — no Standard work without a key; the brief carries success criteria and pasted ticket context.</li>
+    <li><strong>Tiered read</strong> — graph (graphify) for structure, Serena for symbols, targeted lines before any behavioral claim; full files only when editing.</li>
+    <li><strong>Premise check</strong> — cheap falsifiable checks in main context (~2K tokens) catch the premise-level failures that 160K of agent work will not.</li>
+    <li><strong>Budget gate</strong> — every dispatch classed S (&lt;20K) / M (20–60K) / L (&gt;60K); M/L wait for explicit approval; opus per-invocation only.</li>
+    <li><strong>Implementer</strong> — fresh context, env-mutation and cooldown guards, ~15-file stop rule, and the mandatory six-section handoff report (deviations, premises corrected, noticed-but-not-touched, commands, verification).</li>
+    <li><strong>Verify</strong> — PIT/Stryker mutants and jqwik/kotest/fast-check properties are the evidence; coverage percent is not.</li>
+    <li><strong>Review</strong> — architect-review plus the stack reviewer (quarkus / nestjs-boundary), all read-only; design changes recorded as ticket-linked ADRs.</li>
+    <li><strong>Commit &amp; deliver</strong> — commit-craft message (KEY: one-liner + bullets, no AI footers), ticket-guard backstop, remove-ai-marks on published artifacts.</li>
+  </ul>
+</section>
+
+<section id="context">
+  <h2><span class="no">05</span>Context window cost</h2>
+  <p>Measured from the actual files (chars ÷ 4, so ±20%). The <em>floor</em> is what every session pays: CLAUDE.md plus skill and agent registries (names + descriptions only — bodies load on demand, that is the whole point of progressive disclosure). Serena's MCP tool schemas are the dominant fixed cost, which is why it is the only always-on MCP.</p>
+  <table>
+    <tr><th>Combination</th><th>Fixed floor</th><th>+ Serena (est.)</th><th>Session start</th><th>Rules ceiling*</th><th>Skills ceiling*</th></tr>
+    <tr><td>core only (docs / misc repos)</td><td class="num">~2.3K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">4.2K</td><td class="num">6.4K</td></tr>
+    <tr><td>backend TS (core+ts)</td><td class="num">~2.4K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">6.3K</td><td class="num">6.6K</td></tr>
+    <tr><td>frontend (core+ts+web)</td><td class="num">~2.4K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">10.0K</td><td class="num">6.8K</td></tr>
+    <tr><td>backend Java/Kotlin (core+java)</td><td class="num">~3.8K</td><td class="num">8–15K</td><td class="num good">~12–19K</td><td class="num">9.0K</td><td class="num">20.3K</td></tr>
+    <tr><td>monorepo (all four)</td><td class="num">~4.0K</td><td class="num">8–15K</td><td class="num">~12–19K</td><td class="num">14.8K</td><td class="num">20.6K</td></tr>
+  </table>
+  <p style="font-size:14px">*Ceilings are the theoretical worst case if every rule/skill body loaded at once; a typical task loads 2–4 of them (~6–8K). The java skills ceiling is high because of the vendored airails pack — its verbose descriptions (~1.4K of the java floor) are what make auto-triggering reliable. Docs-only repos can also run coreless: just AGENTS.md (~1K).</p>
+  <div class="note"><strong>Budget gate:</strong> beyond these fixed costs, every subagent dispatch is classed S (&lt;20K) / M (20–60K) / L (&gt;60K) before launch; M and L require explicit approval, opus is per-invocation approval only, transcripts are never resumed. That contract, not the plugin size, is what keeps a $20/month account inside budget.</div>
+</section>
+
+<section id="tools">
+  <h2><span class="no">06</span>Companion tools</h2>
+  <table>
+    <tr><th>Tool</th><th>Role</th><th>Wiring</th></tr>
+    <tr><td>graphify</td><td>Tier-0 read protocol: structure, dependencies, blast radius from a cached graph (~2K/query vs 50K+ of file reads)</td><td>Install per machine; one <code>graphify</code> run per repo; the <code>graph-sync</code> hook refreshes it after edits (silent no-op if absent)</td></tr>
+    <tr><td>Serena MCP</td><td>Tier-1: symbol definitions, references, call chains, safe symbol-level edits (Java via JDT.LS, TS, Kotlin)</td><td>Shipped in core's <span class="path">.mcp.json</span>; needs <code>uv</code>; first Java project downloads ~500MB JDT.LS</td></tr>
+    <tr><td>Playwright</td><td>E2E for Next.js/web; the QA layer's browser tier</td><td>Per repo dev-dependency; drive from the failure-mode workflow, keep suites in CI</td></tr>
+    <tr><td>dependency-cruiser · knip</td><td>TS boundary enforcement + dead code; also tier-0 module graphs (<code>--output-type mermaid</code>)</td><td>CLI in hooks/CI; the nestjs-boundary-reviewer quotes their output</td></tr>
+    <tr><td>ArchUnit/Taikai · detekt</td><td>Java/Kotlin architecture-as-tests and lint</td><td>Build-time; review comments that recur become frozen rules</td></tr>
+    <tr><td>PIT · Stryker · jqwik/kotest · fast-check</td><td>Failure-mode verification: mutation + property testing — the evidence behind every "this will break" claim</td><td>On-demand and CI, never in edit hooks</td></tr>
+    <tr><td>SonarQube MCP <em>(enterprise, optional)</em></td><td>Quality-gate queries where the org already runs Sonar</td><td><span class="path">templates/mcp.enterprise.json</span> into the managed <span class="path">.mcp.json</span></td></tr>
+  </table>
+</section>
+
+<section id="memory">
+  <h2><span class="no">07</span>Memory management</h2>
+  <div class="two">
+    <div>
+      <h3>Claude Code — use the native memory, correctly</h3>
+      <ul>
+        <li><strong>Auto Memory</strong> maintains its own MEMORY.md outside the repo — leave it on, never commit it. It carries session continuity; you do nothing.</li>
+        <li><strong>CLAUDE.md hierarchy</strong> is deliberate memory: repo root for the standard (from the template), <span class="path">~/.claude/CLAUDE.md</span> for personal preferences only — never org policy. Levels are additive.</li>
+        <li><strong>Quick capture:</strong> start a message with <code>#</code> to file a note into memory; <code>/memory</code> to inspect and edit what's stored.</li>
+        <li><strong>ADRs are the durable, shareable memory:</strong> decisions go to <span class="path">docs/adr/</span> via adr-manager, ticket-linked. That is the memory other people and other editors can read.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Other editors — and the one rule that holds everywhere</h3>
+      <ul>
+        <li><strong>Cursor</strong>: built-in Memories (Settings → Rules &amp; Memories) cover session continuity per project.</li>
+        <li><strong>Antigravity</strong>: its knowledge/memory lives under <span class="path">~/.gemini</span>; workspace rules carry the standing context.</li>
+        <li><strong>VS Code / Codex</strong>: no rich native memory — AGENTS.md + ADRs + the ticket carry context between sessions; paste relevant ticket context into briefs.</li>
+        <li><strong>External managers</strong> (mem0 MCP and similar) only if you need one memory shared across editors — it costs an extra MCP schema per session and most teams do not need it. Avoid AGPL-licensed memory tools in enterprise.</li>
+        <li><strong>The invariant, enforced by the artifact-guard hook:</strong> committed docs describe the <em>system</em> (ADRs, diagrams, runbooks); nothing committed describes the <em>session</em> — no MEMORY.md, SESSION/PROGRESS notes, or generated knowledge bases in any repo.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Session continuity — across sessions, without committing session files</h3>
+  <p>Cross-session state has exactly three sanctioned homes; the artifact-guard hook blocks the unsanctioned fourth (session files in the tree):</p>
+  <ul>
+    <li><strong>Tool-native memory (machine-local):</strong> Claude Code Auto Memory plus <code>claude --resume</code>/<code>--continue</code> restore prior sessions from <span class="path">~/.claude</span>, outside the repo. Cursor Memories and Antigravity's <span class="path">~/.gemini</span> store fill the same role there.</li>
+    <li><strong>The ticket (team-shared, cross-editor):</strong> status, open questions, next steps. When an agent handoff report must outlive the session, paste it into the ticket or PR description — never commit it as a file. Resuming = re-read the ticket + the last handoff report there. This is the layer that follows you to a second machine or a second editor; machine-local memory does not.</li>
+    <li><strong>The repo (system-level only):</strong> ADRs, diagrams, runbooks — durable decisions, never session state.</li>
+  </ul>
+</section>
+
+<section id="compare">
+  <h2><span class="no">08</span>Efficiency — how this compares</h2>
+  <p>The design bets on three published findings: CLI beats MCP by 4–32× on tokens for equivalent tasks, a single heavy MCP server can cost ~55K tokens of schema before any work, and giant skill/agent libraries tax every session through their registries. Numbers below mix our measurements (this repo) with vendor/community figures — treat third-party ones as directional.</p>
+  <table>
+    <tr><th>Setup</th><th>Session-start overhead</th><th>Why</th></tr>
+    <tr><td>kanon (core + one stack)</td><td class="num good">~10–19K</td><td>2.3–3.8K registries + CLAUDE.md; Serena as the single MCP; all analyzers as CLI in hooks/CI; rules load on demand</td></tr>
+    <tr><td>Same standard, no MCP at all</td><td class="num good">~2.3–4K</td><td>Drop Serena, rely on graphify + LSP plugins; viable for small repos, loses symbol-level navigation</td></tr>
+    <tr><td>Typical multi-MCP setup (GitHub + DB + browser + …)</td><td class="num bad">60–120K+</td><td>GitHub MCP alone ≈55K of tool schemas; each server adds its full schema every session</td></tr>
+    <tr><td>Full agent library install (e.g. 200+ agents / 90+ plugins)</td><td class="num bad">tens of K</td><td>Every agent/skill description registers per session; most never fire</td></tr>
+    <tr><td>1,300+ skill library (Antigravity full install)</td><td class="num bad">10–15 min first init</td><td>Startup indexes every SKILL.md; the community-reported failure mode this bundle's per-stack split avoids</td></tr>
+    <tr><td>Monolithic CLAUDE.md (everything inline)</td><td class="num bad">15–30K every session</td><td>All rules always loaded vs. our ~2K router + on-demand bodies</td></tr>
+  </table>
+  <p>Where the money actually goes on a $20/month plan is dispatches, not registries — which is why the S/M/L approval gate, diff-first reading, the ~15-file agent stop rule, handoff reports instead of transcript resumption, and sonnet-by-default (opus by approval) are part of the standard itself rather than advice.</p>
+</section>
+
+<section id="repo">
+  <h2><span class="no">09</span>Using this as a GitHub repo</h2>
+  <ul>
+    <li>Push the whole tree as a private repo — it <em>is</em> the marketplace (<span class="path">.claude-plugin/marketplace.json</span> at root). Rename first; then Claude Code org distribution points at it directly.</li>
+    <li>This page (<span class="path">index.html</span>) serves as-is on GitHub Pages for the team-facing guide.</li>
+    <li>CI for the repo itself: <code>scripts/leak-check.sh</code> (add org codenames to <code>BANNED</code>), JSON validation, and a drift check that re-runs <code>sync-editors.py</code> and diffs against <span class="path">dist/</span>.</li>
+    <li>Version with semver tags; consumers pin. Vendored airails skills re-sync from upstream (MIT, attribution in <span class="path">AIRAILS-NOTICE.md</span>).</li>
+    <li>Per consuming repo, the checklist is three steps: enable plugins (or copy the dist tree), copy + fill the two templates, run <code>install-githooks.sh</code>.</li>
+  </ul>
+</section>
+
+<footer>
+  Vendored skills © Adam Bien (airails, MIT). Token figures measured Aug 2026; third-party comparisons directional. Verify editor paths against current releases — this ecosystem moves monthly.
+</footer>
+</div>
+</body>
+</html>

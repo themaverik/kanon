@@ -1,0 +1,27 @@
+---
+applyTo: "**/*.tsx,**/*.ts,**/*.css"
+---
+
+# Frontend Rules
+
+## Style
+
+- `const` by default, `let` when needed, never `var`
+- async/await over promise chains
+- TypeScript strict mode — avoid `any`
+- ESLint + Prettier enforced — configure format-on-save
+
+## example-platform-Specific
+
+- React Query for all API calls — no raw `fetch` in components
+- shadcn/ui components only — no other UI libraries
+- Server components by default; client components only when state or browser APIs needed
+- All forms: `react-hook-form` + `zod` validation
+- No mock data in dashboards — all connected to Engine Service APIs
+
+## Organisation
+
+- Group by feature, not by type
+- Files under 300 lines
+- Import order: React → third-party → local (alphabetised within groups)
+- Public before private; most important functions near top

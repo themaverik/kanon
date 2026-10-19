@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Deterministic commit-message assist (works for every committer, human or AI):
+#   1. Prepends the ticket key from the branch name when the message lacks it.
+#   2. Inserts a pointwise skeleton when the message is empty (human `git commit`).
+# Optional AI draft for humans: COMMIT_AI=1 uses `claude -p` (haiku) to summarise
+# the staged diff. Off by default: adds latency and requires network.
+# Install: scripts/install-githooks.sh (uses core.hooksPath).
+
+MSG_FILE="$1"; SOURCE="${2:-}"
+# Don't touch merges, squashes, amends with existing messages, or rebases
+case "$SOURCE" in merge|squash|commit) exit 0;; esac
+
+REGEX="${TICKET_REGEX:-[A-Z][A-Z0-9]+-[0-9]+}"
+branch=$(git branch --show-current 2>/dev/null)
+key=$(printf '%s' "$branch" | grep -oE "$REGEX" | head -1)
+
+current=$(grep -v '^#' "$MSG_FILE" | sed '/^[[:space:]]*$/d')
+
+if [ -z "$current" ]; then
+  if [ "${COMMIT_AI:-0}" = "1" ] && command -v claude >/dev/null 2>&1; then
+    draft=$(git diff --cached | head -c 20000 | claude -p --model haiku \
+      "Write a git commit message for this staged diff. First line: '${key:+$key: }<imperative <=72 char summary>'. Then a blank line and 2-5 one-line bullets (what + why). No prose paragraphs, no attribution footers. Output only the message." 2>/dev/null)
+    [ -n "$draft" ] && { printf '%s\n' "$draft" > "$MSG_FILE"; exit 0; }
+  fi
+  { printf '%s: \n\n- \n- \n' "${key:-TICKET-000}"; cat "$MSG_FILE"; } > "$MSG_FILE.tmp" && mv "$MSG_FILE.tmp" "$MSG_FILE"
+  exit 0
+fi
+
+# Message exists: ensure ticket key present
+if [ -n "$key" ] && ! grep -qE "$REGEX" "$MSG_FILE"; then
+  sed -i.bak "1s/^/$key: /" "$MSG_FILE" && rm -f "$MSG_FILE.bak"
+fi
+exit 0
