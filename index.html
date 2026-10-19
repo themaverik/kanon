@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kanōn · Engineering standard for AI coding agents</title>
 <meta name="description" content="Kanōn is a ticket-driven, verifier-backed engineering standard for AI coding agents, shipped as a Claude Code plugin marketplace with generated Cursor, VS Code, Codex and Antigravity dialects.">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#eef1f5">
 <meta property="og:title" content="Kanōn · Engineering standard for AI coding agents">
 <meta property="og:description" content="One canonical source, generated dialects for every editor. Ticket-driven, verifier-backed, built lean.">
 <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
 @font-face{font-family:"Open Sans";font-style:italic;font-weight:300 800;font-display:swap;src:url(assets/fonts/open-sans-latin-wght-italic.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
 :root{
-  --bg:#ffffff; --surface:#f8f9fa; --surface-2:#f1f3f4; --border:#dadce0;
+  --page:#eef1f5; --bg:#ffffff; --surface:#f8f9fa; --surface-2:#f1f3f4; --border:#dadce0;
   --text:#202124; --text-2:#5f6368;
   --accent:#1a73e8; --accent-hover:#1557b0; --on-accent:#ffffff;
   --link:#1557b0; --accent-tint:#e8f0fe; --focus:#1a73e8;
@@ -30,7 +30,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%}
+body{background:var(--page);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
 code,pre,.path{font-family:var(--mono);font-size:.875em}
 code,.path{background:var(--surface-2);padding:.1em .4em;border-radius:4px;overflow-wrap:anywhere}
@@ -58,7 +58,7 @@ h1{font-size:clamp(36px,5.5vw,52px);font-weight:700;letter-spacing:-.02em;line-h
 .small{font-size:14px;color:var(--text-2)}
 .fine{font-size:14px;color:var(--text-2)}
 
-nav.toc{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap;padding:8px 0;font-size:14px}
+nav.toc{position:sticky;top:0;background:var(--page);border-bottom:1px solid var(--border);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap;padding:8px 0;font-size:14px}
 nav.toc a{text-decoration:none;font-weight:600;color:var(--text);padding:4px 12px;border-radius:999px}
 nav.toc a:hover{background:var(--accent-tint);color:var(--accent-hover)}
 
@@ -79,7 +79,7 @@ li{margin:5px 0}
 details{margin:10px 0}
 summary{font-weight:600;cursor:pointer;margin:8px 0 4px}
 
-.table-scroll{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:var(--radius)}
+.table-scroll{overflow-x:auto;background:var(--bg);margin:16px 0;border:1px solid var(--border);border-radius:var(--radius)}
 table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
 th{font-size:13px;font-weight:600;text-align:left;background:var(--surface);color:var(--text-2);padding:10px 14px;border-bottom:1px solid var(--border)}
 td{border-top:1px solid var(--border);padding:10px 14px;vertical-align:top}
@@ -152,7 +152,7 @@ footer p{max-width:none}
     <thead><tr><th scope="col">Plugin</th><th scope="col">Enable in</th><th scope="col">Carries</th></tr></thead>
     <tbody>
     <tr><th scope="row">core</th><td>every repo</td><td>Skills: karpathy-guidelines, adr-manager, commit-craft, docker-dev, remove-ai-marks, diagram-on-the-fly. Agents: implementer, backend-architect, architect-review, failure-mode-engineer. Common rules plus git and doc policy. Six hooks: cooldown, env-mutation, ticket, artifact, post-edit-lint, graph-sync. Serena MCP and the CLAUDE.md &amp; AGENTS.md templates.</td></tr>
-    <tr><th scope="row">java</th><td>Java / Kotlin repos</td><td>quarkus-reviewer agent; java-discipline skill; java, kotlin and quarkus rules plus the java-services rule; and 8 vendored <a href="https://github.com/AdamBien/airails">airails</a> skills (MIT): java-conventions, bce, sbce, microprofile-server, continuous-testing, ears-tests, system-tests, java-distiller.</td></tr>
+    <tr><th scope="row">java</th><td>Java / Kotlin repos</td><td>quarkus-reviewer and spring-reviewer agents; java-discipline skill, which picks Quarkus or Spring Boot from the repo; java, kotlin, quarkus and spring rules plus the java-services rule; and 8 vendored <a href="https://github.com/AdamBien/airails">airails</a> skills (MIT): java-conventions, bce, sbce, microprofile-server, continuous-testing, ears-tests, system-tests, java-distiller.</td></tr>
     <tr><th scope="row">ts</th><td>TS backend repos</td><td>nestjs-boundary-reviewer agent; typescript-discipline skill; typescript rules plus the nestjs rule.</td></tr>
     <tr><th scope="row">web</th><td>Frontend repos</td><td>frontend-discipline router skill; web rules (coding-style, testing, performance, patterns, hooks, design-quality, security) and the frontend.md rule. Accessibility checks are part of the testing rule.</td></tr>
     </tbody>
@@ -214,14 +214,16 @@ footer p{max-width:none}
       <span class="stationlabel">No editor at all</span>
       <h3>Plain chat — Claude, ChatGPT, Gemini</h3>
       <p>For copy-paste work in a bare chat interface, the standard compresses into one ~1.5K-char instruction block per stack. Paste it once into <strong>Claude</strong> Project instructions, <strong>ChatGPT</strong> Custom Instructions / a Project / a GPT, or a <strong>Gemini</strong> Gem — then every snippet you request follows the same conventions as the full plugin. Keep exactly one option in the Architecture line and delete the other. Source files: <span class="path">templates/chat-instructions-backend.md</span> · <span class="path">chat-instructions-frontend.md</span>.</p>
-      <details open><summary>Backend — Java/Kotlin · Quarkus</summary>
-<pre class="wrap-pre"><code>You are a senior Quarkus backend engineer. Follow these rules in every answer.
+      <details open><summary>Backend — Java/Kotlin · Quarkus or Spring Boot</summary>
+<pre class="wrap-pre"><code>You are a senior Java/Kotlin backend engineer. Follow these rules in every answer.
 
 Discipline: surgical changes only. Touch what the task requires, match existing style, and list adjacent issues under "Noticed, not touched" instead of fixing them. Simplest code that works; no speculative abstractions. State assumptions before coding; if a premise in my request looks wrong, say so first. Flag any deviation from my request with its reason.
 
+Java framework: [KEEP ONE] Quarkus | Spring Boot. Never mix them in one module.
+
 Architecture: [KEEP ONE] Spec-Driven BCE, packages org.app.&lt;bc&gt;.&lt;boundary|control|entity&gt; | hexagonal: domain imports no framework code. Never mix the two.
 
-Java/Kotlin + Quarkus: CDI, never Spring annotations. @ApplicationScoped default, constructor injection, @ConfigProperty for config. Never block the event loop: blocking work behind @Blocking or @RunOnVirtualThread; reactive endpoints use reactive persistence. Prefer the platform over hand-rolled code: Dev Services, Panache, @Retry/@Timeout/@CircuitBreaker. Kotlin: val by default, no !! outside tests, data classes, all-open handles CDI proxying, suspend endpoints over manual Mutiny chains. Target the Java/Kotlin version I state; immutability by default.
+Quarkus: CDI, no Spring annotations. @ApplicationScoped default, constructor injection, @ConfigProperty for config. Never block the event loop: blocking work behind @Blocking or @RunOnVirtualThread; reactive endpoints use reactive persistence. Prefer the platform over hand-rolled code: Dev Services, Panache, @Retry/@Timeout/@CircuitBreaker. Spring Boot: constructor injection and stereotypes, no field @Autowired; @ConfigurationProperties over @Value; @Transactional on services (self-invocation bypasses the proxy); errors as ProblemDetail via @RestControllerAdvice; SecurityFilterChain beans; open-in-view off; slice tests and Testcontainers @ServiceConnection. Kotlin: val by default, no !! outside tests, data classes, all-open handles CDI proxying, suspend endpoints over manual Mutiny chains. Target the Java/Kotlin version I state; immutability by default.
 
 Testing: claims about failure modes need tests. Propose jqwik/kotest properties for invariants and PIT mutation score over coverage percent. Never delete or weaken a failing test; report it.
 
@@ -273,6 +275,13 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <ul>
     <li>Identical to the above except <strong>Step 2:</strong> keep <em>hexagonal (ports/adapters)</em> — or <em>layered MVC</em> — in the Architecture line instead. The router then applies our ports/adapters layering rules and the BCE skill stays silent; the two are never mixed in one module.</li>
     <li>Everything else is automatic: java-conventions applies at the repo's real Java version (it checks the toolchain first), continuous-testing loop, quarkus-reviewer on PRs, failure-mode-engineer with PIT + jqwik.</li>
+  </ul>
+
+  <h3>Spring Boot backend — Java or Kotlin</h3>
+  <ul>
+    <li><strong>Step 1 plugins:</strong> the same as Quarkus: <code>"kanon-core@kanon": true, "kanon-java@kanon": true</code></li>
+    <li><strong>Step 2:</strong> set <em>Java framework: Spring Boot</em> in CLAUDE.md and AGENTS.md. Without it, java-discipline detects <code>org.springframework.boot</code> in the build file, and asks if it finds both frameworks or neither.</li>
+    <li>That loads <code>rules/java/spring.md</code> and routes review to <code>spring-reviewer</code>. The Quarkus-only skills, <code>microprofile-server</code> and <code>continuous-testing</code>, stay out.</li>
   </ul>
 
   <h3>Quarkus backend — Kotlin</h3>
@@ -345,7 +354,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <li><strong>Budget gate</strong> — every dispatch classed S (&lt;20K) / M (20–60K) / L (&gt;60K); M/L wait for explicit approval; opus per-invocation only.</li>
     <li><strong>Implementer</strong> — fresh context, env-mutation and cooldown guards, ~15-file stop rule, and the mandatory six-section handoff report (what changed, deviations from the brief, premises verified or corrected, noticed but not touched, commands run, how to verify).</li>
     <li><strong>Verify</strong> — PIT/Stryker mutants and jqwik/kotest/fast-check properties are the evidence; coverage percent is not.</li>
-    <li><strong>Review</strong> — architect-review plus the stack reviewer (quarkus / nestjs-boundary), all read-only; design changes recorded as ticket-linked ADRs.</li>
+    <li><strong>Review</strong> — architect-review plus the stack reviewer (quarkus / spring / nestjs-boundary), all read-only; design changes recorded as ticket-linked ADRs.</li>
     <li><strong>Commit &amp; deliver</strong> — commit-craft message (KEY: one-liner + bullets, no AI footers), ticket-guard backstop, remove-ai-marks on published artifacts.</li>
   </ul>
 </section>
