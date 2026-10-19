@@ -61,9 +61,9 @@ Three optional plugins that draw a band above the Claude Code prompt. Each one w
 - The band reads `cache 55m/60m · ctx 110k (11%) · 5h 20% · wk 23% · $14.39 · cold ~$1.10`. That is: time left before the prompt cache expires, context size, the 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold.
 - **Handoff & Clear** (`h`) or `/handoff`: writes a handoff brief, clears the session and puts the brief in the prompt for you to review and send.
 - **Fresh** (`f`): clears the session without a brief.
-- `/autohandoff 80k` hands off automatically at that context size; `/autohandoff off` stops it.
+- `/autohandoff 80k` hands off automatically at that context size. `/autohandoff off` stops it.
 - `/cache-ttl <minutes|auto>` sets the cache TTL by hand. By default it is detected from cache hits and misses.
-- Settings: `ttlMinutes` (60), `warnTokens` (50000; yellow at this size, red at twice it), `inputUsdPerMtok` (5).
+- Settings: `ttlMinutes` (60), `warnTokens` (50000, yellow at this size and red at twice it), `inputUsdPerMtok` (5).
 
 **collision-guard**: for several Claude Code sessions in the same folder.
 - Before an edit to a file another session changed in the last 30 minutes, it asks: **Proceed**, **Move to a worktree** or **Cancel**.
@@ -71,25 +71,25 @@ Three optional plugins that draw a band above the Claude Code prompt. Each one w
 - Setting: `windowMinutes` (30).
 
 **prompt-enhancer**: turns a rough draft into a sharper prompt, without sending it.
-- Type a draft, then press **Enhance** (`e`) or run `/enhance`. A small model rewrites the draft and wraps it in your template; the result stays in the prompt for you to edit.
+- Type a draft, then press **Enhance** (`e`) or run `/enhance`. A small model rewrites the draft and wraps it in your template. The result stays in the prompt for you to edit.
 - **Undo** (`u`) restores your draft until you send.
 - Templates are Markdown files in `~/.claude/prompt-templates/`. `{{task}}` marks where the rewritten prompt goes and `{{reviewer}}` where the picked reviewer goes. `discipline.md` is seeded on first run.
-- `/enhance <name>` uses another template; `/templates` lists them.
+- `/enhance <name>` uses another template, and `/templates` lists them.
 - Setting: `model` (haiku).
 
 ## Policies enforced by hooks (not prose)
 
 - ticket-guard: git commits must reference a ticket key (Jira/Linear pattern, `TICKET_REGEX` override).
 - artifact-guard: no session/memory artifacts committed (MEMORY.md, SESSION*/PROGRESS* notes, generated knowledge bases). ADRs/diagrams/runbooks are the committed docs.
-- env-mutation-guard: agents cannot start/stop containers/services or run destructive DB commands; `ECC_ALLOW_ENV=1` granted deliberately from main context.
+- env-mutation-guard: agents cannot start/stop containers/services or run destructive DB commands. `ECC_ALLOW_ENV=1` is granted deliberately from the main context.
 - cooldown-guard: dependency install cooldown cannot be bypassed.
-- post-edit-lint: fast lint after edits; slow verifiers (PIT, Stryker, Sonar) stay in CI/on-demand.
+- post-edit-lint: fast lint after edits. Slow verifiers (PIT, Stryker, Sonar) stay in CI/on-demand.
 
 ## Design notes
 
-- Work-item truth lives in the ticket system; no roadmap files.
-- CLI over MCP; Serena is the only always-on code MCP.
-- Reviewers are read-only; only implementer and failure-mode-engineer write.
+- Work-item truth lives in the ticket system, with no roadmap files.
+- CLI over MCP. Serena is the only always-on code MCP.
+- Reviewers are read-only. Only implementer and failure-mode-engineer write.
 - Handoff reports replace transcript resumption.
 
 ## Commit messages
@@ -106,13 +106,13 @@ skills verbatim (shared SKILL.md standard), agents as VS Code custom agents
 and persona skills elsewhere, plus per-editor Serena MCP config.
 `--legacy-agent-dir` also emits Antigravity's pre-rename `.agent/` layout.
 See Editor-Parity.md for the full mapping and what intentionally does not
-port (editor hooks; parity via git hooks + CI).
+port (editor hooks, where parity comes from git hooks and CI).
 
 ## Prerequisites (per machine)
 
-- `uv` (Serena MCP launches via uvx; first Java project also downloads Eclipse JDT.LS ~500MB)
-- `graphify` for the tier-0 read protocol, plus one initial `graphify` run per repo; the `graph-sync` hook then refreshes it incrementally after source edits (silent no-op when graphify is absent; set `GRAPH_SYNC_CMD` if your graphify version uses a different incremental command)
-- JDK + Maven/Gradle wrappers, Node/npx per stack; `python3` (hooks), `jq` not required
+- `uv` (Serena MCP launches via uvx, and the first Java project also downloads Eclipse JDT.LS ~500MB)
+- `graphify` for the tier-0 read protocol, plus one initial `graphify` run per repo. The `graph-sync` hook then refreshes it incrementally after source edits. It does nothing when graphify is absent. Set `GRAPH_SYNC_CMD` if your graphify version uses a different incremental command.
+- JDK + Maven/Gradle wrappers, Node/npx per stack, and `python3` (hooks). `jq` is not required
 
 ## License
 

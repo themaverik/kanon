@@ -1,7 +1,7 @@
 # Editor Parity - Claude Code / Cursor / VS Code Copilot / Antigravity
 
 The plugin marketplace is the single source of truth. `scripts/sync-editors.py`
-emits each editor's dialect into a target repo; regenerate after standard
+emits each editor's dialect into a target repo. Regenerate after standard
 changes (or wire it into CI). Generated directories are derived artifacts:
 edit the plugin, never the output.
 
@@ -17,30 +17,30 @@ edit the plugin, never the output.
 | prepare-commit-msg + ticket key | git-level: identical everywhere | same | same | same |
 | leak-check, PIT/Stryker, depcruise, ArchUnit | CI: identical everywhere | same | same | same |
 
-"New and old" Antigravity: current workspace dir is `.agents/`; pre-rename
+"New and old" Antigravity: current workspace dir is `.agents/`. Pre-rename
 installs read `.agent/` (singular). `--legacy-agent-dir` emits both.
 
 ## What does NOT port, and the compensation
 
 - **Claude hooks (env-mutation-guard, ticket-guard, artifact-guard, cooldown,
-  post-edit-lint).** Hook schemas are editor-specific and drift; we do not
+  post-edit-lint).** Hook schemas are editor-specific and drift, so we do not
   generate them. Enforcement parity comes from layers every editor shares:
   the `prepare-commit-msg` git hook (ticket key), server-side branch
   protection, CI (leak-check, linters, ArchUnit, dependency-cruiser,
   mutation tests), and Antigravity's own Terminal Command Deny List
   (Settings > Security) for the env-mutation equivalent. VS Code and Cursor
-  hooks exist; add them per-org later if prompt-level rules prove
+  hooks exist, so add them per-org later if prompt-level rules prove
   insufficient, treating this repo's hook scripts as the spec.
 - **Read-only reviewers via tool restriction.** Other editors get the charter
-  as a persona skill; "never edit" is stated in the prompt, not enforced by
+  as a persona skill. "Never edit" is stated in the prompt, not enforced by
   tooling. Reviews there should run on a branch/PR where CI is the backstop.
 - **Model pinning (architect-review on opus).** Model choice is per-editor
-  configuration; the charter notes the intent.
+  configuration, and the charter notes the intent.
 - **Native Auto Memory / ADR flow.** ADRs in `docs/adr/` are editor-agnostic
-  by design; session memory is each tool's own feature and is never
+  by design. Session memory is each tool's own feature and is never
   committed (artifact policy holds via AGENTS.md + review).
 - **Plugin marketplace distribution.** Cursor/VS Code/Antigravity have no
-  equivalent installable bundle here; distribution = committing the
+  equivalent installable bundle here. Distribution means committing the
   generated directories to each repo via sync-editors.py.
 
 ## Per-repo setup (any editor)
@@ -48,15 +48,15 @@ installs read `.agent/` (singular). `--legacy-agent-dir` emits both.
 1. `python3 scripts/sync-editors.py --repo <repo> --stacks <java,ts,web> --tools cursor,vscode,antigravity [--legacy-agent-dir]`
 2. Fill AGENTS.md placeholders (and CLAUDE.md for Claude Code repos).
 3. `scripts/install-githooks.sh` inside the repo.
-4. Commit the generated dirs. Regenerate on standard updates; a CI check
+4. Commit the generated dirs. Regenerate on standard updates. A CI check
    comparing regeneration output to the committed tree catches drift.
 
 ## Known constraints
 
-- Antigravity caps rules and workflows at 12,000 chars/file; the generator
+- Antigravity caps rules and workflows at 12,000 chars/file. The generator
   warns when a rule exceeds it (split the source rule).
-- Antigravity indexes every SKILL.md at startup; keep skills workspace-scoped
+- Antigravity indexes every SKILL.md at startup, so keep skills workspace-scoped
   and pruned rather than installing large libraries globally.
-- VS Code custom agents (.agent.md) and skills locations are evolving;
+- VS Code custom agents (.agent.md) and skills locations are evolving.
   `chat.agentSkillsLocations` can point at a different skills dir if your org
   standardizes elsewhere.
