@@ -37,8 +37,8 @@ Copy `plugins/*-core/templates/CLAUDE.md` and `AGENTS.md` to the repo root and f
 Optional: give the plugins your own prefix and org name.
 
 ```
-python3 rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run
-python3 rename.py --prefix <your-prefix> --org "<Your Org>"
+python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run
+python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>"
 ```
 
 Then:

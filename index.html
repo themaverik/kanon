@@ -448,7 +448,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <h3>Fork and customise</h3>
   <ul>
     <li>Fork the repo and edit rules, skills and agents under <span class="path">plugins/</span>. Re-run <code>scripts/sync-editors.py</code> to refresh the generated trees in <span class="path">dist/</span>.</li>
-    <li>Optional: if you want your own plugin prefix, run <code>python3 rename.py --prefix &lt;your-prefix&gt; --org "&lt;Your Org&gt;" --dry-run</code> first, then without <code>--dry-run</code>. Skip it if the <code>kanon</code> names suit you.</li>
+    <li>Optional: if you want your own plugin prefix, run <code>python3 scripts/rename.py --prefix &lt;your-prefix&gt; --org "&lt;Your Org&gt;" --dry-run</code> first, then without <code>--dry-run</code>. Skip it if the <code>kanon</code> names suit you.</li>
     <li>For forks, run <code>scripts/leak-check.sh</code> in CI. It scans the tree for terms you do not want published; set the <code>BANNED</code> environment variable (a regex such as <code>acme-internal|project-x</code>) to add your own.</li>
     <li>Version with semver tags so consumers can pin. The vendored airails skills come from upstream (MIT); attribution is in <span class="path">plugins/kanon-java/skills/AIRAILS-NOTICE.md</span>.</li>
   </ul>
