@@ -2,7 +2,7 @@
 """Rename the 'kanon' placeholder to your real org prefix.
 
 Replaces the token in file/directory names AND file contents, plus the
-ORG_PLACEHOLDER author field. Run from anywhere; operates on the repo root
+themaverik author and owner fields. Run from anywhere; operates on the repo root
 containing this script's parent.
 
 Usage:
@@ -15,7 +15,7 @@ import argparse, sys
 from pathlib import Path
 
 TOKEN = "kanon"
-ORG_TOKEN = "ORG_PLACEHOLDER"
+ORG_TOKEN = "themaverik"
 TEXT_EXT = {".md", ".json", ".sh", ".py", ".yml", ".yaml", ".txt", ".html", ".mdc", ".toml"}
 
 def main():

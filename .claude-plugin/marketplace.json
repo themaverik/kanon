@@ -1,6 +1,7 @@
 {
   "name": "kanon",
-  "owner": { "name": "ORG_PLACEHOLDER" },
+  "owner": { "name": "themaverik" },
+  "metadata": { "description": "Kanōn: a ticket-driven, verifier-backed engineering standard, split by stack so each repo loads only the rules it uses." },
   "plugins": [
     { "name": "kanon-core", "source": "./plugins/kanon-core", "version": "1.0.0",
       "description": "Engineering standard core: execution discipline, implementer/design/review/failure-mode agents, ADRs, guard hooks, Serena MCP. Enable in every repo." },
