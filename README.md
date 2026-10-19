@@ -13,19 +13,17 @@ Ticket-driven, verifier-backed engineering discipline, split by repo type so no 
 
 Monorepos with mixed stacks enable all four. A pure frontend repo enables core + web only, so quarkus/nestjs agents and rules never enter its context.
 
-## Rename (do this first)
-
-```
-python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run
-python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>"
-```
-
 ## Install
 
-Per repo `.claude/settings.json` (example: TS backend repo, post-rename prefix `kanon`):
+```
+/plugin marketplace add themaverik/kanon
+/plugin install kanon-core@kanon
+```
+
+Or per repo in `.claude/settings.json` (example: TS backend repo):
 ```json
 {
-  "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "<org>/<this-repo>" } } },
+  "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "themaverik/kanon" } } },
   "enabledPlugins": {
     "kanon-core@kanon": true,
     "kanon-ts@kanon": true
@@ -34,7 +32,20 @@ Per repo `.claude/settings.json` (example: TS backend repo, post-rename prefix `
 ```
 Copy `plugins/*-core/templates/CLAUDE.md` and `AGENTS.md` to the repo root and fill placeholders.
 
-Enterprise rollout: publish privately, register under Organization settings > Plugins, pin semver, enforce with managed settings; merge `templates/mcp.enterprise.json` (SonarQube) into the managed `.mcp.json` where the org runs Sonar. Run `scripts/leak-check.sh` in this repo's CI with org codenames added to BANNED.
+## Forking for your organisation
+
+Optional: give the plugins your own prefix and org name.
+
+```
+python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run
+python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>"
+```
+
+Then:
+
+- Register the fork under Organization settings > Plugins, pin semver and enforce it with managed settings.
+- Where the org runs SonarQube, merge `templates/mcp.enterprise.json` into the managed `.mcp.json`.
+- Run `scripts/leak-check.sh` in the fork's CI, with your internal names added to BANNED.
 
 ## Policies enforced by hooks (not prose)
 
@@ -72,3 +83,7 @@ port (editor hooks; parity via git hooks + CI).
 - `uv` (Serena MCP launches via uvx; first Java project also downloads Eclipse JDT.LS ~500MB)
 - `graphify` for the tier-0 read protocol, plus one initial `graphify` run per repo; the `graph-sync` hook then refreshes it incrementally after source edits (silent no-op when graphify is absent; set `GRAPH_SYNC_CMD` if your graphify version uses a different incremental command)
 - JDK + Maven/Gradle wrappers, Node/npx per stack; `python3` (hooks), `jq` not required
+
+## License
+
+[MIT](LICENSE). The landing page's Open Sans font is under the [SIL Open Font License](assets/fonts/OFL.txt).
