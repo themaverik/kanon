@@ -80,7 +80,9 @@ li{margin:5px 0}
 .station{border:1px solid var(--border);background:var(--bg);border-radius:var(--radius-lg);padding:24px 28px;transition:border-color .2s,box-shadow .2s}
 .station:hover{border-color:var(--accent);box-shadow:0 10px 15px -3px rgba(37,99,235,.1)}
 .stationlabel{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-hover);background:var(--accent-tint);border-radius:999px;padding:2px 12px}
-.station h3{margin-top:8px}
+.station h3,.station h4{margin-top:8px}
+#stack-recipes{font-size:22px;margin-top:40px}
+h4{font-size:16px;font-weight:700;color:var(--heading);margin:8px 0 6px}
 details{margin:10px 0}
 summary{font-weight:600;cursor:pointer;margin:8px 0 4px}
 
@@ -144,7 +146,7 @@ footer p{max-width:none}
 </header>
 
 <nav class="toc" aria-label="Page sections">
-  <a href="#layout">What ships</a><a href="#install">Install</a><a href="#recipes">Stack recipes</a>
+  <a href="#layout">What ships</a><a href="#install">Install</a><a href="#recipes">Repo setup</a>
   <a href="#workflow">Workflow</a><a href="#context">Context cost</a><a href="#mods">Mods</a><a href="#tools">Companion tools</a><a href="#memory">Memory</a>
   <a href="#compare">Efficiency</a><a href="#repo">Install &amp; fork</a>
 </nav>
@@ -260,11 +262,11 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
 </section>
 
 <section id="recipes">
-  <h2>Stack recipes: what you actually do</h2>
-  <p>Every repo starts with the same five steps. The recipe then tells you which plugins to enable and which lines to put in your copied CLAUDE.md/AGENTS.md.</p>
+  <h2>Set up a repo</h2>
+  <p>Every repo starts with the same five steps. Then pick the recipe for your stack below.</p>
   <div class="note"><strong>Per-repo setup, always:</strong>
     <ol>
-      <li>Enable plugins in the repo's <span class="path">.claude/settings.json</span> (snippet per recipe below).</li>
+      <li>Enable plugins in the repo's <span class="path">.claude/settings.json</span> (snippet per stack recipe below).</li>
       <li>Copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the repo root. Fill the three header lines: repo name, <strong>Stack</strong>, and <strong>Architecture</strong> (pick one option, delete the rest). That Architecture line is what activates BCE vs hexagonal rules. Nothing else needs editing.</li>
       <li>Run <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools claude</code> and commit <span class="path">.claude/rules/kanon/</span>, <span class="path">.claude/kanon/</span> and <span class="path">.kanon/</span>. Claude Code plugins can't ship rules, so this is how they reach the session. Re-run it after each Kanōn update.</li>
       <li>Run <code>scripts/install-githooks.sh</code> in the repo (ticket key + commit skeleton for every committer).</li>
@@ -273,54 +275,66 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     Non-Claude editors: replace steps 1 and 3 with <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools &lt;editor&gt;</code> and commit the generated directory.
   </div>
 
-  <h3>Quarkus backend: Java, with BCE</h3>
-  <ul>
+  <h3 id="stack-recipes">Tech stack recipes</h3>
+  <p>Each recipe fills in steps 1 and 2 for one stack: which plugins to enable and which lines to set in CLAUDE.md and AGENTS.md.</p>
+  <div class="stations">
+    <div class="station"><span class="stationlabel">Java</span>
+      <h4>Quarkus backend: Java, with BCE</h4>
+      <ul>
     <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-java@kanon": true, "kanon-java-airails@kanon": true</code></li>
     <li><strong>Step 2 Architecture line:</strong> keep <em>Spec-Driven BCE</em> in both files. That single line makes the <code>bce</code> skill govern packaging and suppresses hexagonal vocabulary.</li>
     <li>Nothing else to configure: <code>microprofile-server</code> covers REST/config/fault-tolerance idioms (Quarkus implements MicroProfile), and <span class="path">rules/java/quarkus.md</span> wins on Quarkus-specific conflicts automatically.</li>
     <li><strong>Optional adoption, per team decision:</strong> the <code>sbce</code> spec-driven workflow (one capability spec per business component) with <code>ears-tests</code> generating table-driven tests from the spec. Run them as <code>/sbce</code> and <code>/ears-tests</code>. They never activate on their own.</li>
     <li><strong>Recommended follow-up:</strong> ask Claude to "freeze our layering as Taikai/ArchUnit tests" once, so future violations fail the build instead of appearing in review comments.</li>
-  </ul>
-
-  <h3>Quarkus backend: Java, without BCE (hexagonal or layered)</h3>
-  <ul>
+      </ul>
+    </div>
+    <div class="station"><span class="stationlabel">Java</span>
+      <h4>Quarkus backend: Java, without BCE (hexagonal or layered)</h4>
+      <ul>
     <li>Identical to the above except <strong>Step 2:</strong> keep <em>hexagonal (ports/adapters)</em> or <em>layered MVC</em> in the Architecture line instead. The router then applies our ports/adapters layering rules and the BCE skill stays silent. The two are never mixed in one module.</li>
     <li>Everything else is automatic: quarkus-reviewer on PRs and failure-mode-engineer with PIT + jqwik. With kanon-java-airails, java-conventions also applies at the repo's real Java version (it checks the toolchain first), and <code>/continuous-testing</code> runs the dev-mode loop.</li>
-  </ul>
-
-  <h3>Spring Boot backend: Java or Kotlin</h3>
-  <ul>
+      </ul>
+    </div>
+    <div class="station"><span class="stationlabel">Java · Kotlin</span>
+      <h4>Spring Boot backend: Java or Kotlin</h4>
+      <ul>
     <li><strong>Step 1 plugins:</strong> the same as Quarkus: <code>"kanon-core@kanon": true, "kanon-java@kanon": true</code></li>
     <li><strong>Step 2:</strong> set <em>Java framework: Spring Boot</em> in CLAUDE.md and AGENTS.md. Without it, java-discipline detects <code>org.springframework.boot</code> in the build file, and asks if it finds both frameworks or neither.</li>
     <li>That loads <code>rules/java/spring.md</code> and routes review to <code>spring-reviewer</code>. The Quarkus-only skills, <code>microprofile-server</code> and <code>continuous-testing</code>, stay out.</li>
-  </ul>
-
-  <h3>Quarkus backend: Kotlin</h3>
-  <ul>
+      </ul>
+    </div>
+    <div class="station"><span class="stationlabel">Kotlin</span>
+      <h4>Quarkus backend: Kotlin</h4>
+      <ul>
     <li>Same plugins and steps as Java (the <code>java</code> plugin covers Kotlin). <strong>Step 2 Stack line:</strong> mention Kotlin, e.g. <em>"Quarkus services (Kotlin)"</em>. <span class="path">rules/java/kotlin.md</span> already self-activates on <code>.kt</code> files regardless.</li>
     <li><strong>One choice to make in the repo:</strong> detekt or ktlint-via-spotless as the lint baseline. Add whichever to the build, since the rules accept either but require one.</li>
     <li>Everything else carries over unchanged. The ArchUnit/Taikai rules are the same (they run on Kotlin bytecode), all-open handles CDI proxying, and PIT runs with the Kotlin plugin, alongside kotest-property or jqwik. BCE vs hexagonal works exactly as for Java, because packages define layers, not the language.</li>
-  </ul>
-
-  <h3>NestJS backend (TypeScript)</h3>
-  <ul>
+      </ul>
+    </div>
+    <div class="station"><span class="stationlabel">TypeScript</span>
+      <h4>NestJS backend (TypeScript)</h4>
+      <ul>
     <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-ts@kanon": true</code></li>
     <li><strong>Step 2:</strong> Stack line e.g. <em>"NestJS APIs"</em>. Architecture line: <em>hexagonal</em> if your domain/use-case layers must stay framework-free (the boundary reviewer's first check), otherwise <em>layered MVC</em>.</li>
     <li><strong>One-time in the repo:</strong> add <span class="path">.dependency-cruiser.js</span> and knip config if absent. Ask Claude to "add dependency-cruiser boundary rules for our module layout", and the nestjs-boundary-reviewer quotes their output instead of opining.</li>
-  </ul>
-
-  <h3>Next.js frontend</h3>
-  <ul>
+      </ul>
+    </div>
+    <div class="station"><span class="stationlabel">TypeScript · Web</span>
+      <h4>Next.js frontend</h4>
+      <ul>
     <li><strong>Step 1 plugins:</strong> core + <code>-ts</code> + <code>-web</code> (all three).</li>
     <li><strong>Step 2:</strong> Stack line e.g. <em>"Next.js portal"</em>. Architecture line: <em>layered MVC</em> is usually right for frontends, so delete BCE/hexagonal.</li>
     <li>The web rules (design quality, performance, patterns, security, testing with accessibility checks, plus <span class="path">frontend.md</span> for server/client component boundaries) are loaded by the frontend-discipline router when you work on <code>.tsx</code>. Add Playwright as the e2e layer (see Companion tools).</li>
-  </ul>
-
-  <h3>Other TypeScript projects (libraries, CLIs, workers)</h3>
-  <ul>
+      </ul>
+    </div>
+    <div class="station"><span class="stationlabel">TypeScript</span>
+      <h4>Other TypeScript projects (libraries, CLIs, workers)</h4>
+      <ul>
     <li><strong>Step 1 plugins:</strong> core + <code>-ts</code> only.</li>
     <li>No extra configuration: the NestJS rule file self-scopes (it applies only when <code>@nestjs/*</code> is in package.json), so plain TS repos get strictness, knip, Stryker, fast-check, and commit discipline with nothing to turn off.</li>
-  </ul>
+      </ul>
+    </div>
+  </div>
 
   <p class="small">If you forked with your own plugin prefix, substitute it for <code>kanon</code> above. For docs-only or mixed repos, enable core alone and everything stack-specific stays out of context.</p>
 </section>
