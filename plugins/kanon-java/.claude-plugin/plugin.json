@@ -1,6 +1,6 @@
 {
   "name": "kanon-java",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Java rules for Quarkus or Spring Boot plus quarkus-reviewer and spring-reviewer agents.",
   "author": { "name": "themaverik" }
 }

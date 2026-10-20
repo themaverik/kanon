@@ -1,6 +1,12 @@
 # Changelog
 
+Kanōn follows [Semantic Versioning](https://semver.org/). Each release is a `vX.Y.Z` git tag on this repo. A breaking change to any plugin bumps the major version. Plugin versions in `marketplace.json` move independently.
+
 ## Unreleased
+
+## 2.0.0 (Oct 2026)
+
+Plugin versions: kanon-core 2.0.0, kanon-java 2.0.0, kanon-ts 1.1.0, kanon-web 1.0.1. New plugins kanon-rust, kanon-java-airails and kanon-tools start at 1.0.0.
 
 - **Breaking:** docker-dev, remove-ai-marks and diagram-on-the-fly moved from kanon-core to the new opt-in plugin kanon-tools. Install it to keep them (`/plugin install kanon-tools@kanon`, or add `tools` to `--stacks` for other editors). The fixed floor drops by about 0.2K tokens.
 - `common/testing.md` and `common/development-workflow.md` keep only what Kanōn adds: ticket keys, mutation evidence and read-only reviewers. General TDD and planning now point to superpowers and Matt Pocock's skills.

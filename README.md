@@ -84,7 +84,7 @@ Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo r
 
 To use your own plugin prefix and org name, run `python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run`, then run it again without `--dry-run`. Then:
 - Add your internal names to `BANNED` and run `scripts/leak-check.sh` in CI.
-- Pin a semver tag and enforce it with managed settings.
+- Pin a release tag (`v2.0.0`) and enforce it with managed settings. Releases follow semver, and [CHANGELOG.md](CHANGELOG.md) lists what each one breaks.
 
 ## License
 
