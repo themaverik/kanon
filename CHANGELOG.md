@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The cooldown, env-mutation and ticket guards are now one PreToolUse script, `bash-guard.sh`, so each Bash call parses its payload once instead of three times. Block messages, overrides and `TICKET_REGEX` are unchanged.
 - CI runs `claude plugin validate`, the leak check, a dist drift check (`scripts/build-dist.sh`) and bats tests for the hooks. The leak check could never pass before, because an unescaped `.serena` pattern matched every Serena mention.
 - kanon-ts covers TS backends beyond NestJS. `typescript/testing.md` now sets Vitest or Jest, supertest and Testcontainers by layer, and a new framework-neutral `typescript/hexagonal.md` defines ports and adapters with a dependency-cruiser config to enforce them.
 - New plugin kanon-rust: rust-reviewer agent (clippy, rustfmt, cargo-deny), rust-discipline router skill, Rust rules and an axum rule. post-edit-lint now runs `cargo fmt --check` on `.rs` files.
