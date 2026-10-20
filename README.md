@@ -6,14 +6,19 @@ A ticket-driven, verifier-backed engineering standard for AI coding agents. One 
 
 The full guide is the landing page, [`index.html`](index.html).
 
-## Highlights
+## Features
 
-- **Split by stack.** Each repo loads only the rules it can use. A frontend repo never sees Quarkus text.
-- **Scaled to the task.** Trivial changes skip the process, while milestones get the full plan, build, verify and review loop.
-- **Enforced, not suggested.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses.
-- **Proven by verifiers.** Reviewers are read-only and lean on ArchUnit, dependency-cruiser, PIT and Stryker rather than opinion.
-- **Lean.** About 1.4–2.5K tokens are always loaded per session, not counting MCP tool schemas.
-- **Session mods.** Optional bands above the prompt for cache and cost, parallel-session collisions, and prompt rewriting.
+Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as code, and every pattern points to its source. The figures below come from this repo's files and the author's own Claude Code transcripts.
+
+- **Distilled from the best public packs.** Benchmarked against [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), [mattpocock/skills](https://github.com/mattpocock/skills) and [obra/superpowers](https://github.com/obra/superpowers). Kanōn keeps what works and points to them for what they do better. Adam Bien's airails ships vendored for Java. The CLAUDE.md template went from 7.9 KB to 4.2 KB, with every line earning its place.
+- **Cost-aware routing and compaction.** Subagents run on Sonnet by default, Opus needs approval, and Fable is held to one bounded task per session. cache-keeper reads your plan (Pro, Max, Team or API) and compacts at your real context floor plus working room. A fixed 50K gate would sit below the ~57K floor a fresh session already starts at.
+- **Visibility in session mods.** Cache time left, context size, 5-hour and weekly use, and session cost show on every turn. Handoff & Clear is one key, and collision-guard asks before you edit a file another session just changed.
+- **Layered plugins.** Enable core plus your stack, and nothing else loads. About 1.4–2.5K tokens are fixed per session, not counting MCP tool schemas. Eight tech stack recipes cover Quarkus, Spring Boot, Kotlin, NestJS, Next.js, plain TypeScript and Rust.
+- **Audited prompts.** The CLAUDE.md template, agents, skills and rules are audited with `/claude-api prompt-audit` against current Claude models (Opus 5.5, Sonnet 5.5, Fable 5.1), so instructions written for older models get caught. The template is about 1.05K tokens.
+- **Deterministic safety gates.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses. CI runs 14 bats tests on them, plus `claude plugin validate`, a leak check and a dist drift check.
+- **Verifiers, not opinions.** Reviewers are read-only and quote ArchUnit, dependency-cruiser, clippy and cargo-deny output. Tests prove themselves with mutation testing (PIT, Stryker, cargo-mutants), not a coverage percent.
+- **Industry standards, with sources.** Every rule and reference file ends with the source behind each pattern it names: 370 citations across 53 files. Kanōn's own stances are marked *(Kanōn)*.
+- **One source, five editors.** Generated dialects for Claude Code, Cursor, VS Code, Codex and Antigravity, plus a paste-in block for plain chat.
 
 ## Plugins
 
