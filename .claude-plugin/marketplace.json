@@ -52,7 +52,7 @@
     {
       "name": "cache-keeper",
       "source": "./plugins/cache-keeper",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, and one-click handoff. Needs a Claude Code build with hooks modules."
     },
     {

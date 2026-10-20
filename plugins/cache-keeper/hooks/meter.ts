@@ -73,3 +73,95 @@ export const HANDOFF_PROMPT = [
   '- Open questions.',
   'Start with the line "Continue from this handoff:". Output only the brief.',
 ].join('\n')
+
+export type PlanName = 'pro' | 'max5' | 'max20' | 'team' | 'api'
+export type AgentModel = 'haiku' | 'sonnet' | 'opus' | 'fable'
+export type Effort = 'low' | 'medium' | 'high' | 'xhigh' | 'max'
+
+export type Profile = {
+  mainModel: AgentModel
+  mainEffort: Effort
+  agentModel: AgentModel
+  agentEffort: Effort
+  fablePerSession: number
+  roomTokens: number
+}
+
+const MAX5: Profile = { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 100_000 }
+
+// api: the design's fixed 200k auto window, expressed as room over a ~60k floor.
+export const PROFILES: Record<PlanName, Profile> = {
+  pro: { mainModel: 'sonnet', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'low', fablePerSession: 0, roomTokens: 80_000 },
+  max5: MAX5,
+  max20: { mainModel: 'opus', mainEffort: 'high', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 2, roomTokens: 150_000 },
+  team: MAX5,
+  api: { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 140_000 },
+}
+
+export type ProfileOverrides = Partial<Pick<Profile, 'mainEffort' | 'agentModel' | 'agentEffort' | 'fablePerSession' | 'roomTokens'>>
+
+export function resolveProfile(plan: PlanName, overrides: ProfileOverrides): Profile {
+  const defined = Object.fromEntries(Object.entries(overrides).filter(([, v]) => v !== undefined))
+  return { ...PROFILES[plan], ...defined }
+}
+
+export type Account = { organizationRateLimitTier?: string; organizationType?: string; userRateLimitTier?: string }
+export type PlanSource = 'set' | 'auto' | 'assumed'
+
+function planFromTier(tier: string | undefined): PlanName | null {
+  if (tier === undefined) return null
+  if (tier.endsWith('_max_20x')) return 'max20'
+  if (tier.endsWith('_max_5x')) return 'max5'
+  if (tier.endsWith('_pro')) return 'pro'
+  return null
+}
+
+/**
+ * `hasRateLimits` is null before the first response reports any: subscriptions
+ * read as empty then too, so only the account file can tell.
+ */
+export function detectPlan(hasRateLimits: boolean | null, account: Account | null): { plan: PlanName; source: PlanSource } {
+  if (hasRateLimits === false) return { plan: 'api', source: 'auto' }
+  if (account !== null && /team|enterprise/.test(account.organizationType ?? '')) return { plan: 'team', source: 'auto' }
+  const plan = planFromTier(account?.organizationRateLimitTier) ?? planFromTier(account?.userRateLimitTier)
+  return plan === null ? { plan: 'max5', source: 'assumed' } : { plan, source: 'auto' }
+}
+
+export function windowTokens(floor: number | null, roomTokens: number): number | null {
+  return floor === null ? null : floor + roomTokens
+}
+
+export function isBelowWindow(tokens: number, floor: number | null, roomTokens: number): boolean {
+  const w = windowTokens(floor, roomTokens)
+  return w !== null && tokens < w
+}
+
+const MODEL_RANK: Record<AgentModel, number> = { haiku: 0, sonnet: 1, opus: 2, fable: 3 }
+const EFFORT_RANK: Record<Effort, number> = { low: 0, medium: 1, high: 2, xhigh: 3, max: 4 }
+
+export type AgentCall = { model?: AgentModel; effort?: Effort; subagentType?: string }
+export type AgentVerdict =
+  | { action: 'pass'; isFable: boolean }
+  | { action: 'rewrite'; model: AgentModel; effort: Effort; isFableRefused: boolean }
+
+/** A fork always inherits the parent's model, so it is never rewritten. */
+export function decideAgent(call: AgentCall, profile: Profile, fableUsed: number): AgentVerdict {
+  if (call.subagentType === 'fork') return { action: 'pass', isFable: false }
+  const rewrite = (isFableRefused: boolean): AgentVerdict => ({ action: 'rewrite', model: profile.agentModel, effort: profile.agentEffort, isFableRefused })
+  if (call.model === 'fable') return fableUsed < profile.fablePerSession ? { action: 'pass', isFable: true } : rewrite(true)
+  if (call.model === undefined || MODEL_RANK[call.model] > MODEL_RANK[profile.agentModel]) return rewrite(false)
+  if (call.effort !== undefined && EFFORT_RANK[call.effort] > EFFORT_RANK[profile.agentEffort]) return rewrite(false)
+  return { action: 'pass', isFable: false }
+}
+
+export function modelFamily(model: string): string {
+  return /fable|opus|sonnet|haiku/.exec(model)?.[0] ?? model
+}
+
+const WEEK_MS = 7 * 24 * 60 * MINUTE
+
+export function isAheadOfWeeklyPace(percentUsed: number | null, resetsAt: number | null, now: number): boolean {
+  if (percentUsed === null || resetsAt === null) return false
+  const elapsed = 1 - (resetsAt - now) / WEEK_MS
+  return percentUsed > Math.min(Math.max(elapsed, 0), 1) * 100
+}

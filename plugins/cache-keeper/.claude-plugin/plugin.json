@@ -1,7 +1,7 @@
 {
   "name": "cache-keeper",
-  "version": "0.1.0",
-  "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, and one-click handoff.",
+  "version": "0.2.0",
+  "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, one-click handoff, and a cost profile per plan that can steer subagent models, effort and compaction.",
   "types": "./types/index.d.ts",
   "userConfig": {
     "ttlMinutes": {
@@ -21,6 +21,84 @@
       "title": "Input price (USD per million tokens)",
       "description": "Base input price for the cold-cache estimate. Replaced by the engine's own rate once it reports one.",
       "default": 5
+    },
+    "profile": {
+      "type": "string",
+      "title": "Cost profile",
+      "description": "Plan whose routing defaults apply. auto reads the plan from the rate limits and ~/.claude.json.",
+      "options": [
+        "auto",
+        "pro",
+        "max5",
+        "max20",
+        "team",
+        "api"
+      ],
+      "default": "auto"
+    },
+    "enforce": {
+      "type": "boolean",
+      "title": "Enforce profile",
+      "description": "Off: the band only shows the profile. On: rewrite subagent model and effort, cap Fable, set main effort, veto early auto-compaction.",
+      "default": false
+    },
+    "showProfile": {
+      "type": "boolean",
+      "title": "Show profile line",
+      "description": "Second band line with the profile, live main model and effort, Fable count and compaction window.",
+      "default": true
+    },
+    "agentModel": {
+      "type": "string",
+      "title": "Subagent model",
+      "description": "Overrides the profile's subagent model.",
+      "options": [
+        "profile",
+        "haiku",
+        "sonnet",
+        "opus"
+      ],
+      "default": "profile"
+    },
+    "agentEffort": {
+      "type": "string",
+      "title": "Subagent effort",
+      "description": "Overrides the profile's subagent effort.",
+      "options": [
+        "profile",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default": "profile"
+    },
+    "mainEffort": {
+      "type": "string",
+      "title": "Main effort",
+      "description": "Overrides the profile's main-loop effort. The main model is never changed: that would re-cache the whole prefix.",
+      "options": [
+        "profile",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default": "profile"
+    },
+    "fablePerSession": {
+      "type": "number",
+      "title": "Fable subagents per session",
+      "description": "Fable escalations allowed before they are downgraded. -1 uses the profile's.",
+      "default": -1
+    },
+    "compactRoomTokens": {
+      "type": "number",
+      "title": "Compaction room (tokens)",
+      "description": "Working room over the measured floor before the window. 0 uses the profile's.",
+      "default": 0
     }
   },
   "author": {

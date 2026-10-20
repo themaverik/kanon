@@ -4,6 +4,7 @@ export type Meter = {
   contextPercent: number | null
   fiveHour: number | null
   sevenDay: number | null
+  sevenDayResetsAt: number | null
   costUsd: number | null
 }
 
@@ -15,6 +16,9 @@ declare module 'claude-code' {
       meter: Meter
       tick: number
       isBusy: boolean
+      floor: number | null
+      fableUsed: number
+      liveEffort: string | null
     }
   }
 }
