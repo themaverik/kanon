@@ -4,9 +4,13 @@ applyTo: "**"
 
 # Testing Requirements
 
-## Minimum Test Coverage: 80%
+## Evidence, Not Coverage
 
-Test Types (ALL required):
+Coverage percent is not evidence. A test suite proves itself by killing mutants (PIT, Stryker)
+and holding invariants under property tests (jqwik, fast-check). A survived mutant is a
+documented gap, not a number to raise.
+
+Test types:
 1. **Unit Tests** - Individual functions, utilities, components
 2. **Integration Tests** - API endpoints, database operations
 3. **E2E Tests** - Critical user flows (framework chosen per language)
@@ -19,18 +23,18 @@ MANDATORY workflow:
 3. Write minimal implementation (GREEN)
 4. Run test - it should PASS
 5. Refactor (IMPROVE)
-6. Verify coverage (80%+)
+6. Run mutation testing on the changed code; kill or document survivors
 
 ## Troubleshooting Test Failures
 
-1. Use **tdd-guide** agent
-2. Check test isolation
-3. Verify mocks are correct
-4. Fix implementation, not tests (unless tests are wrong)
+1. Check test isolation
+2. Verify mocks are correct
+3. Fix implementation, not tests (unless tests are wrong)
 
 ## Agent Support
 
-- **tdd-guide** - Use PROACTIVELY for new features, enforces write-tests-first
+- **failure-mode-engineer**: enumerates failure scenarios, writes property tests and runs
+  mutation testing. Use on Standard/Milestone changes.
 
 ## Test Structure (AAA Pattern)
 

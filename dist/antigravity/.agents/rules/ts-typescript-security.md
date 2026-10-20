@@ -23,4 +23,4 @@ if (!apiKey) {
 
 ## Agent Support
 
-- Use **security-reviewer** skill for comprehensive security audits
+- Use **nestjs-boundary-reviewer** plus `architect-review` for security-sensitive changes

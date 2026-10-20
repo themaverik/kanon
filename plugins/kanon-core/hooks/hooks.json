@@ -6,15 +6,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/cooldown-guard.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/cooldown-guard.sh"
           },
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/env-mutation-guard.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/env-mutation-guard.sh"
           },
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/ticket-guard.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/ticket-guard.sh"
           }
         ]
       },
@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/artifact-guard.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/artifact-guard.sh"
           }
         ]
       }
@@ -34,11 +34,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/post-edit-lint.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/post-edit-lint.sh"
           },
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/graph-sync.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/graph-sync.sh"
           }
         ]
       }

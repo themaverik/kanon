@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Env-mutation guard. Agents implement code; they do not mutate the environment
 # silently. Blocks container/service lifecycle and destructive DB commands unless
-# ECC_ALLOW_ENV=1 is set for the session (main context grants it deliberately).
+# ALLOW_ENV_MUTATION=1 is set for the session (main context grants it deliberately).
 [ -t 0 ] && exit 0
-[ "${ECC_ALLOW_ENV:-0}" = "1" ] && exit 0
+[ "${ALLOW_ENV_MUTATION:-0}" = "1" ] && exit 0
 
 input=$(cat)
 # Single quotes inside the double-quoted python3 -c argument are load-bearing. With
@@ -14,7 +14,7 @@ cmd=$(printf '%s' "$input" | python3 -c 'import json,sys;print(json.load(sys.std
 
 # Container / service lifecycle
 if printf '%s' "$cmd" | grep -Eq '(^|[;&| ])(docker|podman)[[:space:]]+(run|start|stop|rm|compose[[:space:]]+(up|down|rm)|volume[[:space:]]+rm|system[[:space:]]+prune)'; then
-  echo "Blocked by env-mutation-guard: container lifecycle changes require ask-first. State what you need started or torn down and why, then request approval (ECC_ALLOW_ENV=1)." >&2
+  echo "Blocked by env-mutation-guard: container lifecycle changes require ask-first. State what you need started or torn down and why, then request approval (ALLOW_ENV_MUTATION=1)." >&2
   exit 2
 fi
 if printf '%s' "$cmd" | grep -Eq '(systemctl|service)[[:space:]]+(start|stop|restart)'; then

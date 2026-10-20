@@ -155,4 +155,4 @@ public class OrderNotFoundMapper implements ExceptionMapper<OrderNotFoundExcepti
 ## References
 
 See `rules/java/spring.md` for Spring Boot architecture patterns.
-See skill: `jpa-patterns` for entity design and query optimization.
+The `spring-reviewer` and `quarkus-reviewer` agents cover entity design and query pitfalls.

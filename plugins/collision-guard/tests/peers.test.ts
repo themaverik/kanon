@@ -41,7 +41,7 @@ describe('records', () => {
     expect(pruneEdits([{ path: '/y', at: NOW - 40 * MIN }, ...edits], NOW, WINDOW)).toEqual(edits)
   })
   test('folderKey, summarizeTask and parsePeer', () => {
-    expect(folderKey('/Users/me/Projects/werkflow-platform')).toBe('Users-me-Projects-werkflow-platform')
+    expect(folderKey('/Users/me/Projects/my-app')).toBe('Users-me-Projects-my-app')
     expect(summarizeTask('  add a band\nmore detail')).toBe('add a band')
     expect(summarizeTask('x'.repeat(100)).length).toBe(70)
     expect(parsePeer('not json')).toBe(null)

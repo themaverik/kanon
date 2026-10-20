@@ -7,7 +7,7 @@ paths:
 
 # Git Policy
 
-Read `.claude/references/git-conventions.md` for full conventions.
+Read `.kanon/references/git-conventions.md` for full conventions.
 
 ## Critical Rules
 
@@ -16,9 +16,8 @@ Read `.claude/references/git-conventions.md` for full conventions.
 - Commits carry the developer's own configured git identity. Never set the author to an
   AI, a bot, or a shared team account — attribution is how a change is traced back to a
   person who can explain it
-- Commit message type: use `build` for skills, hooks, MCP config, settings changes
-- Follow Conventional Commits — subject imperative mood, no period, max 72 chars. Body length
-  follows the size of the change; see the `commit-craft` skill, which is the authority
+- Subject is `PROJ-123: <imperative one-liner>`, no period, max 72 chars. Body length follows
+  the size of the change; see the `commit-craft` skill, which is the authority
 - Create `.gitignore` before first commit if missing
 - Confirm before any force push or rebase on shared branches
 

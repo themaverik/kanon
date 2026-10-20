@@ -2,6 +2,10 @@
 
 Guidance for any AI coding agent (Codex, Cursor, Gemini CLI, Aider, Copilot, etc.). Claude Code additionally loads CLAUDE.md and the kanon bundle; this file is the provider-neutral contract.
 
+**Architecture**: <pick ONE and delete the rest: Spec-Driven BCE | hexagonal (ports/adapters) | layered MVC> — agents follow this declaration; the matching rules activate and the others stay silent.
+
+**Java framework**: <quarkus | spring - delete if no Java; if omitted, detected from the build file>
+
 ## Core Principles
 
 - **Surgical changes**: touch only what the task requires; list adjacent problems under "noticed but not touched" instead of changing them.
@@ -25,7 +29,9 @@ Every non-trivial task references a work-item ticket (Jira/Linear). Branch `type
 
 ## Stack Discipline
 
-- **Java/Quarkus**: CDI idioms (`@ApplicationScoped`, constructor injection, `@ConfigProperty`); never Spring annotations. Never block the event loop; `@Blocking`, `@RunOnVirtualThread`, or reactive persistence on reactive paths. Prefer Dev Services, Panache, SmallRye Fault Tolerance over hand-rolled equivalents. Architecture rules live as ArchUnit/Taikai tests.
+- **Java**: declare `Java framework: quarkus | spring` (else detected from the build file); never mix the two in one module.
+  - **Quarkus**: CDI idioms (`@ApplicationScoped`, constructor injection, `@ConfigProperty`). Never block the event loop; `@Blocking`, `@RunOnVirtualThread`, or reactive persistence on reactive paths. Prefer Dev Services, Panache, SmallRye Fault Tolerance over hand-rolled equivalents. Architecture rules live as ArchUnit/Taikai tests.
+  - **Spring Boot**: constructor injection and stereotypes, `@ConfigurationProperties`, `@Transactional` on services (mind self-invocation), `ProblemDetail` errors, `SecurityFilterChain` beans, open-in-view off, slice tests + Testcontainers `@ServiceConnection`.
 - **TypeScript/NestJS**: strict mode; constructor DI; import other modules only via exported surfaces; domain layers import no framework code in hexagonal repos; validate inbound DTOs at the edge; no floating promises. Boundaries via dependency-cruiser; dead code via knip.
 - **Frontend**: respect server/client component boundaries; accessibility and performance rules per rules/web.
 

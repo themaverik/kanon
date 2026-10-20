@@ -27,7 +27,7 @@ Read this file when creating or editing documentation, README files, or code com
 | `docs/adr/ADR-NNN-*.md` | docs/adr/ | Architecture decision records | AI (auto-captured) |
 | `docs/adr/index.md` | docs/adr/ | ADR registry table | AI (auto-maintained) |
 | `docs/Knowledge-Base.md` | docs/ | Auto-generated index of all docs | AI (generated) |
-| `.claude/references/*.md` | .claude/references/ | Convention reference files | Human |
+| `.kanon/references/*.md` | .kanon/references/ | Convention reference files | Human |
 
 ## Architecture and Setup Documents
 

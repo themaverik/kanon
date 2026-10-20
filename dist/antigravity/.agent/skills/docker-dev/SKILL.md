@@ -1,7 +1,6 @@
 ---
 name: docker-dev
-description: "docker", "compose", "spin up", "bring up", "tear down", "containers", "logs", "restart". Pre-flight check before every docker command. Safe container management, data protection rules.
-
+description: Pre-flight check before every docker command, with safe container management and data protection rules. Use when the user mentions docker, compose, spin up, bring up, tear down, containers, logs or restart.
 ---
 
 # Docker Dev Skill

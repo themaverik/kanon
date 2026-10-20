@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- **Breaking:** the env-mutation-guard override is now `ALLOW_ENV_MUTATION=1`. The old variable no longer works.
+- Rules now match Kanōn's own stance: ticket-prefixed commits (`PROJ-123: ...`), mutation testing instead of an 80% coverage target, and no PRD or roadmap files.
+- Rules point only to agents and skills that Kanōn ships.
+- `sync-editors.py` copies reference docs to `.kanon/references/`, where the rules point.
+- Removed project-specific sections from `java-services.md` and `frontend.md`.
+
 ## 1.0.0 (Aug 2026)
 
 Standards and rule files reconciled:

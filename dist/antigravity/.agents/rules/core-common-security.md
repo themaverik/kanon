@@ -48,7 +48,7 @@ the Security Response Protocol below.
 
 If security issue found:
 1. STOP immediately
-2. Use **security-reviewer** agent
+2. Get a read-only review from `architect-review` plus the stack reviewer
 3. Fix CRITICAL issues before continuing
 4. Rotate any exposed secrets
 5. Review entire codebase for similar issues

@@ -98,4 +98,4 @@ try {
 ## References
 
 See `rules/java/spring.md` (Security) for Spring Security `SecurityFilterChain` patterns.
-See skill: `security-review` for general security checklists.
+See `rules/common/security.md` for the general security checklist.

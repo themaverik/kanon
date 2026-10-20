@@ -14,10 +14,9 @@ paths:
 - Prefer immutability — use `final` fields
 - Files under 300 lines; public methods before private
 
-## example-platform-Specific
+## Service Boundaries
 
-- Flowable delegates must extend `BaseJavaDelegate` from `shared/delegates/`
-- Check `shared/delegates/` before writing a new delegate — reuse generic ones
+- Check the shared module for an existing base class or helper before writing a new one
 - Never hardcode service URLs — use `@Value` or service discovery
 - Schema-per-service — never query another service's schema directly
 - All schema changes via Flyway: `V<version>__<description>.sql`

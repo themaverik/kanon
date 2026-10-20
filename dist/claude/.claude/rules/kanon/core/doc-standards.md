@@ -6,7 +6,7 @@ paths:
 
 # Documentation Standards
 
-Read `.claude/references/documentation-standards.md` for full conventions.
+Read `.kanon/references/documentation-standards.md` for full conventions.
 
 ## Critical Rules
 

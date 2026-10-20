@@ -13,13 +13,13 @@ alwaysApply: false
 - TypeScript strict mode — avoid `any`
 - ESLint + Prettier enforced — configure format-on-save
 
-## example-platform-Specific
+## Data and UI
 
-- React Query for all API calls — no raw `fetch` in components
-- shadcn/ui components only — no other UI libraries
+- One data-fetching layer (e.g. React Query) for all API calls — no raw `fetch` in components
+- One component library per repo — do not mix UI libraries
 - Server components by default; client components only when state or browser APIs needed
-- All forms: `react-hook-form` + `zod` validation
-- No mock data in dashboards — all connected to Engine Service APIs
+- Forms validate against a schema (e.g. `react-hook-form` + `zod`)
+- No mock data in shipped dashboards — connect them to real APIs
 
 ## Organisation
 

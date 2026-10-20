@@ -257,7 +257,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <ol>
       <li>Enable plugins in the repo's <span class="path">.claude/settings.json</span> (snippet per recipe below).</li>
       <li>Copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the repo root. Fill the three header lines: repo name, <strong>Stack</strong>, and <strong>Architecture</strong> (pick one option, delete the rest). That Architecture line is what activates BCE vs hexagonal rules. Nothing else needs editing.</li>
-      <li>Run <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools claude</code> and commit <span class="path">.claude/rules/kanon/</span> and <span class="path">.claude/kanon/</span>. Claude Code plugins can't ship rules, so this is how they reach the session. Re-run it after each Kanōn update.</li>
+      <li>Run <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools claude</code> and commit <span class="path">.claude/rules/kanon/</span>, <span class="path">.claude/kanon/</span> and <span class="path">.kanon/</span>. Claude Code plugins can't ship rules, so this is how they reach the session. Re-run it after each Kanōn update.</li>
       <li>Run <code>scripts/install-githooks.sh</code> in the repo (ticket key + commit skeleton for every committer).</li>
       <li>Run <code>graphify</code> once at the repo root (tier-0 graph, which the graph-sync hook then maintains).</li>
     </ol>

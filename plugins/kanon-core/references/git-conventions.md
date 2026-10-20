@@ -5,74 +5,32 @@ Read this file when creating branches or composing commit messages.
 
 ## Branch Naming Conventions
 
-Follow these patterns for branch names:
+Branches carry the ticket key: `<type>/<TICKET>-<short-slug>`.
 
-- **Feature branches**: `feature/<short-description>`
-  - Example: `feature/user-authentication`
-- **Bug fixes**: `fix/<issue-description>`
-  - Example: `fix/login-timeout`
-- **Hotfixes**: `hotfix/<critical-issue>`
-  - Example: `hotfix/security-patch`
-- **Refactoring**: `refactor/<scope>`
-  - Example: `refactor/database-layer`
-- **Documentation**: `docs/<topic>`
-  - Example: `docs/api-endpoints`
-- **Experimental/Research**: `experiment/<feature-name>`
-  - Example: `experiment/new-algorithm`
+- Types: `feat`, `fix`, `chore`, `refactor`, `docs`
+- Examples: `feat/PAY-482-idempotency-guard`, `fix/AUTH-91-login-timeout`
 
 **Rules**:
 - The default main branch name will be `main` unless specified
-- Use lowercase letters and hyphens (kebab-case)
+- Use lowercase letters and hyphens (kebab-case) after the ticket key
 - Keep names concise but descriptive
 - Avoid special characters except hyphens and forward slashes
 
 ## Commit Message Style
 
-Follow **Conventional Commits** specification:
+The `commit-craft` skill is the authority. In short:
 
 ```
-<type>(<scope>): <subject>
+PROJ-123: <imperative one-liner, <=72 chars>
 
-<body>
-
-<footer>
-```
-
-**Types**:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, missing semicolons, etc.)
-- `refactor`: Code refactoring without changing functionality
-- `perf`: Performance improvements
-- `test`: Adding or updating tests
-- `build`: Changes to build system, tooling, or developer environment config
-- `ci`: Changes to CI/CD configuration
-- `chore`: Other changes that don't modify src or test files
-- `revert`: Reverting a previous commit
-
-**Examples**:
-```
-feat(auth): add OAuth2 login support
-
-fix(api): resolve timeout issue in user endpoint
-
-docs(readme): update installation instructions
-
-build(claude): add knowledge-query and adr-manager skills
-
-build(claude): move Playwright MCP to project-level settings
+<One or two sentences, or 2-5 one-line points for a large change.>
 ```
 
 **Rules**:
-- Use lowercase for type and scope
-- Subject line max 50 characters
+- Every commit carries the ticket key; the `ticket-guard` hook enforces it
 - Use imperative mood ("add" not "added" or "adds")
-- Don't end subject with a period
-- Body and footer are optional -- use when context adds value
-- Body should explain what and why, not how
-- Reference issue numbers in footer when applicable
-- For multiple commits, keep point-wise short descriptions for clarity
+- Don't end the subject with a period
+- Body explains what and why, not how
 - Do not include AI tool attribution in commit messages
 
 ## Ignoring Files
@@ -88,7 +46,7 @@ How should ignored files be managed for this project?
 
 (2) .git/info/exclude -- local only, never committed or pushed
     Use for: proprietary/private repos, personal tooling exclusions,
-             hiding internal tool configs (LLM.md, .claude/, etc.)
+             personal tool configs (LLM.md, .claude/settings.local.json)
 
 (3) Both -- .gitignore for standard exclusions, .git/info/exclude
     for private/personal exclusions that should not be visible
@@ -126,10 +84,9 @@ Thumbs.db
 
 `.git/info/exclude` — local only, never pushed:
 ```
-# LLM tooling
+# Personal LLM tooling (CLAUDE.md and .claude/settings.json stay committed)
 LLM.md
-CLAUDE.md
-.claude/
+.claude/settings.local.json
 
 # IDE personal config
 .idea/
@@ -154,10 +111,10 @@ Work-item status lives in the ticket system, not in repo files.
 
 Example:
 ```markdown
-- [x] Delete com.example.* package in Finance *(commit: abc1234)*
-- [~] Delete com.example.* package in Procurement *(VendorController done, ProcurementController pending)*
-- [ ] Fix RestServiceDelegate blocking issue
-- [!] Remove HR embedded Flowable *(blocked: depends on RestServiceDelegate fix)*
+- [x] Extract the idempotency guard *(commit: abc1234)*
+- [~] Move webhook handlers onto the guard *(payments done, refunds pending)*
+- [ ] Drop the payload-hash dedupe table
+- [!] Remove the legacy retry worker *(blocked: depends on the queue migration)*
 ```
 
 ## ADR Commits
@@ -165,13 +122,12 @@ Example:
 Architecture Decision Records always commit with the code they relate to:
 
 ```
-feat(auth): add Keycloak OAuth2 integration
+AUTH-12: add Keycloak OAuth2 integration
 
-Implements JWT-based auth via Keycloak. Decision to use Keycloak over
-custom auth documented in docs/adr/ADR-003-keycloak-auth.md.
+JWT auth via Keycloak instead of custom auth, per docs/adr/ADR-003-keycloak-auth.md.
 ```
 
 Retroactive ADR commits use:
 ```
-docs(adr): add ADR-003 keycloak auth decision (retroactive)
+AUTH-12: add ADR-003 keycloak auth decision (retroactive)
 ```

@@ -43,7 +43,7 @@ Every meaningful frontend surface should demonstrate at least four of these:
 2. Define a palette intentionally.
 3. Choose typography deliberately.
 4. Gather at least a small set of real references.
-5. Use ECC design/frontend skills where relevant.
+5. Use the `frontend-discipline` skill and the repo's design system docs where relevant.
 
 ## Worthwhile Style Directions
 

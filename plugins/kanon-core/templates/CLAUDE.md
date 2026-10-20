@@ -101,5 +101,5 @@ Assume a constrained subscription budget. Tokens are money; spend them like it.
 
 ## Environment Safety
 
-- Container/service lifecycle and destructive DB commands are blocked for agents (`env-mutation-guard`); main context grants exceptions per session with `ECC_ALLOW_ENV=1`.
+- Container/service lifecycle and destructive DB commands are blocked for agents (`env-mutation-guard`); main context grants exceptions per session with `ALLOW_ENV_MUTATION=1`.
 - Install cooldown bypasses blocked (`cooldown-guard`).

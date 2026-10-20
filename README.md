@@ -43,7 +43,7 @@ Claude Code plugins can't ship rules, so sync them into the repo once, and again
 python3 scripts/sync-editors.py --repo <repo> --stacks java --tools claude
 ```
 
-This writes path-scoped rules to `.claude/rules/kanon/`, which Claude Code loads when you touch matching files. Cross-cutting rules go to `.claude/kanon/rules/`, where the discipline skills read them on demand.
+This writes path-scoped rules to `.claude/rules/kanon/`, which Claude Code loads when you touch matching files. Cross-cutting rules go to `.claude/kanon/rules/`, where the discipline skills read them on demand. Reference docs the rules point to go to `.kanon/references/`, for every editor.
 
 Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo root and fill in the placeholders, including `Java framework:` for Java repos. To make a repo install the plugins for everyone who trusts it, commit this to `.claude/settings.json`:
 
@@ -64,6 +64,7 @@ Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo r
 
 **Settings:**
 - `TICKET_REGEX` overrides the ticket-key pattern used by ticket-guard.
+- `ALLOW_ENV_MUTATION=1` lets agents run the container and database commands env-mutation-guard blocks, for one session.
 - `GRAPH_SYNC_CMD` sets your graphify incremental command.
 - `COMMIT_AI=1` turns on AI drafts in the `prepare-commit-msg` git hook. Install that hook with `scripts/install-githooks.sh`.
 

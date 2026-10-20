@@ -121,11 +121,11 @@ Use descriptive names with `@DisplayName`:
 
 ## Coverage
 
-- Target 80%+ line coverage
-- Use JaCoCo for coverage reporting
+- Coverage is not evidence; PIT mutation testing is. Document surviving mutants
+- JaCoCo reports show untested code, not a target to hit
 - Focus on service and domain logic — skip trivial getters/config classes
 
 ## References
 
 See `rules/java/spring.md` (Testing) for Spring Boot slice tests, MockMvc and Testcontainers.
-See skill: `java-coding-standards` for testing expectations.
+See skill: `java-conventions` for testing expectations.

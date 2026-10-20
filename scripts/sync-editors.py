@@ -18,6 +18,7 @@ Mapping:
   agents/                         -> .github/agents/<n>.agent.md (VS Code custom agents)
                                   -> persona skills for Cursor + Antigravity
   .mcp.json (serena)              -> .cursor/mcp.json, .vscode/mcp.json, .agents/mcp_config.json
+  references/                     -> .kanon/references/ (rules point here; same text for every editor)
   AGENTS.md                       -> read natively by all three (copy template if absent)
 Not ported (documented in Editor-Parity.md): Claude hooks (enforcement parity
 comes from git hooks + CI), opus model pinning, plugin marketplace, native memory.
@@ -171,6 +172,15 @@ def emit_codex(repo, dirs):
                 copy_tree(sk, repo / ".codex/skills" / sk.name)
     emit_persona_skills(repo / ".codex/skills", dirs)
 
+def emit_references(repo, dirs):
+    dst = repo / ".kanon/references"
+    if dst.exists(): shutil.rmtree(dst)
+    for stack, d in dirs:
+        if (d / "references").is_dir():
+            shutil.copytree(d / "references", dst, dirs_exist_ok=True,
+                            ignore=shutil.ignore_patterns(".DS_Store"))
+    print(f"  copied {dst}")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
@@ -192,6 +202,7 @@ def main():
         print("== Antigravity (.agents/)"); emit_antigravity(repo, dirs, legacy=False)
         if a.legacy_agent_dir:
             print("== Antigravity legacy (.agent/)"); emit_antigravity(repo, dirs, legacy=True)
+    emit_references(repo, dirs)
     core = dict(dirs)["core"]
     tpl = core / "templates" / "AGENTS.md"
     if tpl.exists() and not (repo / "AGENTS.md").exists():

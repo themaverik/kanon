@@ -38,11 +38,11 @@ Before marking code complete:
 - [ ] No hardcoded secrets or credentials
 - [ ] No console.log or debug statements
 - [ ] Tests exist for new functionality
-- [ ] Test coverage meets 80% minimum
+- [ ] Mutation testing shows no undocumented survivors in changed code
 
 ## Security Review Triggers
 
-**STOP and use security-reviewer agent when:**
+**STOP and get a read-only security review (`architect-review` plus the stack reviewer) when:**
 
 - Authentication or authorization code
 - User input handling
@@ -67,12 +67,10 @@ Use these agents for code review:
 
 | Agent | Purpose |
 |-------|---------|
-| **code-reviewer** | General code quality, patterns, best practices |
-| **security-reviewer** | Security vulnerabilities, OWASP Top 10 |
-| **typescript-reviewer** | TypeScript/JavaScript specific issues |
-| **python-reviewer** | Python specific issues |
-| **go-reviewer** | Go specific issues |
-| **rust-reviewer** | Rust specific issues |
+| **architect-review** | Layering, boundaries, SOLID, distributed-systems patterns |
+| **quarkus-reviewer** / **spring-reviewer** | Java framework idioms, CDI/Spring, JPA, security config |
+| **nestjs-boundary-reviewer** | TypeScript module boundaries, DI, dead exports |
+| **failure-mode-engineer** | Failure scenarios, property tests, mutation testing |
 
 ## Review Workflow
 
@@ -81,7 +79,7 @@ Use these agents for code review:
 2. Check security checklist first
 3. Review code quality checklist
 4. Run relevant tests
-5. Verify coverage >= 80%
+5. Run mutation testing on the changed code
 6. Use appropriate agent for detailed review
 ```
 
@@ -95,7 +93,7 @@ Use these agents for code review:
 
 This rule works with:
 
-- [testing.md](testing.md) - Test coverage requirements
+- [testing.md](testing.md) - Test evidence requirements
 - [security.md](security.md) - Security checklist
 - [git-workflow.md](git-workflow.md) - Commit standards
 - [agents.md](agents.md) - Agent delegation
