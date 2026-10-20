@@ -1,6 +1,5 @@
 Copyright © 2017 IBM Corp. with Reserved Font Name "Plex" (https://github.com/IBM/plex)
 Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
-Copyright 2020 The Open Sans Project Authors (https://github.com/googlefonts/opensans)
 
 -----------------------------------------------------------
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
