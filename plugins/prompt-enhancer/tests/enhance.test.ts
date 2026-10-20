@@ -41,7 +41,7 @@ function stubEngine(on: On, draft: string, reply: { isAnswered: true; text: stri
 describe('template', () => {
   test('fills reviewer and task into the default template', () => {
     expect(applyTemplate(DEFAULT_TEMPLATE, reviewerFor('frontend'), 'Implement feature X in UI')).toBe(
-      'Use the discipline staff-engineer + frontend-developer + karpathy skills + "Implement feature X in UI"',
+      'Use the discipline implementer + frontend-developer + karpathy skills + "Implement feature X in UI"',
     )
   })
 
@@ -50,15 +50,15 @@ describe('template', () => {
   })
 
   test('falls back to the general reviewer when the area is unknown', () => {
-    expect(reviewerFor(undefined)).toBe('code-reviewer')
-    expect(reviewerFor('fullstack')).toBe('backend-architect + frontend-developer')
-    expect(reviewerFor('security')).toBe('security-auditor')
+    expect(reviewerFor(undefined)).toBe('architect-review')
+    expect(reviewerFor('fullstack')).toBe('architect-review + frontend-developer')
+    expect(reviewerFor('security')).toBe('architect-review')
   })
 
   test('uses configured agent names and keeps defaults for blank ones', () => {
     const agents = agentsFrom({ implementerAgent: 'implementer', backendAgent: ' ', frontendAgent: 'web-reviewer' })
     expect(applyTemplate(DEFAULT_TEMPLATE, reviewerFor('fullstack', agents), 'Do Y', agents.implementer)).toBe(
-      'Use the discipline implementer + backend-architect + web-reviewer + karpathy skills + "Do Y"',
+      'Use the discipline implementer + architect-review + web-reviewer + karpathy skills + "Do Y"',
     )
   })
 
@@ -90,7 +90,7 @@ describe('/enhance', () => {
     const { filled, settled } = stubEngine(on, 'make the button blue', { isAnswered: true, text: 'Change the primary button colour to blue using the frontend-developer approach.\n' })
     await run($, 'enhance', '')
     await settled
-    expect(filled[0]).toBe('Use the discipline staff-engineer + frontend-developer + karpathy skills + "Change the primary button colour to blue."')
+    expect(filled[0]).toBe('Use the discipline implementer + frontend-developer + karpathy skills + "Change the primary button colour to blue."')
   })
 
   test('leaves the draft alone when the model gives no reply', async ($, on) => {

@@ -21,6 +21,7 @@ Do not ship generic template-looking UI. Frontend output should look intentional
 - Safe gray-on-white styling with one decorative accent color
 - Dashboard-by-numbers layouts with sidebar + cards + charts and no point of view
 - Default font stacks used without a deliberate reason
+- Cream or off-white page backgrounds, italic accent words in headlines, numbered "01/02/03" section labels, monospace labels, and pill-shaped buttons used as a house style
 
 ### Required Qualities
 

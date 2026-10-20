@@ -59,5 +59,5 @@ Committed docs describe the system: ADRs (`docs/adr/`), diagrams (`docs/diagrams
 
 ## Environment Safety
 
-- Container/service lifecycle and destructive DB commands are blocked for agents (`env-mutation-guard`); main context grants exceptions per session with `ALLOW_ENV_MUTATION=1`.
+- Container/service lifecycle and destructive DB commands are blocked in every session, main and subagent (`env-mutation-guard`). Ask the user when one is needed; only the user can lift the block, for one session, by starting Claude Code with `ALLOW_ENV_MUTATION=1`.
 - Install cooldown bypasses blocked (`cooldown-guard`).

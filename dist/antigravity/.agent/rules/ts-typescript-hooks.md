@@ -17,7 +17,7 @@ Configure in `~/.claude/settings.json`:
 
 ## Stop Hooks
 
-- **console.log audit**: Check all modified files for `console.log` before session ends
+- **console.log audit**: Check modified files for `console.log` when Claude finishes a turn (Stop runs once per turn, not once per session)
 
 ## Sources
 

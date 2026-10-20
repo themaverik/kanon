@@ -14,13 +14,13 @@
       "type": "string",
       "title": "Implementer agent",
       "description": "Agent name put into {{implementer}}.",
-      "default": "staff-engineer"
+      "default": "implementer"
     },
     "backendAgent": {
       "type": "string",
       "title": "Backend reviewer",
       "description": "Agent name put into {{reviewer}} for this area.",
-      "default": "backend-architect"
+      "default": "architect-review"
     },
     "frontendAgent": {
       "type": "string",
@@ -32,13 +32,13 @@
       "type": "string",
       "title": "Security reviewer",
       "description": "Agent name put into {{reviewer}} for this area.",
-      "default": "security-auditor"
+      "default": "architect-review"
     },
     "generalAgent": {
       "type": "string",
       "title": "Reviewer when the area is unclear",
       "description": "Agent name put into {{reviewer}} for this area.",
-      "default": "code-reviewer"
+      "default": "architect-review"
     }
   },
   "author": {

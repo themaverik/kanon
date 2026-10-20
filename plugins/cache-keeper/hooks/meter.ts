@@ -65,7 +65,7 @@ export function parseThreshold(args: string): number | 'off' | null {
 
 export const HANDOFF_PROMPT = [
   'Write a handoff brief so a fresh session can continue this work without the transcript.',
-  'Plain markdown, under 300 words, these sections:',
+  'Plain markdown, short enough to read before pressing Enter: only what the next session needs, in these sections:',
   '- Goal: what the user is trying to achieve.',
   '- Done: what is finished and verified, with file paths and commit SHAs.',
   '- In progress: the exact next step and any half-applied change.',

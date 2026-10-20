@@ -37,6 +37,6 @@ anti-pattern deliberately accepted or avoided.
 ```
 
 ## Behaviour
-- Next number: `ls docs/adr | sort | tail -1`.
+- Next number: one more than the highest number among the existing ADR files in `docs/adr/` (skip `index.md` and other non-ADR files).
 - On capture, keep it under a page; link the driving ticket; never edit an accepted ADR's decision text, supersede it instead.
 - On query ("why did we choose X"): grep titles and Decision lines in `docs/adr/`, cite the ADR number; flag when a proposed change conflicts with an accepted ADR.

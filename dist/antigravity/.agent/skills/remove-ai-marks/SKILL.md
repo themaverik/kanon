@@ -24,7 +24,7 @@ Read if needed:
 - `references/markdiffusion.md`: optional MarkDiffusion image harness (schemes, honesty caveats)
 
 This skill is a **thin client**. All deterministic cleaning machinery runs in a
-separate HTTP service (this repo's `service/`), so the agent host needs no
+separate HTTP service (the watermarks service, which Kanōn does not ship), so the agent host needs no
 Python, venvs, or cleaning tools. Call the service with `curl`; never run
 cleaning scripts directly.
 
@@ -36,8 +36,8 @@ Base URL comes from `WATERMARKS_SERVICE_URL`, default `http://127.0.0.1:8765`:
 WM="${WATERMARKS_SERVICE_URL:-http://127.0.0.1:8765}"
 ```
 
-The service is started either by the operator (`docker compose up -d`, or a
-published GHCR image) or locally (`make serve`). **Always check it first**, and
+The operator starts the service from its own repository or its published GHCR image;
+Kanōn does not contain it. **Always check it first**, and
 stop with a clear message if it is unreachable. Never fall back to local
 cleaning:
 
@@ -288,7 +288,7 @@ docker run --rm -v "$(pwd)/src:/data:ro" watermarks-remover \
   /app/scripts/audit_dir.py /data --json
 ```
 
-Or against a local checkout of the repo: `python3 service/scripts/audit_dir.py DIR --json`.
+Or from a local checkout of the watermarks service repository: `python3 service/scripts/audit_dir.py DIR --json`.
 
 Audit exit codes (same in `--json`, `--sarif` and human output): `0` no
 actionable findings, `1` actionable findings, `2` usage/refusal error,
@@ -333,6 +333,6 @@ Always state:
 
 ## Service not reachable?
 
-If `$WM/health` fails: tell the user the service is down and how to start it
-(`docker compose up -d`, `make serve`, or the published GHCR image). Do **not**
+If `$WM/health` fails: tell the user the service is down and that it is started from
+the watermarks service repository or its published GHCR image. Do **not**
 attempt to clean locally. This skill contains no cleaning code.

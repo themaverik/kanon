@@ -17,7 +17,7 @@ alwaysApply: false
 ## Service Boundaries
 
 - Check the shared module for an existing base class or helper before writing a new one
-- Never hardcode service URLs. Use `@Value` or service discovery
+- Never hardcode service URLs. Use typed config (`@ConfigMapping`/`@ConfigProperty` on Quarkus, `@ConfigurationProperties` on Spring) or service discovery
 - Schema-per-service. Never query another service's schema directly
 - All schema changes via Flyway: `V<version>__<description>.sql`
 

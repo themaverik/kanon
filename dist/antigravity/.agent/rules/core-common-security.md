@@ -7,7 +7,7 @@ description: Security Guidelines
 
 ## Mandatory Security Checks
 
-Before ANY commit:
+Before every commit:
 - [ ] No hardcoded secrets (API keys, passwords, tokens)
 - [ ] All user inputs validated
 - [ ] SQL injection prevention (parameterized queries)
@@ -19,14 +19,14 @@ Before ANY commit:
 
 ## Secret Management
 
-- NEVER hardcode secrets in source code
-- ALWAYS use environment variables or a secret manager
+- Keep secrets out of source code
+- Read them from environment variables or a secret manager
 - Validate that required secrets are present at startup
 - Rotate any secrets that may have been exposed
 
-## Node/npm Dependency Security (ALL Node/npm projects)
+## Node/npm Dependency Security (all Node/npm projects)
 
-ALWAYS run these checks BEFORE `npm install` / `npm ci` / `npm update`
+Run these checks before `npm install` / `npm ci` / `npm update`
 (or yarn/pnpm equivalents), never install blind:
 
 - [ ] Check the package manager version itself (`npm --version`, `node --version`)

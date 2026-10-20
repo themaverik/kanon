@@ -4,9 +4,9 @@ applyTo: "**"
 
 # Coding Style
 
-## Immutability (CRITICAL)
+## Immutability
 
-ALWAYS create new objects, NEVER mutate existing ones:
+Return a new object instead of modifying one the caller can see:
 
 ```
 // Pseudocode
@@ -38,7 +38,7 @@ Rationale: Immutable data prevents hidden side effects, makes debugging easier, 
 
 ## File Organization
 
-MANY SMALL FILES > FEW LARGE FILES:
+Many small files over few large files:
 - High cohesion, low coupling
 - 200-400 lines typical, 800 max *(Kanōn)*
 - Extract utilities from large modules
@@ -46,7 +46,7 @@ MANY SMALL FILES > FEW LARGE FILES:
 
 ## Error Handling
 
-ALWAYS handle errors comprehensively:
+Handle errors comprehensively:
 - Handle errors explicitly at every level
 - Provide user-friendly error messages in UI-facing code
 - Log detailed error context on the server side
@@ -54,7 +54,7 @@ ALWAYS handle errors comprehensively:
 
 ## Input Validation
 
-ALWAYS validate at system boundaries:
+Validate at system boundaries:
 - Validate all user input before processing
 - Use schema-based validation where available
 - Fail fast with clear error messages

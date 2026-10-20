@@ -23,28 +23,9 @@ Lower context sensitivity tasks:
 - Documentation updates
 - Simple bug fixes
 
-## Extended Thinking + Plan Mode
+## Thinking and Effort
 
-Extended thinking is enabled by default, reserving up to 31,999 tokens for internal reasoning.
-
-Control extended thinking via:
-- **Toggle**: Option+T (macOS) / Alt+T (Windows/Linux)
-- **Config**: Set `alwaysThinkingEnabled` in `~/.claude/settings.json`
-- **Budget cap**: `export MAX_THINKING_TOKENS=10000`
-- **Verbose mode**: Ctrl+O to see thinking output
-
-For complex tasks requiring deep reasoning:
-1. Ensure extended thinking is enabled (on by default)
-2. Enable **Plan Mode** for structured approach
-3. Use multiple critique rounds for thorough analysis
-4. Use split role sub-agents for diverse perspectives
-
-## Build Troubleshooting
-
-If build fails:
-1. Analyze error messages
-2. Fix incrementally
-3. Verify after each fix
+Thinking is always on for Opus 5.5, Sonnet 5.5 and the Fable models; the thinking toggle and a thinking-token budget have no effect on them. The effort level sets how much they think, and so the cost and latency of a turn. Set it with `/effort`, `--effort`, or `effort` in a skill or subagent's frontmatter. Ctrl+O shows the thinking output.
 
 ## Sources
 

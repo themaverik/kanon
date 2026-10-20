@@ -13,11 +13,11 @@ export interface Agents {
 }
 
 export const DEFAULT_AGENTS: Agents = {
-  implementer: 'staff-engineer',
-  backend: 'backend-architect',
+  implementer: 'implementer',
+  backend: 'architect-review',
   frontend: 'frontend-developer',
-  security: 'security-auditor',
-  general: 'code-reviewer',
+  security: 'architect-review',
+  general: 'architect-review',
 }
 
 /** userConfig values arrive untyped; a blank one falls back to the default name. */
