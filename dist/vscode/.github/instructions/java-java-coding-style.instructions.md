@@ -110,5 +110,5 @@ public class OrderNotFoundException extends RuntimeException {
 
 ## References
 
-See skill: `java-conventions` for full coding standards with examples.
+See skill: `java-conventions` (kanon-java-airails) for full coding standards with examples.
 The `spring-reviewer` and `quarkus-reviewer` agents cover JPA/Hibernate pitfalls.

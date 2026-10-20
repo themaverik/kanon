@@ -20,7 +20,8 @@ The full guide is the landing page, [`index.html`](index.html).
 | Plugin | Enable in | Brings |
 |---|---|---|
 | kanon-core | every repo | implementer, backend-architect, architect-review and failure-mode-engineer agents, karpathy-guidelines, adr-manager, commit-craft, common rules, the 6 guard hooks, Serena MCP, CLAUDE.md/AGENTS.md templates |
-| kanon-java | Java/Kotlin repos | Quarkus or Spring Boot, picked from the repo. quarkus-reviewer, spring-reviewer, java-discipline, java rules, 8 vendored [airails](plugins/kanon-java/skills/AIRAILS-NOTICE.md) skills |
+| kanon-java | Java/Kotlin repos | Quarkus or Spring Boot, picked from the repo. quarkus-reviewer, spring-reviewer, java-discipline, java rules |
+| kanon-java-airails | Java repos, opt-in | 8 vendored [airails](plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md) skills. sbce, ears-tests and continuous-testing run only as slash commands |
 | kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript and NestJS rules |
 | kanon-web | frontend repos | frontend-discipline, web rules |
 | cache-keeper | any repo (mod) | cache countdown, context size, rate limits, session cost, Handoff & Clear |
@@ -35,6 +36,7 @@ The mods need a Claude Code build with hooks modules. The landing page's [Mods s
 /plugin marketplace add themaverik/kanon
 /plugin install kanon-core@kanon
 /plugin install kanon-java@kanon      # or kanon-ts, kanon-web
+/plugin install kanon-java-airails@kanon   # optional, Java only
 ```
 
 Claude Code plugins can't ship rules, so sync them into the repo once, and again after each update:

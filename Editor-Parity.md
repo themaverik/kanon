@@ -57,6 +57,9 @@ installs read `.agent/` (singular). `--legacy-agent-dir` emits both.
   warns when a rule exceeds it (split the source rule).
 - Antigravity indexes every SKILL.md at startup, so keep skills workspace-scoped
   and pruned rather than installing large libraries globally.
+- `disable-model-invocation` (sbce, ears-tests, continuous-testing) is a Claude
+  Code key. Other editors may still pick those skills by description. Leave
+  `java-airails` out of `--stacks` if you don't want them.
 - VS Code custom agents (.agent.md) and skills locations are evolving.
   `chat.agentSkillsLocations` can point at a different skills dir if your org
   standardizes elsewhere.

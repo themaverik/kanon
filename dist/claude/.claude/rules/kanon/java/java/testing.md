@@ -128,4 +128,4 @@ Use descriptive names with `@DisplayName`:
 ## References
 
 See `rules/java/spring.md` (Testing) for Spring Boot slice tests, MockMvc and Testcontainers.
-See skill: `java-conventions` for testing expectations.
+See skill: `java-conventions` (kanon-java-airails) for testing expectations.

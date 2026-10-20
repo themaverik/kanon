@@ -20,6 +20,12 @@
       "description": "Java discipline for Quarkus or Spring Boot: rules, quarkus-reviewer and spring-reviewer agents. Enable in Java repos."
     },
     {
+      "name": "kanon-java-airails",
+      "source": "./plugins/kanon-java-airails",
+      "version": "1.0.0",
+      "description": "Opt-in Adam Bien airails skills: BCE, MicroProfile, Java 25 conventions, system tests, sbce. Enable in Java repos that use them."
+    },
+    {
       "name": "kanon-ts",
       "source": "./plugins/kanon-ts",
       "version": "1.0.0",
