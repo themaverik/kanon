@@ -9,7 +9,7 @@ Kanōn follows [Semantic Versioning](https://semver.org/). Each release is a `vX
 Plugin versions: kanon-core 2.0.0, kanon-java 2.0.0, kanon-ts 1.1.0, kanon-web 1.0.1. New plugins kanon-rust, kanon-java-airails and kanon-tools start at 1.0.0.
 
 - Every rule and reference file ends with a Sources list for the patterns, principles and specs it names. Kanōn's own stances are marked *(Kanōn)* in place. AIRAILS-NOTICE.md credits BCE, ubiquitous language and EARS to their authors. One file-size limit (800 lines max) replaces the stray 300-line rule.
-- New Rust recipe on the landing page.
+- New Rust recipe on the landing page, and a dark theme with IBM Plex Sans and JetBrains Mono.
 - **Breaking:** docker-dev, remove-ai-marks and diagram-on-the-fly moved from kanon-core to the new opt-in plugin kanon-tools. Install it to keep them (`/plugin install kanon-tools@kanon`, or add `tools` to `--stacks` for other editors). The fixed floor drops by about 0.2K tokens.
 - `common/testing.md` and `common/development-workflow.md` keep only what Kanōn adds: ticket keys, mutation evidence and read-only reviewers. General TDD and planning now point to superpowers and Matt Pocock's skills.
 - The cooldown, env-mutation and ticket guards are now one PreToolUse script, `bash-guard.sh`, so each Bash call parses its payload once instead of three times. Block messages, overrides and `TICKET_REGEX` are unchanged.
