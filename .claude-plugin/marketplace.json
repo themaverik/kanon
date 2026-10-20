@@ -29,7 +29,7 @@
       "name": "kanon-ts",
       "source": "./plugins/kanon-ts",
       "version": "1.0.0",
-      "description": "TypeScript + NestJS discipline: rules, nestjs-boundary-reviewer agent. Enable in TS backend repos."
+      "description": "TypeScript backend discipline: rules for NestJS or framework-neutral hexagonal, nestjs-boundary-reviewer agent. Enable in TS backend repos."
     },
     {
       "name": "kanon-web",

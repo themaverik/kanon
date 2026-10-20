@@ -22,7 +22,7 @@ The full guide is the landing page, [`index.html`](index.html).
 | kanon-core | every repo | implementer, backend-architect, architect-review and failure-mode-engineer agents, karpathy-guidelines, adr-manager, commit-craft, common rules, the 6 guard hooks, Serena MCP, CLAUDE.md/AGENTS.md templates |
 | kanon-java | Java/Kotlin repos | Quarkus or Spring Boot, picked from the repo. quarkus-reviewer, spring-reviewer, java-discipline, java rules |
 | kanon-java-airails | Java repos, opt-in | 8 vendored [airails](plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md) skills. sbce, ears-tests and continuous-testing run only as slash commands |
-| kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript and NestJS rules |
+| kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript, NestJS and hexagonal rules |
 | kanon-web | frontend repos | frontend-discipline, web rules |
 | kanon-rust | Rust repos | rust-reviewer, rust-discipline, Rust and axum rules |
 | cache-keeper | any repo (mod) | cache countdown, context size, rate limits, session cost, Handoff & Clear |
