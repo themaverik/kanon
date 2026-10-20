@@ -27,18 +27,18 @@ Before requesting review, ensure:
 Before marking code complete:
 
 - [ ] Code is readable and well-named
-- [ ] Functions are focused (<50 lines)
+- [ ] Functions are focused (<50 lines) *(Kanōn)*
 - [ ] Files are cohesive (<800 lines)
 - [ ] No deep nesting (>4 levels)
 - [ ] Errors are handled explicitly
 - [ ] No hardcoded secrets or credentials
 - [ ] No console.log or debug statements
 - [ ] Tests exist for new functionality
-- [ ] Mutation testing shows no undocumented survivors in changed code
+- [ ] Mutation testing shows no undocumented survivors in changed code *(Kanōn)*
 
 ## Security Review Triggers
 
-**STOP and get a read-only security review (`architect-review` plus the stack reviewer) when:**
+**STOP and get a read-only security review (`architect-review` plus the stack reviewer) when:** *(Kanōn)*
 
 - Authentication or authorization code
 - User input handling
@@ -93,3 +93,10 @@ This rule works with:
 - [security.md](security.md) - Security checklist
 - [git-workflow.md](git-workflow.md) - Commit standards
 - [agents.md](agents.md) - Agent delegation
+
+## Sources
+
+- Code review: Michael Fagan, "Design and Code Inspections to Reduce Errors in Program Development", 1976, doi:10.1147/sj.153.0182; Google, "Engineering Practices: Code Review", https://google.github.io/eng-practices/review/
+- Continuous integration: Martin Fowler, "Continuous Integration", https://martinfowler.com/articles/continuousIntegration.html
+- Mutation testing: Richard DeMillo, Richard Lipton and Frederick Sayward, "Hints on Test Data Selection: Help for the Practicing Programmer", 1978, doi:10.1109/C-M.1978.218136
+- SOLID: Robert C. Martin, *Agile Software Development: Principles, Patterns, and Practices*, 2002

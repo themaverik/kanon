@@ -24,7 +24,7 @@ applyTo: "**/*.java"
 
 ## Spring Data and JPA
 - `spring.jpa.open-in-view=false`; load what the use case needs inside the service transaction.
-- N+1: fetch associations deliberately (`@EntityGraph`, join fetch, DTO projections). Verify by counting queries in a test, not by reading code.
+- N+1: fetch associations deliberately (`@EntityGraph`, join fetch, DTO projections). Verify by counting queries in a test, not by reading code. *(Kanōn)*
 - Associations default to lazy; never expose entities across the transaction boundary.
 - Schema changes via Flyway/Liquibase; never `ddl-auto=update` outside throwaway local use.
 
@@ -43,4 +43,22 @@ applyTo: "**/*.java"
 - Don't mix WebFlux and blocking JDBC on the same path; pick one model per service.
 
 ## Architecture tests
-- Freeze recurring findings as ArchUnit/Taikai rules (e.g. controllers don't depend on repositories; `@Transactional` appears only in the service package). A rule in the build outranks a rule in review comments.
+- Freeze recurring findings as ArchUnit/Taikai rules (e.g. controllers don't depend on repositories; `@Transactional` appears only in the service package). A rule in the build outranks a rule in review comments. *(Kanōn)*
+
+## Sources
+
+- Dependency injection: Martin Fowler, "Inversion of Control Containers and the Dependency Injection pattern", 2004, https://martinfowler.com/articles/injection.html
+- Bean Validation: Eclipse Foundation, Jakarta Bean Validation, https://jakarta.ee/specifications/bean-validation/
+- AOP proxies and self-invocation: Spring, "Proxying Mechanisms", Spring Framework Reference, https://docs.spring.io/spring-framework/reference/core/aop/proxying.html
+- Data Transfer Object: Martin Fowler, *Patterns of Enterprise Application Architecture*, Addison-Wesley, 2002, https://martinfowler.com/eaaCatalog/dataTransferObject.html
+- Problem Details: IETF, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457
+- Open Session in View: Vlad Mihalcea, "The Open Session In View Anti-Pattern", 2016, https://vladmihalcea.com/the-open-session-in-view-anti-pattern/
+- Lazy load: Martin Fowler, *Patterns of Enterprise Application Architecture*, Addison-Wesley, 2002, https://martinfowler.com/eaaCatalog/lazyLoad.html
+- Evolutionary database design: Pramod Sadalage & Martin Fowler, "Evolutionary Database Design", 2003, https://martinfowler.com/articles/evodb.html
+- Flyway versioned migrations: Redgate, "Versioned migrations", Flyway documentation, https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations
+- Default deny: Jerome H. Saltzer & Michael D. Schroeder, "The Protection of Information in Computer Systems", Proceedings of the IEEE 63(9), 1975, doi:10.1109/PROC.1975.9939
+- CSRF protection: Spring, "Cross Site Request Forgery (CSRF)", Spring Security Reference, https://docs.spring.io/spring-security/reference/features/exploits/csrf.html
+- Spring Boot test slices: Spring, "Testing Spring Boot Applications", Spring Boot Reference, https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html
+- Real databases in integration tests: Testcontainers, https://testcontainers.com
+- Virtual threads: OpenJDK, JEP 444, 2023, https://openjdk.org/jeps/444
+- Architecture tests as fitness functions: Neal Ford, Rebecca Parsons & Patrick Kua, *Building Evolutionary Architectures*, O'Reilly, 2017

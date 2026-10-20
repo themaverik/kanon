@@ -26,3 +26,8 @@ if (!apiKey) {
 ## Agent Support
 
 - Use **nestjs-boundary-reviewer** plus `architect-review` for security-sensitive changes
+
+## Sources
+
+- Secret management: OWASP, "Secrets Management Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
+- Config in the environment: Adam Wiggins, *The Twelve-Factor App*, "III. Config", 2011, https://12factor.net/config

@@ -33,3 +33,8 @@ Todo list reveals:
 - Extra unnecessary items
 - Wrong granularity
 - Misinterpreted requirements
+
+## Sources
+
+- Claude Code hooks: Anthropic, "Hooks reference", https://code.claude.com/docs/en/hooks
+- TodoWrite: Anthropic, "Tools reference", https://code.claude.com/docs/en/tools-reference

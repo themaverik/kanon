@@ -8,7 +8,7 @@ alwaysApply: false
 ## Skeleton Projects
 
 When implementing new functionality:
-1. Search for battle-tested skeleton projects
+1. Search for battle-tested skeleton projects *(Kanōn)*
 2. Use parallel agents to evaluate options:
    - Security assessment
    - Extensibility analysis
@@ -33,5 +33,11 @@ Encapsulate data access behind a consistent interface:
   `type`, `title`, `status`, `detail`, `instance` — produced at the framework's
   exception-handler boundary, never ad hoc per endpoint. Do not invent a custom
   error envelope.
-- Success responses are plain DTOs — no wrapper envelope.
+- Success responses are plain DTOs — no wrapper envelope. *(Kanōn)*
 - Paginated responses carry one consistent metadata shape (total, page, size).
+
+## Sources
+
+- Repository: Martin Fowler, *Patterns of Enterprise Application Architecture*, 2002, https://martinfowler.com/eaaCatalog/repository.html
+- Problem Details: IETF, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457
+- Data Transfer Object: Martin Fowler, *Patterns of Enterprise Application Architecture*, 2002, https://martinfowler.com/eaaCatalog/dataTransferObject.html

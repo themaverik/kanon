@@ -7,7 +7,7 @@ globs: **/*.tsx,**/*.ts,**/*.css
 
 # Web Design Quality Standards
 
-## Anti-Template Policy
+## Anti-Template Policy *(Kanōn)*
 
 Do not ship generic template-looking UI. Frontend output should look intentional, opinionated, and specific to the product.
 
@@ -66,3 +66,8 @@ Do not default to dark mode automatically. Choose the visual direction the produ
 - [ ] Does it use hierarchy rather than uniform emphasis?
 - [ ] Would this look believable in a real product screenshot?
 - [ ] If it supports both themes, do both light and dark feel intentional?
+
+## Sources
+
+- Glassmorphism: Michal Malewicz, "Glassmorphism in user interfaces", UX Collective, 2020, https://uxdesign.cc/glassmorphism-in-user-interfaces-1f39bb1308c9
+- Swiss / International style: Josef Müller-Brockmann, *Grid Systems in Graphic Design*, 1981

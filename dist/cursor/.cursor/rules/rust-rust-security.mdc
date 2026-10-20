@@ -29,3 +29,15 @@ alwaysApply: false
 ## Agent Support
 
 - Use **rust-reviewer** plus `architect-review` for security-sensitive changes.
+
+## Sources
+
+- RustSec advisories: RustSec, Advisory Database, https://rustsec.org
+- cargo-deny: Embark Studios, cargo-deny documentation, https://embarkstudios.github.io/cargo-deny/
+- Lockfile for binaries: Cargo Book, "Why have Cargo.lock in version control?", FAQ, https://doc.rust-lang.org/cargo/faq.html#why-have-cargolock-in-version-control
+- Unsafe invariants: Rust project, *The Rustonomicon*, https://doc.rust-lang.org/nomicon/
+- Miri: Rust project, Miri, https://github.com/rust-lang/miri
+- Config in the environment: Adam Wiggins, *The Twelve-Factor App*, "III. Config", 2011, https://12factor.net/config
+- Secret wrapper types: secrecy crate documentation, https://docs.rs/secrecy
+- Unbounded allocation: MITRE, CWE-789, "Memory Allocation with Excessive Size Value", https://cwe.mitre.org/data/definitions/789.html
+- SQL injection: OWASP, "SQL Injection Prevention Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html

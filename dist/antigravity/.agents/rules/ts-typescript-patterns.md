@@ -11,7 +11,7 @@ globs: **/*.ts,**/*.tsx,**/*.js,**/*.jsx
 
 Errors follow RFC 9457 Problem Details (`application/problem+json`) — no custom
 success/error envelope. Success responses are plain DTOs; paginated responses share
-one metadata shape. Validate at the boundary with Zod.
+one metadata shape. *(Kanōn)* Validate at the boundary with Zod.
 
 ```typescript
 import { z } from 'zod'
@@ -67,3 +67,10 @@ interface Repository<T> {
   delete(id: string): Promise<void>
 }
 ```
+
+## Sources
+
+- Problem Details: IETF, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457
+- Zod: Colin McDonnell, Zod documentation, https://zod.dev
+- Custom hooks: React team, "Reusing Logic with Custom Hooks", react.dev, https://react.dev/learn/reusing-logic-with-custom-hooks
+- Repository: Martin Fowler, *Patterns of Enterprise Application Architecture*, 2002, https://martinfowler.com/eaaCatalog/repository.html

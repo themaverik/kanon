@@ -5,7 +5,7 @@ Read this file when creating branches or composing commit messages.
 
 ## Branch Naming Conventions
 
-Branches carry the ticket key: `<type>/<TICKET>-<short-slug>`.
+Branches carry the ticket key: `<type>/<TICKET>-<short-slug>`. *(Kanōn)*
 
 - Types: `feat`, `fix`, `chore`, `refactor`, `docs`
 - Examples: `feat/PAY-482-idempotency-guard`, `fix/AUTH-91-login-timeout`
@@ -27,15 +27,15 @@ PROJ-123: <imperative one-liner, <=72 chars>
 ```
 
 **Rules**:
-- Every commit carries the ticket key; the `ticket-guard` hook enforces it
+- Every commit carries the ticket key; the `ticket-guard` hook enforces it *(Kanōn)*
 - Use imperative mood ("add" not "added" or "adds")
 - Don't end the subject with a period
 - Body explains what and why, not how
-- Do not include AI tool attribution in commit messages
+- Do not include AI tool attribution in commit messages *(Kanōn)*
 
 ## Ignoring Files
 
-When initialising a new project, always ask whether to use `.gitignore` or `.git/info/exclude` before creating either:
+When initialising a new project, always ask whether to use `.gitignore` or `.git/info/exclude` before creating either: *(Kanōn)*
 
 ```
 How should ignored files be managed for this project?
@@ -100,7 +100,7 @@ scripts/personal/
 
 ## Task Status Markers
 
-Work-item status lives in the ticket system, not in repo files.
+Work-item status lives in the ticket system, not in repo files. *(Kanōn)*
 
 | Marker | Status | Rule |
 |--------|--------|------|
@@ -119,7 +119,7 @@ Example:
 
 ## ADR Commits
 
-Architecture Decision Records always commit with the code they relate to:
+Architecture Decision Records always commit with the code they relate to: *(Kanōn)*
 
 ```
 AUTH-12: add Keycloak OAuth2 integration
@@ -131,3 +131,9 @@ Retroactive ADR commits use:
 ```
 AUTH-12: add ADR-003 keycloak auth decision (retroactive)
 ```
+
+## Sources
+
+- Commit message form: Tim Pope, "A Note About Git Commit Messages", 2008, https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html; Git, "Submitting Patches", https://git-scm.com/docs/SubmittingPatches
+- gitignore and `.git/info/exclude`: Git, "gitignore", https://git-scm.com/docs/gitignore
+- Architecture Decision Records: Michael Nygard, "Documenting Architecture Decisions", 2011, https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions

@@ -61,3 +61,8 @@ See the composed stack skill for build, run, and test commands.
 ## License
 MIT
 ````
+
+## Sources
+
+- Mermaid diagrams: Mermaid, https://mermaid.js.org
+- EARS: Alistair Mavin, Philip Wilkinson, Adrian Harwood & Mark Novak, "Easy Approach to Requirements Syntax (EARS)", IEEE RE'09, 2009, doi:10.1109/RE.2009.9

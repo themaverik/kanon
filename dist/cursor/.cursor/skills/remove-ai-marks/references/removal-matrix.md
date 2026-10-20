@@ -50,3 +50,27 @@
 Frontier production watermarks are currently **token-by-token** (streaming
 constraint); paragraph-level robust methods (SemStamp / PostMark) are not yet
 deployed, so paraphrase-class attacks remain effective today.
+
+## Sources
+
+- Bidi controls: Unicode Consortium, UAX #9 "Unicode Bidirectional Algorithm", https://www.unicode.org/reports/tr9/
+- Green-list watermark (Kirchenbauer / KGW): John Kirchenbauer et al., "A Watermark for Large Language Models", 2023, https://arxiv.org/abs/2301.10226
+- C2PA / Content Credentials: Coalition for Content Provenance and Authenticity, C2PA Technical Specification, https://c2pa.org/specifications/
+- ISOBMFF: ISO/IEC 14496-12, "ISO base media file format"
+- JUMBF: ISO/IEC 19566-5, "JPEG universal metadata box format"
+- Exif: CIPA, DC-008 "Exchangeable image file format for digital still cameras", Exif Version 3.0, 2023, https://www.cipa.jp/e/std/std-sec.html
+- XMP: ISO 16684-1, "Extensible Metadata Platform (XMP)"
+- IPTC: IPTC, Photo Metadata Standard, https://iptc.org/standards/photo-metadata/
+- EPUB OPF: W3C, "EPUB 3.3", 2023, https://www.w3.org/TR/epub-33/
+- JSON-LD: W3C, "JSON-LD 1.1", 2020, https://www.w3.org/TR/json-ld11/
+- OOXML: Ecma International, ECMA-376 "Office Open XML File Formats", https://ecma-international.org/publications-and-standards/standards/ecma-376/
+- Tree-Ring watermark: Yuxin Wen et al., "Tree-Ring Watermarks: Fingerprints for Diffusion Images that are Invisible and Robust", 2023, https://arxiv.org/abs/2305.20030
+- StegaStamp: Matthew Tancik et al., "StegaStamp: Invisible Hyperlinks in Physical Photographs", 2019, https://arxiv.org/abs/1904.05343
+- Stable Signature: Pierre Fernandez et al., "The Stable Signature: Rooting Watermarks in Latent Diffusion Models", 2023, https://arxiv.org/abs/2303.15435
+- CtrlRegen: Yepeng Liu et al., "Image Watermarks are Removable Using Controllable Regeneration from Clean Noise", 2024, https://arxiv.org/abs/2410.05470
+- SynthID: Google DeepMind, SynthID, https://deepmind.google/technologies/synthid/
+- MarkDiffusion: Leyi Pan et al., "MarkDiffusion: An Open-Source Toolkit for Generative Watermarking of Latent Diffusion Models", 2025, https://arxiv.org/abs/2509.10569
+- MarkLLM: Leyi Pan et al., "MarkLLM: An Open-Source Toolkit for LLM Watermarking", 2024, https://arxiv.org/abs/2405.10051
+- SemStamp: Abe Bohan Hou et al., "SemStamp: A Semantic Watermark with Paraphrastic Robustness for Text Generation", 2023, https://arxiv.org/abs/2310.03991
+- PostMark: Yapei Chang et al., "PostMark: A Robust Blackbox Watermark for Large Language Models", 2024, https://arxiv.org/abs/2406.14517
+- Paraphrase attack on watermarks: Kalpesh Krishna et al., "Paraphrasing evades detectors of AI-generated text, but retrieval is an effective defense", 2023, https://arxiv.org/abs/2303.13408

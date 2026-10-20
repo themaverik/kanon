@@ -12,4 +12,10 @@ kanon-core's post-edit-lint runs `cargo fmt --check` on each edited `.rs` file. 
 
 ## CI Gate
 
-`cargo fmt --all -- --check`, `cargo clippy --all-targets -- -D warnings`, `cargo nextest run`, `cargo deny check`. Run cargo-mutants on changed code (`--in-diff`) rather than the whole crate.
+`cargo fmt --all -- --check`, `cargo clippy --all-targets -- -D warnings`, `cargo nextest run`, `cargo deny check`. Run cargo-mutants on changed code (`--in-diff`) rather than the whole crate. *(Kanōn)*
+
+## Sources
+
+- Claude Code hooks: Anthropic, "Hooks", Claude Code documentation, https://code.claude.com/docs/en/hooks
+- Mutation testing: DeMillo, Lipton & Sayward, "Hints on Test Data Selection: Help for the Practicing Programmer", *IEEE Computer* 11(4), 1978, doi:10.1109/C-M.1978.218136
+- cargo-mutants: Martin Pool, cargo-mutants documentation, https://mutants.rs

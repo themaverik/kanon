@@ -90,7 +90,7 @@ public void process(Optional<String> name) {}
 
 ## Error Handling
 
-- Prefer unchecked exceptions for domain errors
+- Prefer unchecked exceptions for domain errors *(Kanōn)*
 - Create domain-specific exceptions extending `RuntimeException`
 - Avoid broad `catch (Exception e)` unless at top-level handlers
 - Include context in exception messages
@@ -105,7 +105,7 @@ public class OrderNotFoundException extends RuntimeException {
 
 ## Streams
 
-- Use streams for transformations; keep pipelines short (3-4 operations max)
+- Use streams for transformations; keep pipelines short (3-4 operations max) *(Kanōn)*
 - Prefer method references when readable: `.map(Order::getTotal)`
 - Avoid side effects in stream operations
 - For complex logic, prefer a loop over a convoluted stream pipeline
@@ -114,3 +114,19 @@ public class OrderNotFoundException extends RuntimeException {
 
 See skill: `java-conventions` (kanon-java-airails) for full coding standards with examples.
 The `spring-reviewer` and `quarkus-reviewer` agents cover JPA/Hibernate pitfalls.
+
+## Sources
+
+- Sun code conventions: Sun Microsystems, *Code Conventions for the Java Programming Language*, 1997, https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
+- Google Java Style Guide: Google, Google Java Style Guide, https://google.github.io/styleguide/javaguide.html
+- Minimize mutability: Joshua Bloch, *Effective Java*, 3rd ed., Addison-Wesley, 2018, Item 17
+- Defensive copies: Joshua Bloch, *Effective Java*, 3rd ed., Addison-Wesley, 2018, Item 50
+- Records: OpenJDK, JEP 395, https://openjdk.org/jeps/395
+- Sealed classes: OpenJDK, JEP 409, https://openjdk.org/jeps/409
+- Pattern matching for instanceof: OpenJDK, JEP 394, https://openjdk.org/jeps/394
+- Text blocks: OpenJDK, JEP 378, https://openjdk.org/jeps/378
+- Switch expressions: OpenJDK, JEP 361, https://openjdk.org/jeps/361
+- Pattern matching for switch: OpenJDK, JEP 441, https://openjdk.org/jeps/441
+- Optional usage: Joshua Bloch, *Effective Java*, 3rd ed., Addison-Wesley, 2018, Item 55
+- Side effects in streams: Oracle, "java.util.stream" package documentation, Java SE 21 API, https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/package-summary.html
+- Prefer a loop over a convoluted stream: Joshua Bloch, *Effective Java*, 3rd ed., Addison-Wesley, 2018, Item 45

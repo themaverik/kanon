@@ -469,3 +469,24 @@ var last = list.get(list.size() - 1);
 var first = list.getFirst();
 var last = list.getLast();
 ```
+
+## Sources
+
+- Local-variable type inference: OpenJDK, JEP 286, https://openjdk.org/jeps/286
+- Text blocks: OpenJDK, JEP 378, https://openjdk.org/jeps/378
+- Switch expressions: OpenJDK, JEP 361, https://openjdk.org/jeps/361
+- Module import declarations: OpenJDK, JEP 511, https://openjdk.org/jeps/511
+- Compact source files and instance main methods: OpenJDK, JEP 512, https://openjdk.org/jeps/512
+- java.time: JCP, JSR 310, https://jcp.org/en/jsr/detail?id=310
+- HTTP Client: OpenJDK, JEP 321, https://openjdk.org/jeps/321
+- Convenience factory methods for collections: OpenJDK, JEP 269, https://openjdk.org/jeps/269
+- Records: OpenJDK, JEP 395, https://openjdk.org/jeps/395
+- Sealed classes: OpenJDK, JEP 409, https://openjdk.org/jeps/409
+- Pattern matching for instanceof: OpenJDK, JEP 394, https://openjdk.org/jeps/394
+- Pattern matching for switch: OpenJDK, JEP 441, https://openjdk.org/jeps/441
+- Record patterns: OpenJDK, JEP 440, https://openjdk.org/jeps/440
+- Optional over null checks: Joshua Bloch, *Effective Java*, 3rd ed., Addison-Wesley, 2018, Item 55
+- Virtual threads: OpenJDK, JEP 444, https://openjdk.org/jeps/444
+- Structured concurrency: OpenJDK, JEP 505 (Fifth Preview), https://openjdk.org/jeps/505
+- Scoped values: OpenJDK, JEP 506, https://openjdk.org/jeps/506
+- Sequenced collections: OpenJDK, JEP 431, https://openjdk.org/jeps/431

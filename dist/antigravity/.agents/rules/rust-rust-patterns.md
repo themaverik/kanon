@@ -31,3 +31,12 @@ globs: **/*.rs,**/Cargo.toml
 ## Architecture
 
 Hexagonal fits Rust well: the domain crate defines traits (ports) and depends on no framework or I/O crate. Adapters live in their own crates or modules and implement those traits. The binary crate wires them together.
+
+## Sources
+
+- Newtype: Rust API Guidelines, "Type safety" (C-NEWTYPE), https://rust-lang.github.io/api-guidelines/type-safety.html
+- Parse, don't validate: Alexis King, "Parse, don't validate", 2019, https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
+- Make invalid states unrepresentable: Yaron Minsky, "Effective ML Revisited", Jane Street blog, 2011, https://blog.janestreet.com/effective-ml-revisited/
+- Builder: Gamma, Helm, Johnson & Vlissides, *Design Patterns*, 1994
+- Structured concurrency: Nathaniel J. Smith, "Notes on structured concurrency, or: Go statement considered harmful", 2018, https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/
+- Hexagonal architecture: Alistair Cockburn, "Hexagonal Architecture", 2005, https://alistair.cockburn.us/hexagonal-architecture/

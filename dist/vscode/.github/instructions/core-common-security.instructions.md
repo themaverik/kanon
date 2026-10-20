@@ -47,7 +47,15 @@ the Security Response Protocol below.
 
 If security issue found:
 1. STOP immediately
-2. Get a read-only review from `architect-review` plus the stack reviewer
+2. Get a read-only review from `architect-review` plus the stack reviewer *(Kanōn)*
 3. Fix CRITICAL issues before continuing
 4. Rotate any exposed secrets
 5. Review entire codebase for similar issues
+
+## Sources
+
+- Secret management: OWASP, "Secrets Management Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
+- Environment-based configuration: Adam Wiggins, *The Twelve-Factor App*, 2011, "III. Config", https://12factor.net/config
+- Registry signatures and provenance: npm, "Verifying registry signatures", https://docs.npmjs.com/verifying-registry-signatures
+- Shai-Hulud worm: CISA, "Widespread Supply Chain Compromise Impacting npm Ecosystem", 2025, https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+- Security response: NIST, SP 800-61 Rev. 3, "Incident Response Recommendations and Considerations for Cybersecurity Risk Management", 2025, https://csrc.nist.gov/pubs/sp/800/61/r3/final

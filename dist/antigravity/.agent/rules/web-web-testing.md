@@ -7,7 +7,7 @@ globs: **/*.tsx,**/*.ts,**/*.css
 
 # Web Testing Rules
 
-## Priority Order
+## Priority Order *(Kanōn)*
 
 ### 1. Visual Regression
 
@@ -57,4 +57,17 @@ test('landing hero loads', async ({ page }) => {
 
 - Test utilities, data transforms, and custom hooks
 - For highly visual components, visual regression often carries more signal than brittle markup assertions
-- Visual regression supplements coverage targets; it does not replace them
+- Visual regression adds evidence alongside mutation testing (Stryker). It does not replace it
+
+## Sources
+
+- Visual regression: Microsoft, "Visual comparisons", Playwright documentation, https://playwright.dev/docs/test-snapshots
+- Accessibility: W3C, "Web Content Accessibility Guidelines (WCAG) 2.2", https://www.w3.org/TR/WCAG22/
+- prefers-reduced-motion: W3C, "Media Queries Level 5", https://www.w3.org/TR/mediaqueries-5/
+- Lighthouse: Google, Lighthouse documentation, https://developer.chrome.com/docs/lighthouse
+- Core Web Vitals: Google, "Web Vitals", web.dev, https://web.dev/articles/vitals
+- Responsive design: Ethan Marcotte, "Responsive Web Design", *A List Apart*, 2010, https://alistapart.com/article/responsive-web-design/
+- Playwright: Microsoft, Playwright documentation, https://playwright.dev
+- Flaky tests: Martin Fowler, "Eradicating Non-Determinism in Tests", 2011, https://martinfowler.com/articles/nonDeterminism.html
+- Mutation testing: DeMillo, Lipton & Sayward, "Hints on Test Data Selection: Help for the Practicing Programmer", *IEEE Computer* 11(4), 1978, doi:10.1109/C-M.1978.218136
+- Stryker: Stryker Mutator, documentation, https://stryker-mutator.io

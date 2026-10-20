@@ -131,7 +131,7 @@ String message = switch (result) {
 Errors are `application/problem+json` (`type`, `title`, `status`, `detail`, `instance`),
 produced at the exception-handler boundary — JAX-RS `ExceptionMapper` or Spring 6+
 `ProblemDetail` — never ad hoc per endpoint. No custom error envelope. Success
-responses are plain DTOs; paginated responses share one metadata shape (total, page, size).
+responses are plain DTOs; paginated responses share one metadata shape (total, page, size). *(Kanōn)*
 
 ```java
 @Provider
@@ -156,3 +156,15 @@ public class OrderNotFoundMapper implements ExceptionMapper<OrderNotFoundExcepti
 
 See `rules/java/spring.md` for Spring Boot architecture patterns.
 The `spring-reviewer` and `quarkus-reviewer` agents cover entity design and query pitfalls.
+
+## Sources
+
+- Repository: Martin Fowler, *Patterns of Enterprise Application Architecture*, Addison-Wesley, 2002, https://martinfowler.com/eaaCatalog/repository.html
+- Service Layer: Martin Fowler, *Patterns of Enterprise Application Architecture*, Addison-Wesley, 2002, https://martinfowler.com/eaaCatalog/serviceLayer.html
+- Dependency injection: Martin Fowler, "Inversion of Control Containers and the Dependency Injection pattern", 2004, https://martinfowler.com/articles/injection.html
+- Data Transfer Object: Martin Fowler, *Patterns of Enterprise Application Architecture*, Addison-Wesley, 2002, https://martinfowler.com/eaaCatalog/dataTransferObject.html
+- Builder: Erich Gamma, Richard Helm, Ralph Johnson & John Vlissides, *Design Patterns*, Addison-Wesley, 1994
+- Builder (static nested variant): Joshua Bloch, *Effective Java*, 3rd ed., Addison-Wesley, 2018, Item 2
+- Sealed types: OpenJDK, JEP 409, https://openjdk.org/jeps/409
+- Exception mapper: Eclipse Foundation, Jakarta RESTful Web Services, https://jakarta.ee/specifications/restful-ws/
+- Problem Details: IETF, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457

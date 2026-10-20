@@ -71,3 +71,11 @@ package airhacks;
 ```
 
 In **web**, the same Markdown body is the entire `package-info.md` — no `///`, no `package` line.
+
+## Sources
+
+- Markdown documentation comments: OpenJDK, JEP 467, 2023, https://openjdk.org/jeps/467
+- Boundary-Control-Entity: Ivar Jacobson et al., *Object-Oriented Software Engineering: A Use Case Driven Approach*, Addison-Wesley, 1992
+- EARS: Alistair Mavin, Philip Wilkinson, Adrian Harwood & Mark Novak, "Easy Approach to Requirements Syntax (EARS)", IEEE RE'09, 2009, doi:10.1109/RE.2009.9
+- Requirements traceability: Orlena Gotel & Anthony Finkelstein, "An Analysis of the Requirements Traceability Problem", ICRE 1994, doi:10.1109/ICRE.1994.292398
+- Ubiquitous language: Eric Evans, *Domain-Driven Design*, Addison-Wesley, 2003

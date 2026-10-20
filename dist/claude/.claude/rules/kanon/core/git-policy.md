@@ -11,11 +11,11 @@ Read `.kanon/references/git-conventions.md` for full conventions.
 
 ## Critical Rules
 
-- Never run `git push` without explicit user confirmation — no exceptions
+- Never run `git push` without explicit user confirmation — no exceptions *(Kanōn)*
 - No AI tool attribution in commits (no "Generated with Claude Code" or "Co-Authored-By: Claude")
 - Commits carry the developer's own configured git identity. Never set the author to an
   AI, a bot, or a shared team account — attribution is how a change is traced back to a
-  person who can explain it
+  person who can explain it *(Kanōn)*
 - Subject is `PROJ-123: <imperative one-liner>`, no period, max 72 chars. Body length follows
   the size of the change; see the `commit-craft` skill, which is the authority
 - Create `.gitignore` before first commit if missing
@@ -23,7 +23,7 @@ Read `.kanon/references/git-conventions.md` for full conventions.
 
 ## New Project Gitignore Strategy
 
-Always ask before creating ignore files:
+Always ask before creating ignore files: *(Kanōn)*
 1. `.gitignore` — committed, visible to everyone. Use for open source or shared teams.
 2. `.git/info/exclude` — local only, never pushed. Use for proprietary repos and personal tooling.
 3. Both — `.gitignore` for shared rules, `.git/info/exclude` for personal exclusions.
@@ -37,7 +37,7 @@ Recommended default: option 3.
 
 - **Committed**: `CLAUDE.md`, `AGENTS.md`, `.claude/settings.json`. These are shared team
   config in the same class as `.editorconfig` — a standard each developer must opt into
-  individually is not a standard.
+  individually is not a standard. *(Kanōn)*
 - **Never committed**: `.claude/settings.local.json` (personal overrides), `.claude/data/`.
 - Committing `enabledPlugins` only works once the marketplace is reachable by everyone. While
   it is registered from a local directory path, enablement stays in
@@ -48,7 +48,7 @@ Recommended default: option 3.
 ## Pre-commit Watermark Cleaning
 
 Staged code and docs are stripped of invisible Unicode before they are committed, via the
-watermarks service (`WATERMARKS_SERVICE_URL`, default `http://127.0.0.1:8765`).
+watermarks service (`WATERMARKS_SERVICE_URL`, default `http://127.0.0.1:8765`). *(Kanōn)*
 
 - **Layer A only** — removes zero-width and bidi characters and leaves every visible character
   alone. An em dash stays an em dash; an already-clean file comes back byte-identical. The
@@ -83,8 +83,16 @@ other than `.githooks`, for this reason.
 
 Development is ticket-driven (Jira, Linear, or equivalent). No Standard/Milestone work starts without a ticket key in the brief.
 
-- Branch: `type/PROJ-123-short-slug` (feat|fix|chore|refactor|docs).
-- Commit message: must contain the ticket key. Enforced by the `ticket-guard` hook (pattern `[A-Z][A-Z0-9]+-[0-9]+`, override via `TICKET_REGEX`).
+- Branch: `type/PROJ-123-short-slug` (feat|fix|chore|refactor|docs). *(Kanōn)*
+- Commit message: must contain the ticket key. Enforced by the `ticket-guard` hook (pattern `[A-Z][A-Z0-9]+-[0-9]+`, override via `TICKET_REGEX`). *(Kanōn)*
 - PR title: `PROJ-123: <summary>`; description links the ticket.
 - ADRs reference the driving ticket in frontmatter.
-- Roadmap files are not used in this standard; the ticket system is the single source of work-item truth.
+- Roadmap files are not used in this standard; the ticket system is the single source of work-item truth. *(Kanōn)*
+
+## Sources
+
+- Commit message form: Tim Pope, "A Note About Git Commit Messages", 2008, https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html; Git, "Submitting Patches", https://git-scm.com/docs/SubmittingPatches
+- Rewriting shared history: Scott Chacon and Ben Straub, *Pro Git*, 2nd ed., "The Perils of Rebasing", https://git-scm.com/book/en/v2/Git-Branching-Rebasing
+- gitignore and `.git/info/exclude`: Git, "gitignore", https://git-scm.com/docs/gitignore
+- EditorConfig: EditorConfig, https://editorconfig.org
+- Git hooks and `core.hooksPath`: Git, "githooks", https://git-scm.com/docs/githooks

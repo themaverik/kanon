@@ -7,7 +7,7 @@ globs: **/*.java,**/*.ts,**/*.tsx,**/*.js,**/*.py,**/*.go,**/*.rs
 
 ## Context Window Management
 
-Avoid last 20% of context window for:
+Avoid last 20% of context window for: *(Kanōn)*
 - Large-scale refactoring
 - Feature implementation spanning multiple files
 - Debugging complex interactions
@@ -40,3 +40,8 @@ If build fails:
 1. Analyze error messages
 2. Fix incrementally
 3. Verify after each fix
+
+## Sources
+
+- Extended thinking: Anthropic, "Model configuration", https://code.claude.com/docs/en/model-config
+- Plan Mode: Anthropic, "Common workflows", https://code.claude.com/docs/en/common-workflows

@@ -82,7 +82,7 @@ Equivalent local commands via `yarn prettier` or `npm exec prettier --` are fine
 
 ## PreToolUse Hooks
 
-### Guard File Size
+### Guard File Size *(Kanōn)*
 
 Block oversized writes from tool input content, not from a file that may not exist yet:
 
@@ -124,3 +124,10 @@ Recommended order:
 2. lint
 3. type check
 4. build verification
+
+## Sources
+
+- Claude Code hooks: Anthropic, "Hooks", Claude Code documentation, https://code.claude.com/docs/en/hooks
+- Prettier: Prettier, documentation, https://prettier.io
+- ESLint: ESLint, documentation, https://eslint.org
+- Stylelint: Stylelint, documentation, https://stylelint.io

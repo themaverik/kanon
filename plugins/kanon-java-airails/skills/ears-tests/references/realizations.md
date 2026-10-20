@@ -158,3 +158,10 @@ test.describe('R1: place an order', () => {
   }
 });
 ```
+
+## Sources
+
+- Parameterized tests: JUnit, JUnit 5 User Guide, https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests
+- Requirements traceability: Orlena Gotel & Anthony Finkelstein, "An Analysis of the Requirements Traceability Problem", ICRE 1994, doi:10.1109/ICRE.1994.292398
+- Boundary-Control-Entity: Ivar Jacobson et al., *Object-Oriented Software Engineering: A Use Case Driven Approach*, Addison-Wesley, 1992
+- EARS: Alistair Mavin, Philip Wilkinson, Adrian Harwood & Mark Novak, "Easy Approach to Requirements Syntax (EARS)", IEEE RE'09, 2009, doi:10.1109/RE.2009.9

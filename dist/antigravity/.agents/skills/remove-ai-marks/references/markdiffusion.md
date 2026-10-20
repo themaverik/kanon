@@ -78,3 +78,15 @@ Exit codes: 0 ok · 1 runtime error · 2 bad input · 3 backend unavailable.
 - Paper: https://arxiv.org/abs/2509.10569
 - Docs: https://markdiffusion.readthedocs.io
 - HF models: https://huggingface.co/Generative-Watermark-Toolkits
+
+## Sources
+
+- MarkDiffusion: Leyi Pan et al., "MarkDiffusion: An Open-Source Toolkit for Generative Watermarking of Latent Diffusion Models", 2025, https://arxiv.org/abs/2509.10569
+- Tree-Ring watermark: Yuxin Wen et al., "Tree-Ring Watermarks: Fingerprints for Diffusion Images that are Invisible and Robust", 2023, https://arxiv.org/abs/2305.20030
+- Ring-ID, ROBIN, WIND, SFW, Gaussian-Shading, GaussMarker, PRC, SEAL: as surveyed in the MarkDiffusion paper, https://arxiv.org/abs/2509.10569
+- StegaStamp: Matthew Tancik et al., "StegaStamp: Invisible Hyperlinks in Physical Photographs", 2019, https://arxiv.org/abs/1904.05343
+- Stable Signature: Pierre Fernandez et al., "The Stable Signature: Rooting Watermarks in Latent Diffusion Models", 2023, https://arxiv.org/abs/2303.15435
+- DiffPure: Weili Nie et al., "Diffusion Models for Adversarial Purification", 2022, https://arxiv.org/abs/2205.07460
+- CtrlRegen: Yepeng Liu et al., "Image Watermarks are Removable Using Controllable Regeneration from Clean Noise", 2024, https://arxiv.org/abs/2410.05470
+- ControlNet: Lvmin Zhang et al., "Adding Conditional Control to Text-to-Image Diffusion Models", 2023, https://arxiv.org/abs/2302.05543
+- MarkLLM: Leyi Pan et al., "MarkLLM: An Open-Source Toolkit for LLM Watermarking", 2024, https://arxiv.org/abs/2405.10051

@@ -20,3 +20,8 @@ Configure in `~/.claude/settings.json`:
 ## Stop Hooks
 
 - **console.log audit**: Check all modified files for `console.log` before session ends
+
+## Sources
+
+- Claude Code hooks: Anthropic, "Hooks", Claude Code documentation, https://code.claude.com/docs/en/hooks
+- Prettier: Prettier, documentation, https://prettier.io

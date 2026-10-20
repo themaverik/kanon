@@ -99,3 +99,17 @@ try {
 
 See `rules/java/spring.md` (Security) for Spring Security `SecurityFilterChain` patterns.
 See `rules/common/security.md` for the general security checklist.
+
+## Sources
+
+- Secrets management: OWASP, "Secrets Management Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
+- Externalized configuration: Adam Wiggins, *The Twelve-Factor App*, "III. Config", 2011, https://12factor.net/config
+- SQL injection prevention: OWASP, "SQL Injection Prevention Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html
+- Input validation: OWASP, "Input Validation Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+- Bean Validation: Eclipse Foundation, Jakarta Bean Validation, https://jakarta.ee/specifications/bean-validation/
+- Password hashing: OWASP, "Password Storage Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+- Authorization checks: OWASP, "API1:2023 Broken Object Level Authorization", OWASP API Security Top 10, 2023, https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/
+- No secrets or PII in logs: OWASP, "Logging Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
+- Dependency scanning: OWASP, Dependency-Check, https://owasp.org/www-project-dependency-check/
+- Error messages: MITRE, "CWE-209: Generation of Error Message Containing Sensitive Information", https://cwe.mitre.org/data/definitions/209.html
+- Problem Details: IETF, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457

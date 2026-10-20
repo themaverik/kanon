@@ -98,3 +98,13 @@ Do not reach for generic wrapper `div` stacks when a semantic element exists.
 - Hooks: `use` prefix (`useReducedMotion`)
 - CSS classes: kebab-case or utility classes
 - Animation timelines: camelCase with intent (`heroRevealTl`)
+
+## Sources
+
+- Organize by feature: Robert C. Martin, "Screaming Architecture", 2011, https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html
+- CSS custom properties: W3C, "CSS Custom Properties for Cascading Variables Module Level 1", https://www.w3.org/TR/css-variables-1/
+- Design tokens: Design Tokens Community Group, "Design Tokens Format Module", https://www.designtokens.org/tr/drafts/format/
+- OKLCH color: W3C, "CSS Color Module Level 4", https://www.w3.org/TR/css-color-4/
+- Fluid type with clamp(): W3C, "CSS Values and Units Module Level 4", https://www.w3.org/TR/css-values-4/
+- Compositor-only properties: Paul Lewis, "Stick to Compositor-Only Properties and Manage Layer Count", web.dev, 2015, https://web.dev/articles/stick-to-compositor-only-properties-and-manage-layer-count
+- Semantic HTML: WHATWG, HTML Living Standard, "Semantics, structure, and APIs of HTML documents", https://html.spec.whatwg.org/multipage/semantics.html

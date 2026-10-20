@@ -40,7 +40,7 @@ Rationale: Immutable data prevents hidden side effects, makes debugging easier, 
 
 MANY SMALL FILES > FEW LARGE FILES:
 - High cohesion, low coupling
-- 200-400 lines typical, 800 max
+- 200-400 lines typical, 800 max *(Kanōn)*
 - Extract utilities from large modules
 - Organize by feature/domain, not by type
 
@@ -92,3 +92,18 @@ Before marking work complete:
 - [ ] Proper error handling
 - [ ] No hardcoded values (use constants or config)
 - [ ] No mutation (immutable patterns used)
+
+## Sources
+
+- Immutability: Joshua Bloch, *Effective Java*, 3rd ed., 2018, Item 17 "Minimize mutability"
+- Premature optimization: Donald Knuth, "Structured Programming with go to Statements", 1974, doi:10.1145/356635.356640
+- DRY: Andrew Hunt and David Thomas, *The Pragmatic Programmer*, 1999
+- YAGNI: Kent Beck, *Extreme Programming Explained*, 1999; Martin Fowler, "Yagni", https://martinfowler.com/bliki/Yagni.html
+- Speculative generality: Martin Fowler and Kent Beck, *Refactoring*, 1999, ch.3 "Bad Smells in Code"
+- High cohesion, low coupling: W. P. Stevens, G. J. Myers and L. L. Constantine, "Structured Design", 1974, doi:10.1147/sj.132.0115
+- Validate at system boundaries: OWASP, "Input Validation Cheat Sheet", https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+- Fail fast: Jim Shore, "Fail Fast", 2004, https://martinfowler.com/ieeeSoftware/failFast.pdf
+- Custom hooks: React, "Reusing Logic with Custom Hooks", https://react.dev/learn/reusing-logic-with-custom-hooks
+- Early return: Kent Beck, *Smalltalk Best Practice Patterns*, 1996 ("Guard Clause"); Martin Fowler, *Refactoring*, 1999 ("Replace Nested Conditional with Guard Clauses")
+- Magic numbers: Martin Fowler, *Refactoring*, 1999 ("Replace Magic Number with Symbolic Constant")
+- Long functions: Martin Fowler and Kent Beck, *Refactoring*, 1999 ("Long Method")

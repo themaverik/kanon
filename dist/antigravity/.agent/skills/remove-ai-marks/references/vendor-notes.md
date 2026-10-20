@@ -67,3 +67,19 @@ Source: [How Claude marks AI-generated content](https://support.claude.com/en/ar
 
 Prefer local open-weight backends and avoid any known-watermarked vendor, not
 just the suspected origin. Then re-run Layer A on the rewritten text.
+
+## Sources
+
+- C2PA / Content Credentials: Coalition for Content Provenance and Authenticity, C2PA Technical Specification, https://c2pa.org/specifications/
+- SynthID: Google DeepMind, SynthID, https://deepmind.google/technologies/synthid/
+- California SB 942: California Legislature, "California AI Transparency Act", 2024, https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB942
+- EU AI Act Art. 50: European Union, Regulation (EU) 2024/1689, 2024, https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+- Anthropic marking policy: Anthropic, "How Claude marks AI-generated content", https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content
+- SynthID-Text and watermark taxonomy: Sumanth Dathathri et al., "Scalable watermarking for identifying large language model outputs", *Nature* 634, 2024, doi:10.1038/s41586-024-08025-4
+- MarkLLM: Leyi Pan et al., "MarkLLM: An Open-Source Toolkit for LLM Watermarking", 2024, https://arxiv.org/abs/2405.10051
+- SemStamp: Abe Bohan Hou et al., "SemStamp: A Semantic Watermark with Paraphrastic Robustness for Text Generation", 2023, https://arxiv.org/abs/2310.03991
+- PostMark: Yapei Chang et al., "PostMark: A Robust Blackbox Watermark for Large Language Models", 2024, https://arxiv.org/abs/2406.14517
+- CtrlRegen: Yepeng Liu et al., "Image Watermarks are Removable Using Controllable Regeneration from Clean Noise", 2024, https://arxiv.org/abs/2410.05470
+- MarkDiffusion: Leyi Pan et al., "MarkDiffusion: An Open-Source Toolkit for Generative Watermarking of Latent Diffusion Models", 2025, https://arxiv.org/abs/2509.10569
+- Paraphrase attack on watermarks: Kalpesh Krishna et al., "Paraphrasing evades detectors of AI-generated text, but retrieval is an effective defense", 2023, https://arxiv.org/abs/2303.13408
+- Green-list watermark (Kirchenbauer / KGW): John Kirchenbauer et al., "A Watermark for Large Language Models", 2023, https://arxiv.org/abs/2301.10226

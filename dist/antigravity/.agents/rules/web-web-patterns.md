@@ -82,3 +82,16 @@ Persist shareable state in the URL:
 - Fetch independent data in parallel
 - Avoid parent-child request waterfalls
 - Prefetch likely next routes or states when justified
+
+## Sources
+
+- Compound components: Kent C. Dodds, "Compound Components with React Hooks", 2019, https://kentcdodds.com/blog/compound-components-with-react-hooks
+- Prop drilling: Kent C. Dodds, "Prop Drilling", 2018, https://kentcdodds.com/blog/prop-drilling
+- Render props: React team, "Render Props", legacy React documentation, https://legacy.reactjs.org/docs/render-props.html
+- Slots: WHATWG, HTML Living Standard, "The slot element", https://html.spec.whatwg.org/multipage/scripting.html#the-slot-element
+- Accessible keyboard and ARIA behavior: W3C, WAI-ARIA Authoring Practices Guide, https://www.w3.org/WAI/ARIA/apg/
+- Container / presentational split: Dan Abramov, "Presentational and Container Components", Medium, 2015, https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0
+- Server state: TanStack, "Overview", TanStack Query documentation, https://tanstack.com/query/latest/docs/framework/react/overview
+- Stale-while-revalidate: IETF, RFC 5861, 2010, https://www.rfc-editor.org/rfc/rfc5861
+- Optimistic updates: TanStack, "Optimistic Updates", TanStack Query documentation, https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates
+- Request waterfalls: TanStack, "Request Waterfalls", TanStack Query documentation, https://tanstack.com/query/latest/docs/framework/react/guides/request-waterfalls

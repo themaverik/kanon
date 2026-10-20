@@ -196,3 +196,10 @@ const validated: UserInput = userSchema.parse(input)
 - No `console.log` statements in production code
 - Use proper logging libraries instead
 - See hooks for automatic detection
+
+## Sources
+
+- `unknown` over `any`: Microsoft, "TypeScript 3.0 release notes", https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html
+- JSDoc: JSDoc, documentation, https://jsdoc.app
+- Minimize mutability: Joshua Bloch, *Effective Java*, 3rd ed., 2018, Item 17
+- Zod: Colin McDonnell, Zod documentation, https://zod.dev

@@ -64,3 +64,19 @@ Industry framing (C2PA + SynthID two-layer model; see Institute of AI PM guide i
 ## 5. Pixel-domain image (and audio/video) watermarks
 
 Invisible media marks (e.g. SynthID for images/audio/video) and C2PA **soft binding** that lives in the signal, not the metadata. **Out of scope.**
+
+## Sources
+
+- Bidi controls: Unicode Consortium, UAX #9 "Unicode Bidirectional Algorithm", https://www.unicode.org/reports/tr9/
+- Tag characters, variation selectors, private use, noncharacters, Default_Ignorable: Unicode Consortium, *The Unicode Standard*, https://www.unicode.org/versions/latest/
+- Confusables: Unicode Consortium, UTS #39 "Unicode Security Mechanisms", https://www.unicode.org/reports/tr39/
+- SynthID-Text and watermark taxonomy: Sumanth Dathathri et al., "Scalable watermarking for identifying large language model outputs", *Nature* 634, 2024, doi:10.1038/s41586-024-08025-4
+- Green-list watermark (Kirchenbauer / KGW): John Kirchenbauer et al., "A Watermark for Large Language Models", 2023, https://arxiv.org/abs/2301.10226
+- Backdoor model watermarking: Yossi Adi et al., "Turning Your Weakness Into a Strength: Watermarking Deep Neural Networks by Backdooring", 2018, https://arxiv.org/abs/1802.04633
+- C2PA / Content Credentials: Coalition for Content Provenance and Authenticity, C2PA Technical Specification, https://c2pa.org/specifications/
+- Exif: CIPA, DC-008 "Exchangeable image file format for digital still cameras", Exif Version 3.0, 2023, https://www.cipa.jp/e/std/std-sec.html
+- XMP: ISO 16684-1, "Extensible Metadata Platform (XMP)"
+- JUMBF: ISO/IEC 19566-5, "JPEG universal metadata box format"
+- OOXML: Ecma International, ECMA-376 "Office Open XML File Formats", https://ecma-international.org/publications-and-standards/standards/ecma-376/
+- SynthID: Google DeepMind, SynthID, https://deepmind.google/technologies/synthid/
+- JSON-LD: W3C, "JSON-LD 1.1", 2020, https://www.w3.org/TR/json-ld11/

@@ -33,3 +33,11 @@ Layer A scripts only remove **Unicode / homoglyph** carriers. Layer B (rewrite) 
 - Detected mark ⇒ content **may have been processed** by Claude — not proof of sole authorship.
 - No mark ≠ human-only origin.
 - Proofreading / translate / summarize can stamp human material.
+
+## Sources
+
+- Anthropic marking policy: Anthropic, "How Claude marks AI-generated content", https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content
+- EU AI Act Art. 50: European Union, Regulation (EU) 2024/1689, 2024, https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+- Green-list watermark (Kirchenbauer / KGW): John Kirchenbauer et al., "A Watermark for Large Language Models", 2023, https://arxiv.org/abs/2301.10226
+- SynthID: Google DeepMind, SynthID, https://deepmind.google/technologies/synthid/
+- C2PA / Content Credentials: Coalition for Content Provenance and Authenticity, C2PA Technical Specification, https://c2pa.org/specifications/

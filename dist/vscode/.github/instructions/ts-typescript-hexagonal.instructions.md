@@ -35,3 +35,14 @@ forbidden: [
     to: { path: '^src/adapters' } },
 ]
 ```
+
+## Sources
+
+- Hexagonal architecture: Alistair Cockburn, "Hexagonal Architecture", 2005, https://alistair.cockburn.us/hexagonal-architecture/
+- Value object: Eric Evans, *Domain-Driven Design*, 2003; Martin Fowler, "Value Object", https://martinfowler.com/eaaCatalog/valueObject.html
+- Repository: Martin Fowler, *Patterns of Enterprise Application Architecture*, 2002, https://martinfowler.com/eaaCatalog/repository.html
+- Composition root: Mark Seemann, "Composition Root", 2011, https://blog.ploeh.dk/2011/07/28/CompositionRoot/
+- Dependency rule: Robert C. Martin, "The Clean Architecture", 2012, https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+- Problem Details: IETF, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457
+- Architecture fitness functions: Neal Ford, Rebecca Parsons & Patrick Kua, *Building Evolutionary Architectures*, 2017
+- dependency-cruiser: Sander Verweij and contributors, dependency-cruiser documentation, https://github.com/sverweij/dependency-cruiser
