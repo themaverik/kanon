@@ -334,6 +334,15 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <li>No extra configuration: the NestJS rule file self-scopes (it applies only when <code>@nestjs/*</code> is in package.json), so plain TS repos get strictness, knip, Stryker, fast-check, and commit discipline with nothing to turn off.</li>
       </ul>
     </div>
+    <div class="station"><span class="stationlabel">Rust</span>
+      <h4>Rust crates and axum services</h4>
+      <ul>
+    <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-rust@kanon": true</code></li>
+    <li><strong>Step 2:</strong> Stack line e.g. <em>"axum API, Rust workspace"</em>. Architecture line: <em>hexagonal</em> fits Rust well. The domain crate defines the port traits and depends on no framework or I/O crate, adapters implement them, and the binary crate wires them together.</li>
+    <li><strong>One-time in the repo:</strong> add a <span class="path">deny.toml</span> if absent, so the rust-reviewer runs <code>cargo deny check</code> for advisories, licenses and duplicate versions. It also runs clippy with <code>-D warnings</code> and rustfmt.</li>
+    <li>The axum rule applies only when the crate depends on axum, so libraries and CLIs get the Rust rules alone. Tests use cargo-nextest, proptest and insta, and cargo-mutants supplies the mutation evidence.</li>
+      </ul>
+    </div>
   </div>
 
   <p class="small">If you forked with your own plugin prefix, substitute it for <code>kanon</code> above. For docs-only or mixed repos, enable core alone and everything stack-specific stays out of context.</p>
