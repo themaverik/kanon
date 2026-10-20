@@ -126,7 +126,7 @@ footer p{max-width:none}
 
 <header class="hero">
   <h1>Kanōn</h1>
-  <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~2.3–4K tokens fixed per session, not counting MCP tool schemas.</p>
+  <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~1.6–2.7K tokens fixed per session, not counting MCP tool schemas.</p>
   <p class="small"><strong>Discipline</strong>, as Kanōn uses the word: a named set of rules, roles and checks that the agent follows the same way on every task. Hooks and verifiers enforce it, so nothing depends on the model remembering.</p>
   <ul class="chips" aria-label="Supported editors">
     <li>Claude Code</li><li>Cursor</li><li>VS Code</li><li>Codex</li><li>Antigravity</li>
@@ -369,11 +369,11 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <table>
     <thead><tr><th scope="col">Combination</th><th scope="col">Fixed floor</th><th scope="col">+ Serena (est.)</th><th scope="col">Session start</th><th scope="col">Rules ceiling*</th><th scope="col">Skills ceiling*</th></tr></thead>
     <tbody>
-    <tr><th scope="row">core only (docs / misc repos)</th><td class="num">~2.3K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">4.2K</td><td class="num">6.4K</td></tr>
-    <tr><th scope="row">backend TS (core+ts)</th><td class="num">~2.4K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">6.3K</td><td class="num">6.6K</td></tr>
-    <tr><th scope="row">frontend (core+ts+web)</th><td class="num">~2.4K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">10.0K</td><td class="num">6.8K</td></tr>
-    <tr><th scope="row">backend Java/Kotlin (core+java)</th><td class="num">~2.4K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">9.0K</td><td class="num">7.3K</td></tr>
-    <tr><th scope="row">monorepo (all four)</th><td class="num">~2.6K</td><td class="num">8–15K</td><td class="num good">~11–18K</td><td class="num">14.8K</td><td class="num">7.6K</td></tr>
+    <tr><th scope="row">core only (docs / misc repos)</th><td class="num">~1.6K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">4.2K</td><td class="num">6.4K</td></tr>
+    <tr><th scope="row">backend TS (core+ts)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">6.3K</td><td class="num">6.6K</td></tr>
+    <tr><th scope="row">frontend (core+ts+web)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">10.0K</td><td class="num">6.8K</td></tr>
+    <tr><th scope="row">backend Java/Kotlin (core+java)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">9.0K</td><td class="num">7.3K</td></tr>
+    <tr><th scope="row">monorepo (all four)</th><td class="num">~1.9K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">14.8K</td><td class="num">7.6K</td></tr>
     <tr><th scope="row">+ java-airails (opt-in)</th><td class="num">+0.8K</td><td class="num">–</td><td class="num">+0.8K</td><td class="num">–</td><td class="num">+13.4K</td></tr>
     </tbody>
   </table>
@@ -480,8 +480,8 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <table>
     <thead><tr><th scope="col">Setup</th><th scope="col">Session-start overhead</th><th scope="col">Why</th></tr></thead>
     <tbody>
-    <tr><th scope="row">kanon (core + one stack)</th><td class="num good">~10–19K</td><td>2.3–3.8K registries + CLAUDE.md. Serena is the single MCP, all analyzers run as CLI in hooks/CI, and rules load on demand</td></tr>
-    <tr><th scope="row">Same standard, no MCP at all</th><td class="num good">~2.3–4K</td><td>Drop Serena, rely on graphify + LSP plugins. Viable for small repos, but it loses symbol-level navigation</td></tr>
+    <tr><th scope="row">kanon (core + one stack)</th><td class="num good">~10–18K</td><td>1.6–2.7K registries + CLAUDE.md. Serena is the single MCP, all analyzers run as CLI in hooks/CI, and rules load on demand</td></tr>
+    <tr><th scope="row">Same standard, no MCP at all</th><td class="num good">~1.6–2.7K</td><td>Drop Serena, rely on graphify + LSP plugins. Viable for small repos, but it loses symbol-level navigation</td></tr>
     <tr><th scope="row">Typical multi-MCP setup (GitHub + DB + browser + …)</th><td class="num bad">tens of K, often 60K+</td><td>Each server adds its full tool schema every session. A large server such as GitHub's can be tens of K alone</td></tr>
     <tr><th scope="row">Full agent library install (hundreds of agents)</th><td class="num bad">tens of K</td><td>Every agent/skill description registers per session, and most never fire</td></tr>
     <tr><th scope="row">Very large skill libraries (a thousand or more)</th><td class="num bad">slow first init</td><td>Startup indexes every SKILL.md. Community reports describe long first runs, which this bundle's per-stack split avoids</td></tr>

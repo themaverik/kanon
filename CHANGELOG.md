@@ -3,6 +3,7 @@
 ## Unreleased
 
 - **Breaking:** the 8 airails skills moved from kanon-java to the new opt-in plugin kanon-java-airails. Install it to keep them. sbce, ears-tests and continuous-testing now run only as slash commands. This cuts about 1.4K tokens from every Java session.
+- `templates/CLAUDE.md` shrank from 7.9 KB to 4.2 KB. The read protocol and token budget now live only in karpathy-guidelines, so the fixed floor drops by about 0.9K tokens.
 - **Breaking:** the env-mutation-guard override is now `ALLOW_ENV_MUTATION=1`. The old variable no longer works.
 - Rules now match Kanōn's own stance: ticket-prefixed commits (`PROJ-123: ...`), mutation testing instead of an 80% coverage target, and no PRD or roadmap files.
 - Rules point only to agents and skills that Kanōn ships.

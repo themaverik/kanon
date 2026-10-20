@@ -12,7 +12,7 @@ The full guide is the landing page, [`index.html`](index.html).
 - **Scaled to the task.** Trivial changes skip the process, while milestones get the full plan, build, verify and review loop.
 - **Enforced, not suggested.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses.
 - **Proven by verifiers.** Reviewers are read-only and lean on ArchUnit, dependency-cruiser, PIT and Stryker rather than opinion.
-- **Lean.** About 2.3–4K tokens are always loaded per session, not counting MCP tool schemas.
+- **Lean.** About 1.6–2.7K tokens are always loaded per session, not counting MCP tool schemas.
 - **Session mods.** Optional bands above the prompt for cache and cost, parallel-session collisions, and prompt rewriting.
 
 ## Plugins
