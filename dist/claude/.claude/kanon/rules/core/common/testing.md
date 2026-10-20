@@ -1,61 +1,19 @@
 # Testing Requirements
 
+> General TDD practice (red-green-refactor, test structure, naming) is not restated here. Use
+> superpowers `test-driven-development` or Matt Pocock's `tdd` skill. This file holds only what
+> Kanōn adds.
+
 ## Evidence, Not Coverage
 
 Coverage percent is not evidence. A test suite proves itself by killing mutants (PIT, Stryker)
 and holding invariants under property tests (jqwik, fast-check). A survived mutant is a
 documented gap, not a number to raise.
 
-Test types:
-1. **Unit Tests** - Individual functions, utilities, components
-2. **Integration Tests** - API endpoints, database operations
-3. **E2E Tests** - Critical user flows (framework chosen per language)
-
-## Test-Driven Development
-
-MANDATORY workflow:
-1. Write test first (RED)
-2. Run test - it should FAIL
-3. Write minimal implementation (GREEN)
-4. Run test - it should PASS
-5. Refactor (IMPROVE)
-6. Run mutation testing on the changed code; kill or document survivors
-
-## Troubleshooting Test Failures
-
-1. Check test isolation
-2. Verify mocks are correct
-3. Fix implementation, not tests (unless tests are wrong)
+- Run mutation testing on the changed code before review. Kill or document every survivor.
+- Fix the implementation, not the test, unless the test is wrong.
 
 ## Agent Support
 
 - **failure-mode-engineer**: enumerates failure scenarios, writes property tests and runs
   mutation testing. Use on Standard/Milestone changes.
-
-## Test Structure (AAA Pattern)
-
-Prefer Arrange-Act-Assert structure for tests:
-
-```typescript
-test('calculates similarity correctly', () => {
-  // Arrange
-  const vector1 = [1, 0, 0]
-  const vector2 = [0, 1, 0]
-
-  // Act
-  const similarity = calculateCosineSimilarity(vector1, vector2)
-
-  // Assert
-  expect(similarity).toBe(0)
-})
-```
-
-### Test Naming
-
-Use descriptive names that explain the behavior under test:
-
-```typescript
-test('returns empty array when no markets match query', () => {})
-test('throws error when API key is missing', () => {})
-test('falls back to substring search when Redis is unavailable', () => {})
-```

@@ -6,40 +6,18 @@ alwaysApply: false
 
 # Development Workflow
 
-> This file extends [common/git-workflow.md](./git-workflow.md) with the full feature development process that happens before git operations.
+> General planning and TDD practice is not restated here. Use superpowers (`brainstorming`,
+> `writing-plans`, `test-driven-development`) or Matt Pocock's skills (`to-spec`, `tdd`). This file holds only the
+> steps Kanōn adds before [git-workflow.md](./git-workflow.md).
 
-The Feature Implementation Workflow describes the development pipeline: ticket, research, plan, TDD, verify, review, then commit.
+Pick the scope tier first (see `CLAUDE.md`). Trivial changes skip to the build gate.
 
-## Feature Implementation Workflow
-
-Pick the scope tier first (see `CLAUDE.md`). Trivial changes skip to step 3 and the build gate.
-
-0. **Ticket**
-   - No Standard/Milestone work starts without a ticket key. The ticket is the single source
-     of work-item truth: no PRD, roadmap or task-list files in the repo.
-
-1. **Research & Reuse** _(before any new implementation)_
-   - Search GitHub (`gh search repos`, `gh search code`) for existing implementations and patterns.
-   - Confirm API behavior and version-specific details in the primary vendor docs.
-   - Search package registries before writing utility code. Prefer battle-tested libraries.
-
-2. **Plan in the ticket**
-   - State assumptions, success criteria and the verifier that proves each one.
-   - Contract or schema changes go to `backend-architect`; decisions become ticket-linked ADRs.
-
-3. **TDD Approach**
-   - Write tests first (RED), implement to pass (GREEN), refactor (IMPROVE).
-   - Run mutation testing on the changed code. Kill or document survivors.
-
-4. **Code Review**
-   - `architect-review` plus the stack reviewer, all read-only.
-   - Address CRITICAL and HIGH issues before merging.
-
-5. **Commit**
-   - `PROJ-123:` subjects per the `commit-craft` skill.
-   - See [git-workflow.md](./git-workflow.md) for the PR process.
-
-6. **Pre-Review Checks**
-   - Verify all automated checks (CI/CD) are passing
-   - Resolve any merge conflicts
-   - Ensure branch is up to date with target branch
+1. **Ticket.** No Standard/Milestone work starts without a ticket key. The ticket is the single
+   source of work-item truth: no PRD, roadmap or task-list files in the repo.
+2. **Plan in the ticket.** State assumptions, success criteria and the verifier that proves each
+   one. Contract or schema changes go to `backend-architect`. Decisions become ticket-linked ADRs.
+3. **Mutation evidence.** Run mutation testing on the changed code. Kill or document survivors
+   (see [testing.md](./testing.md)).
+4. **Read-only review.** `architect-review` plus the stack reviewer. Reviewers never edit.
+   Address CRITICAL and HIGH issues before merging.
+5. **Commit.** `PROJ-123:` subjects per the `commit-craft` skill.
