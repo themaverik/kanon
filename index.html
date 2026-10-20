@@ -5,125 +5,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kanōn · Engineering standard for AI coding agents</title>
 <meta name="description" content="Kanōn is a ticket-driven, verifier-backed engineering standard for AI coding agents, shipped as a Claude Code plugin marketplace with generated Cursor, VS Code, Codex and Antigravity dialects.">
-<meta name="theme-color" content="#f8fafc">
+<meta name="theme-color" content="#020617">
 <meta property="og:title" content="Kanōn · Engineering standard for AI coding agents">
 <meta property="og:description" content="One canonical source, generated dialects for every editor. Ticket-driven, verifier-backed, built lean.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://github.com/themaverik/kanon">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M11 8v16M11 16l9-8M11 16l9 8' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/open-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-@font-face{font-family:"Open Sans";font-style:normal;font-weight:300 800;font-display:swap;src:url(assets/fonts/open-sans-latin-ext-wght-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Open Sans";font-style:normal;font-weight:300 800;font-display:swap;src:url(assets/fonts/open-sans-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Open Sans";font-style:italic;font-weight:300 800;font-display:swap;src:url(assets/fonts/open-sans-latin-wght-italic.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(assets/fonts/ibm-plex-sans-latin-ext-wght-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(assets/fonts/ibm-plex-sans-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:italic;font-weight:100 700;font-display:swap;src:url(assets/fonts/ibm-plex-sans-latin-wght-italic.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(assets/fonts/jetbrains-mono-latin-wght-normal.woff2) format("woff2")}
 
 :root{
-  /* Tailwind slate scale; secondary text stays at slate-600 so it clears WCAG AA on every surface. */
-  --page:#f8fafc; --bg:#ffffff; --surface:#f8fafc; --surface-2:#f1f5f9; --border:#e2e8f0;
-  --text:#1e293b; --heading:#0f172a; --text-2:#475569; --label:#64748b;
-  --accent:#2563eb; --accent-hover:#1d4ed8; --on-accent:#ffffff;
-  --link:#1d4ed8; --accent-tint:#dbeafe; --focus:#2563eb;
-  --good:#047857; --good-tint:#d1fae5; --bad:#b91c1c;
-  --warn-tint:#fef3c7; --warn-line:#f59e0b; --warn-text:#92400e;
-  --code-bg:#1e293b; --code-text:#e2e8f0; --code-border:#334155;
-  --font:"Open Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-  --radius:8px; --radius-lg:16px; --nav-h:64px;
+  color-scheme:dark;
+  /* Slate-950 base; secondary text stays at slate-400 so it clears WCAG AA on every surface. */
+  --page:#020617; --bg:#0b1220; --surface:#0f172a; --surface-2:#1e293b; --border:#1e293b; --border-2:#334155;
+  --text:#cbd5e1; --heading:#f8fafc; --text-2:#94a3b8; --label:#94a3b8;
+  --accent:#3b82f6; --accent-hover:#60a5fa; --on-accent:#ffffff;
+  --link:#60a5fa; --accent-tint:rgba(59,130,246,.14); --focus:#60a5fa;
+  --good:#34d399; --good-tint:rgba(52,211,153,.12); --bad:#f87171;
+  --warn-tint:rgba(251,191,36,.12); --warn-line:#f59e0b; --warn-text:#fbbf24;
+  --code-bg:#050b18; --code-text:#e2e8f0; --code-border:#1e293b;
+  --syn-cmd:#60a5fa; --syn-flag:#c4b5fd; --syn-str:#fcd34d; --syn-key:#7dd3fc; --syn-com:#64748b; --syn-num:#f9a8d4;
+  --font:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --radius:8px; --radius-lg:14px; --nav-h:60px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{background:var(--page);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%}
-.wrap{max-width:1280px;margin:0 auto;padding:0 24px 80px}
-code,pre,.path{font-family:var(--mono);font-size:.875em}
-code,.path{background:var(--surface-2);padding:.1em .4em;border-radius:4px;overflow-wrap:anywhere}
-pre{background:var(--code-bg);color:var(--code-text);border:1px solid var(--code-border);padding:14px 16px;border-radius:var(--radius);overflow-x:auto;line-height:1.55;margin:14px 0}
-pre code{background:none;padding:0;font-size:.85rem}
+body{background:var(--page);color:var(--text);font-family:var(--font);font-size:15.5px;line-height:1.65;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:560px;pointer-events:none;z-index:-1;background:radial-gradient(60% 100% at 50% 0,rgba(59,130,246,.16),transparent 70%)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 80px}
+code,pre,.path{font-family:var(--mono);font-size:.86em}
+code,.path{background:var(--surface-2);color:#e2e8f0;padding:.12em .42em;border-radius:5px;overflow-wrap:anywhere}
+pre{position:relative;background:var(--code-bg);color:var(--code-text);border:1px solid var(--code-border);padding:42px 18px 16px;border-radius:var(--radius-lg);overflow-x:auto;line-height:1.6;margin:14px 0;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+/* Window chrome: three dots drawn as gradients so no extra markup is needed. */
+pre::before{content:"";position:absolute;top:14px;left:16px;width:52px;height:10px;background:radial-gradient(circle at 5px 5px,#f87171 4.5px,transparent 5px),radial-gradient(circle at 23px 5px,#fbbf24 4.5px,transparent 5px),radial-gradient(circle at 41px 5px,#34d399 4.5px,transparent 5px);opacity:.8}
+pre[data-title]::after{content:attr(data-title);position:absolute;top:9px;left:84px;font:500 12px var(--mono);color:var(--text-2)}
+pre code{background:none;padding:0;font-size:.84rem;color:inherit}
 pre.wrap-pre{white-space:pre-wrap}
-a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
-a:hover{color:var(--accent-hover);text-decoration-thickness:2px}
+.t-cmd{color:var(--syn-cmd);font-weight:600}.t-flag{color:var(--syn-flag)}.t-str{color:var(--syn-str)}.t-key{color:var(--syn-key)}.t-com{color:var(--syn-com);font-style:italic}.t-num{color:var(--syn-num)}
+a{color:var(--link);text-decoration:underline;text-decoration-color:rgba(96,165,250,.4);text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{color:#93c5fd;text-decoration-color:currentColor}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
 .skip{position:absolute;left:12px;top:-60px;background:var(--accent);color:var(--on-accent);padding:8px 16px;border-radius:999px;z-index:20;text-decoration:none}
 .skip:focus{top:12px;color:var(--on-accent)}
 
-header.hero{padding:72px 0 40px}
-h1{font-size:clamp(36px,5.5vw,52px);font-weight:700;color:var(--heading);letter-spacing:-.02em;line-height:1.1;margin:0 0 16px}
-.lede{font-size:18px;line-height:1.55;color:var(--text-2);max-width:90ch}
-.lede b{color:var(--text);font-weight:600}
-.chips{margin-top:28px;display:flex;gap:8px;flex-wrap:wrap;list-style:none;margin-left:0}
-.chips li{margin:0;padding:6px 16px;border:1px solid var(--border);border-radius:999px;background:var(--bg);font-size:14px;font-weight:600}
-.cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.cta pre{margin:0;padding:10px 16px;border-radius:999px}
-.btn{display:inline-block;padding:10px 22px;border-radius:999px;font-weight:600;text-decoration:none;background:var(--accent);color:var(--on-accent)}
-.btn:hover{background:var(--accent-hover);color:var(--on-accent)}
-.btn.ghost{background:none;color:var(--link);border:1px solid var(--border)}
-.btn.ghost:hover{background:var(--accent-tint);color:var(--accent-hover)}
+header.hero{padding:88px 0 48px;text-align:left}
+.badge{display:inline-flex;align-items:center;gap:8px;font:500 13px var(--mono);color:#bfdbfe;background:var(--accent-tint);border:1px solid rgba(59,130,246,.35);border-radius:999px;padding:4px 14px;margin-bottom:22px;text-decoration:none}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent-hover);box-shadow:0 0 8px var(--accent)}
+h1{font-size:clamp(40px,6vw,64px);font-weight:700;color:var(--heading);letter-spacing:-.03em;line-height:1.05;margin:0 0 18px}
+h1 .grad{background:linear-gradient(90deg,#93c5fd,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:19px;line-height:1.55;color:var(--text-2);max-width:72ch}
+.lede b{color:var(--heading);font-weight:600}
+.cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.cta pre{margin:0;padding:10px 18px;border-radius:999px;max-width:100%;min-width:0}
+.cta pre::before,.cta pre::after{display:none}
+.cta pre code::before{content:"$ ";color:var(--syn-com)}
+.btn{display:inline-block;padding:10px 22px;border-radius:999px;font-weight:600;text-decoration:none;background:var(--accent);color:var(--on-accent);transition:background .15s,box-shadow .15s}
+.btn:hover{background:#2563eb;color:var(--on-accent);box-shadow:0 0 0 4px var(--accent-tint)}
+.btn.ghost{background:none;color:var(--heading);border:1px solid var(--border-2)}
+.btn.ghost:hover{background:var(--surface-2);color:var(--heading)}
+.stats{display:flex;gap:40px;flex-wrap:wrap;list-style:none;margin:40px 0 0}
+.stats li{margin:0}.stats b{display:block;font:600 26px var(--mono);color:var(--heading);letter-spacing:-.02em}.stats span{font-size:13px;color:var(--text-2)}
+.integrations{margin-top:44px}
+.integrations p{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--label);margin:0 0 12px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;list-style:none;margin:0}
+.chips li{margin:0;display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surface);font-size:14px;font-weight:500;color:var(--heading)}
+.chips li[data-mono]::before{content:attr(data-mono);display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--surface-2);font:700 11px var(--mono);color:var(--accent-hover)}
 .small{font-size:14px;color:var(--text-2)}
 .fine{font-size:14px;color:var(--text-2)}
 
 /* The shadow and clip-path stretch the bar edge to edge while it stays inside .wrap. */
-nav.toc{position:sticky;top:0;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 100vmax rgba(255,255,255,.9),0 1px 0 100vmax var(--border);clip-path:inset(0 -100vmax -1px);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap;padding:8px 0;font-size:14px}
-nav.toc a{text-decoration:none;font-weight:600;color:var(--text-2);padding:4px 12px;border-radius:999px}
-nav.toc a:hover{background:var(--accent-tint);color:var(--accent-hover)}
+nav.toc{position:sticky;top:0;background:rgba(2,6,23,.96);box-shadow:0 0 0 100vmax rgba(2,6,23,.96),0 1px 0 100vmax var(--border);clip-path:inset(0 -100vmax -1px);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:2px 4px;flex-wrap:wrap;padding:8px 0;font-size:14px}
+nav.toc a{text-decoration:none;font-weight:500;color:var(--text-2);padding:5px 12px;border-radius:8px}
+nav.toc a:hover{background:var(--surface-2);color:var(--heading)}
+nav.toc a.docs{margin-left:auto;color:var(--heading);border:1px solid var(--border-2)}
 
-section{padding:56px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
+main{counter-reset:sec}
+section{padding:72px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
 section+section{border-top:1px solid var(--border);margin-top:40px}
-h2{font-size:30px;font-weight:700;color:var(--heading);letter-spacing:-.01em;line-height:1.25;margin-bottom:8px}
-h3{font-size:17px;font-weight:700;color:var(--heading);margin:28px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
+section[data-eyebrow]::before{counter-increment:sec;content:counter(sec,decimal-leading-zero) "  /  " attr(data-eyebrow);display:block;white-space:pre;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-hover);margin-bottom:10px}
+h2{font-size:34px;font-weight:700;color:var(--heading);letter-spacing:-.025em;line-height:1.2;margin-bottom:10px}
+h2+p{font-size:17px;color:var(--text-2);max-width:90ch}
+h3{font-size:18px;font-weight:600;color:var(--heading);margin:32px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
 p{margin:10px 0;max-width:120ch}
 ul,ol{margin:8px 0 8px 22px;max-width:120ch}
 li{margin:5px 0}
-.note{border:1px solid var(--border);border-left:4px solid var(--accent);background:var(--bg);border-radius:var(--radius);padding:12px 16px;margin:18px 0;font-size:14px}
-.note strong:first-child{color:var(--text)}
+li::marker{color:var(--accent-hover)}
+strong{color:var(--heading);font-weight:600}
+em{color:#e2e8f0}
+.note{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--surface);border-radius:var(--radius);padding:12px 16px;margin:18px 0;font-size:14px}
 .note ol{margin:6px 0 2px 20px}
 
-.stations{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin:18px 0}
-.station{border:1px solid var(--border);background:var(--bg);border-radius:var(--radius-lg);padding:24px 28px;transition:border-color .2s,box-shadow .2s}
-.station:hover{border-color:var(--accent);box-shadow:0 10px 15px -3px rgba(37,99,235,.1)}
-.stationlabel{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-hover);background:var(--accent-tint);border-radius:999px;padding:2px 12px}
-.station h3,.station h4{margin-top:8px}
-#stack-recipes{font-size:22px;margin-top:40px}
-h4{font-size:16px;font-weight:700;color:var(--heading);margin:8px 0 6px}
-details{margin:10px 0}
-summary{font-weight:600;cursor:pointer;margin:8px 0 4px}
+.stations{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin:20px 0}
+.station{position:relative;border:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--bg));border-radius:var(--radius-lg);padding:24px 26px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.station:hover{border-color:rgba(59,130,246,.5);box-shadow:0 0 0 1px rgba(59,130,246,.2),0 12px 32px -12px rgba(59,130,246,.35)}
+@media (prefers-reduced-motion:no-preference){.station:hover{transform:translateY(-2px)}}
+.stationlabel{display:inline-block;font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#bfdbfe;background:var(--accent-tint);border:1px solid rgba(59,130,246,.3);border-radius:6px;padding:3px 10px}
+.station h3,.station h4{margin-top:12px}
+#stack-recipes{font-size:22px;margin-top:44px}
+h4{font-size:16px;font-weight:600;color:var(--heading);margin:8px 0 6px}
+details{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;background:var(--surface)}
+summary{font-weight:600;color:var(--heading);cursor:pointer;margin:2px 0}
+summary::marker{color:var(--accent-hover)}
 
-.table-scroll{overflow-x:auto;background:var(--bg);margin:16px 0;border:1px solid var(--border);border-radius:var(--radius-lg)}
+.table-scroll{overflow-x:auto;background:var(--surface);margin:18px 0;border:1px solid var(--border);border-radius:var(--radius-lg)}
 table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
-th{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-align:left;background:var(--surface);color:var(--label);padding:10px 14px;border-bottom:1px solid var(--border)}
-td{border-top:1px solid var(--border);padding:10px 14px;vertical-align:top}
+th{font:600 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-align:left;background:var(--bg);color:var(--label);padding:12px 16px;border-bottom:1px solid var(--border-2)}
+td{border-top:1px solid var(--border);padding:11px 16px;vertical-align:top}
+tbody tr:hover td,tbody tr:hover th{background:rgba(59,130,246,.05)}
 tbody tr:first-child td{border-top:none}
-tbody th{background:none;color:var(--heading);font-size:14px;letter-spacing:0;text-transform:none;border-bottom:none;border-top:1px solid var(--border);vertical-align:top}
+tbody th{background:none;color:var(--heading);font:600 14px var(--font);letter-spacing:0;text-transform:none;border-bottom:none;border-top:1px solid var(--border);vertical-align:top}
 tbody tr:first-child th{border-top:none}
-.num{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.num{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--heading)}
 .good{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}
 
-.diagram{overflow-x:auto;margin:12px 0}
+.diagram{overflow-x:auto;margin:16px 0;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
 .diagram svg{display:block;width:100%;min-width:440px;max-width:520px;height:auto;margin:0 auto}
-.wfth{font:600 15px var(--font);fill:var(--text)}
+.wfth{font:600 15px var(--font);fill:var(--heading)}
 .wfts{font:400 13px var(--font);fill:var(--text-2)}
 .wfa{stroke:var(--text-2);stroke-width:1.5;fill:none}
 .wfm{fill:none;stroke:var(--text-2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .wf-box{stroke-width:1.2}
-.nt rect{fill:var(--surface-2);stroke:var(--border)}
+.nt rect{fill:var(--surface-2);stroke:var(--border-2)}
 .ev rect{fill:var(--accent-tint);stroke:var(--accent)}.ev .wfts{fill:var(--accent-hover)}
 .gt rect{fill:var(--warn-tint);stroke:var(--warn-line)}.gt .wfts{fill:var(--warn-text)}
 .ag rect{fill:var(--good-tint);stroke:var(--good)}.ag .wfts{fill:var(--good)}
 .sh rect{fill:var(--accent);stroke:var(--accent-hover)}.sh .wfth,.sh .wfts{fill:var(--on-accent)}
 .lg-ev{fill:var(--accent-hover)}.lg-gt{fill:var(--warn-text)}.lg-ag{fill:var(--good)}
 
-footer{margin-top:64px;border-top:1px solid var(--border);padding-top:20px;font-size:14px;color:var(--text-2)}
+footer{margin-top:72px;border-top:1px solid var(--border);padding-top:24px;font-size:14px;color:var(--text-2)}
 footer p{max-width:none}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 @media(max-width:760px){
   .two{grid-template-columns:minmax(0,1fr)}
   .wrap{padding:0 16px 64px}
-  header.hero{padding:48px 0 32px}
-  section{padding-top:40px}
-  .station{padding:14px 14px}
+  header.hero{padding:56px 0 32px}
+  .stats{gap:24px}
+  section{padding-top:48px}
+  .station{padding:16px}
   .note{padding:10px 12px}
   /* One scrolling row keeps the sticky bar from eating the viewport on phones. */
   nav.toc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   nav.toc a{white-space:nowrap}
-  h2{font-size:24px}
+  nav.toc a.docs{margin-left:0}
+  h2{font-size:26px}
 }
 </style>
 </head>
@@ -132,16 +161,26 @@ footer p{max-width:none}
 <div class="wrap">
 
 <header class="hero">
-  <h1>Kanōn</h1>
+  <a class="badge" href="CHANGELOG.md">v2.0.0 · 10 plugins, 5 editors</a>
+  <h1><span class="grad">Kanōn</span></h1>
   <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~1.4–2.5K tokens fixed per session, not counting MCP tool schemas.</p>
   <p class="small"><strong>Discipline</strong>, as Kanōn uses the word: a named set of rules, roles and checks that the agent follows the same way on every task. Hooks and verifiers enforce it, so nothing depends on the model remembering.</p>
-  <ul class="chips" aria-label="Supported editors">
-    <li>Claude Code</li><li>Cursor</li><li>VS Code</li><li>Codex</li><li>Antigravity</li>
-  </ul>
   <div class="cta">
     <pre><code>/plugin marketplace add themaverik/kanon</code></pre>
     <a class="btn" href="#install">Install</a>
+    <a class="btn ghost" href="https://github.com/themaverik/kanon#readme">Documentation</a>
     <a class="btn ghost" href="https://github.com/themaverik/kanon">GitHub</a>
+  </div>
+  <ul class="stats">
+    <li><b>1.4–2.5K</b><span>tokens fixed per session</span></li>
+    <li><b>10</b><span>plugins and mods</span></li>
+    <li><b>5</b><span>editor dialects from one source</span></li>
+  </ul>
+  <div class="integrations">
+    <p>Works with</p>
+    <ul class="chips" aria-label="Supported editors">
+      <li data-mono="CC">Claude Code</li><li data-mono="Cu">Cursor</li><li data-mono="VS">VS Code</li><li data-mono="Cx">Codex</li><li data-mono="AG">Antigravity</li>
+    </ul>
   </div>
 </header>
 
@@ -149,10 +188,11 @@ footer p{max-width:none}
   <a href="#layout">What ships</a><a href="#install">Install</a><a href="#recipes">Repo setup</a>
   <a href="#workflow">Workflow</a><a href="#context">Context cost</a><a href="#mods">Mods</a><a href="#tools">Companion tools</a><a href="#memory">Memory</a>
   <a href="#compare">Efficiency</a><a href="#repo">Install &amp; fork</a>
+  <a class="docs" href="https://github.com/themaverik/kanon#readme">Docs</a>
 </nav>
 
 <main id="main">
-<section id="layout">
+<section id="layout" data-eyebrow="Plugins">
   <h2>What ships</h2>
   <p>Five standard plugins, one opt-in airails pack for Java, one opt-in tools pack, one marketplace, plus three optional <a href="#mods">mods</a>. A repo enables <code>kanon-core</code> plus its stack, and a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Plugins table">
@@ -171,7 +211,7 @@ footer p{max-width:none}
   </div>
 </section>
 
-<section id="install">
+<section id="install" data-eyebrow="Install">
   <h2>Install per editor</h2>
   <p>Claude Code consumes the plugin package natively. Every other editor gets a generated dialect: run <code>scripts/sync-editors.py</code> against your repo, or copy the matching pre-generated tree from <code>dist/</code> (full java+ts+web builds).</p>
 
@@ -261,7 +301,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <div class="note"><strong>All editors, always:</strong> run <code>scripts/install-githooks.sh</code> in the repo. The <code>prepare-commit-msg</code> git hook (ticket key from branch, pointwise skeleton) and CI verifiers are the enforcement layer every editor shares. Editor-specific hooks are Claude Code only. See <span class="path">Editor-Parity.md</span> for exactly what does not port.</div>
 </section>
 
-<section id="recipes">
+<section id="recipes" data-eyebrow="Setup">
   <h2>Set up a repo</h2>
   <p>Every repo starts with the same five steps. Then pick the recipe for your stack below.</p>
   <div class="note"><strong>Per-repo setup, always:</strong>
@@ -348,7 +388,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <p class="small">If you forked with your own plugin prefix, substitute it for <code>kanon</code> above. For docs-only or mixed repos, enable core alone and everything stack-specific stays out of context.</p>
 </section>
 
-<section id="workflow">
+<section id="workflow" data-eyebrow="Workflow">
   <h2>Execution workflow</h2>
   <p>Every Standard/Milestone task runs this track. Trivial work forks off after the premise check and skips dispatch entirely. Source lives at <span class="path">docs/workflow.mmd</span>.</p>
   <div class="diagram">
@@ -393,7 +433,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   </ul>
 </section>
 
-<section id="context">
+<section id="context" data-eyebrow="Tokens">
   <h2>Context window cost</h2>
   <p>Measured from the actual files (chars ÷ 4, so ±20%). The <em>floor</em> is what every session pays: CLAUDE.md plus skill and agent registries (names + descriptions only, since bodies load on demand, which is the whole point of progressive disclosure). Serena's MCP tool schemas are the dominant fixed cost, which is why it is the only always-on MCP.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Context cost table">
@@ -414,7 +454,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <div class="note"><strong>Budget gate:</strong> beyond these fixed costs, every subagent dispatch is classed S (&lt;20K) / M (20–60K) / L (&gt;60K) before launch. M and L require explicit approval, opus is per-invocation approval only, and transcripts are never resumed. That contract, not the plugin size, is what keeps a $20/month account inside budget.</div>
 </section>
 
-<section id="mods">
+<section id="mods" data-eyebrow="Mods">
   <h2>Mods: session tools above the prompt</h2>
   <p>Three optional plugins that draw a band above the Claude Code prompt. Each one works in any repo and doesn't need the others. They use Claude Code's hooks modules, so they need a build that supports them.</p>
   <pre><code>/plugin install cache-keeper@kanon
@@ -454,7 +494,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <p class="fine">Settings for each mod are under <code>/plugin</code>: cache-keeper <code>ttlMinutes</code>, <code>warnTokens</code>, <code>inputUsdPerMtok</code>. collision-guard has <code>windowMinutes</code>, and prompt-enhancer has <code>model</code> plus one agent name per role. The defaults are staff-engineer, backend-architect, frontend-developer, security-auditor and code-reviewer.</p>
 </section>
 
-<section id="tools">
+<section id="tools" data-eyebrow="Companions">
   <h2>Companion tools</h2>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Companion tools table">
   <table>
@@ -472,7 +512,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   </div>
 </section>
 
-<section id="memory">
+<section id="memory" data-eyebrow="Memory">
   <h2>Memory management</h2>
   <div class="two">
     <div>
@@ -505,7 +545,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   </ul>
 </section>
 
-<section id="compare">
+<section id="compare" data-eyebrow="Comparison">
   <h2>Efficiency: how this compares</h2>
   <p>The design rests on a few widely discussed observations: command-line tools are usually cheaper in tokens than MCP servers for equivalent tasks, large MCP servers can add tens of thousands of tokens of tool schema before any work starts, and huge skill or agent libraries tax every session through their registries. The kanon figures below are estimated from this repo's files. The comparison rows are community-reported ballparks without a primary source, so read them as directional only.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Efficiency comparison table">
@@ -524,7 +564,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <p>Where the money actually goes on a $20/month plan is dispatches, not registries. That is why the S/M/L approval gate, diff-first reading, the ~15-file agent stop rule, handoff reports instead of transcript resumption, and sonnet-by-default (opus by approval) are part of the standard itself rather than advice.</p>
 </section>
 
-<section id="repo">
+<section id="repo" data-eyebrow="Fork">
   <h2>Install and fork</h2>
   <h3>Install</h3>
   <p>The repository is the marketplace (<span class="path">.claude-plugin/marketplace.json</span> at the root). In Claude Code:</p>
@@ -541,9 +581,31 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
 </main>
 
 <footer>
-  <p>Released under the <a href="https://github.com/themaverik/kanon/blob/main/LICENSE">MIT License</a>. Vendored skills © Adam Bien (airails, MIT). Open Sans is used under the SIL Open Font License (<a href="assets/fonts/OFL.txt">assets/fonts/OFL.txt</a>).</p>
+  <p>Released under the <a href="https://github.com/themaverik/kanon/blob/main/LICENSE">MIT License</a>. Vendored skills © Adam Bien (airails, MIT). IBM Plex Sans and JetBrains Mono are used under the SIL Open Font License (<a href="assets/fonts/OFL.txt">assets/fonts/OFL.txt</a>).</p>
   <p>Token figures measured Aug 2026. Third-party comparisons are directional. Verify editor paths against current releases, since this ecosystem moves monthly.</p>
 </footer>
 </div>
+<script>
+// Light tokenizer for the shell and JSON snippets; it works on textContent, so markup can never be injected.
+(function(){
+  var esc=function(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")};
+  var rx=/("(?:[^"\\]|\\.)*")(\s*:)?|(#[^\n]*)|(\s--?[a-z][\w-]*)|(^|\n)(\/[\w-]+|python3|bash|git|claude|npm|cargo)(?=\s)|(\b\d+(?:\.\d+)?\b)/g;
+  document.querySelectorAll("pre > code").forEach(function(c){
+    var src=c.textContent, out="", last=0, m;
+    while((m=rx.exec(src))){
+      out+=esc(src.slice(last,m.index));
+      if(m[1]) out+='<span class="'+(m[2]?"t-key":"t-str")+'">'+esc(m[1])+"</span>"+(m[2]||"");
+      else if(m[3]) out+='<span class="t-com">'+esc(m[3])+"</span>";
+      else if(m[4]) out+='<span class="t-flag">'+esc(m[4])+"</span>";
+      else if(m[6]) out+=m[5]+'<span class="t-cmd">'+esc(m[6])+"</span>";
+      else out+='<span class="t-num">'+esc(m[0])+"</span>";
+      last=rx.lastIndex;
+    }
+    c.innerHTML=out+esc(src.slice(last));
+    var pre=c.parentNode, s=src.trim();
+    pre.setAttribute("data-title", s[0]==="{"?"settings.json":s[0]==="/"?"claude code":/^(python3|bash|git|cargo|npm)\b/.test(s)?"terminal":"text");
+  });
+})();
+</script>
 </body>
 </html>

@@ -88,4 +88,4 @@ To use your own plugin prefix and org name, run `python3 scripts/rename.py --pre
 
 ## License
 
-[MIT](LICENSE). Open Sans is under the [SIL Open Font License](assets/fonts/OFL.txt).
+[MIT](LICENSE). IBM Plex Sans and JetBrains Mono are under the [SIL Open Font License](assets/fonts/OFL.txt).
