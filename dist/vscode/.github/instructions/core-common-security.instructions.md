@@ -26,7 +26,7 @@ Before ANY commit:
 ## Node/npm Dependency Security (ALL Node/npm projects)
 
 ALWAYS run these checks BEFORE `npm install` / `npm ci` / `npm update`
-(or yarn/pnpm equivalents) — never install blind:
+(or yarn/pnpm equivalents), never install blind:
 
 - [ ] Check the package manager version itself (`npm --version`, `node --version`)
       against known compromised releases and CVEs.
@@ -35,7 +35,7 @@ ALWAYS run these checks BEFORE `npm install` / `npm ci` / `npm update`
       "Shai-Hulud" self-replicating worm). Verify no installed version matches
       a known-malicious release.
 - [ ] Run `npm audit` and review high/critical advisories.
-- [ ] Run `npm audit signatures` to verify registry signatures/provenance —
+- [ ] Run `npm audit signatures` to verify registry signatures/provenance:
       flags tampered or unsigned packages.
 - [ ] Distinguish supply-chain malware (block, investigate) from ordinary
       CVEs in legitimate packages (assess real exploitability for the project).

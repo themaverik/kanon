@@ -29,7 +29,7 @@ Do not imply that a successful C2PA/metadata strip means “no AI provenance lef
 
 ## Responsible use and liability
 
-This project aims to help users understand and remove AI provenance marks from content they own or are authorized to process. Users are free to leverage this toolkit for privacy, engineering hygiene, and research — including evaluating and improving watermark robustness — however, they must adhere to local regulations and use it responsibly. The developers disclaim any liability for potential misuse by users.
+This project aims to help users understand and remove AI provenance marks from content they own or are authorized to process. Users are free to leverage this toolkit for privacy, engineering hygiene, and research (including evaluating and improving watermark robustness). However, they must adhere to local regulations and use it responsibly. The developers disclaim any liability for potential misuse by users.
 
 ## Sources
 

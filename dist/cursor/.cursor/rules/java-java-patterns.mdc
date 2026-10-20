@@ -48,7 +48,7 @@ public class OrderService {
 
 ## Constructor Injection
 
-Always use constructor injection — never field injection:
+Always use constructor injection. Never use field injection:
 
 ```java
 // GOOD — constructor injection (testable, immutable)
@@ -130,8 +130,8 @@ String message = switch (result) {
 ## API Error Format (RFC 9457 Problem Details)
 
 Errors are `application/problem+json` (`type`, `title`, `status`, `detail`, `instance`),
-produced at the exception-handler boundary — JAX-RS `ExceptionMapper` or Spring 6+
-`ProblemDetail` — never ad hoc per endpoint. No custom error envelope. Success
+produced at the exception-handler boundary (JAX-RS `ExceptionMapper` or Spring 6+
+`ProblemDetail`), never ad hoc per endpoint. No custom error envelope. Success
 responses are plain DTOs; paginated responses share one metadata shape (total, page, size). *(Kanōn)*
 
 ```java

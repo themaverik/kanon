@@ -2,7 +2,7 @@
 
 Guidance for any AI coding agent (Codex, Cursor, Gemini CLI, Aider, Copilot, etc.). Claude Code additionally loads CLAUDE.md and the kanon bundle; this file is the provider-neutral contract.
 
-**Architecture**: <pick ONE and delete the rest: Spec-Driven BCE | hexagonal (ports/adapters) | layered MVC> — agents follow this declaration; the matching rules activate and the others stay silent.
+**Architecture**: <pick ONE and delete the rest: Spec-Driven BCE | hexagonal (ports/adapters) | layered MVC>. Agents follow this declaration; the matching rules activate and the others stay silent.
 
 **Java framework**: <quarkus | spring - delete if no Java; if omitted, detected from the build file>
 

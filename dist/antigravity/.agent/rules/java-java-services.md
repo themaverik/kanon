@@ -7,17 +7,17 @@ globs: services/**/*.java,shared/**/*.java
 
 ## Style
 
-- Constructor injection only — no field-level `@Autowired`
+- Constructor injection only. No field-level `@Autowired`
 - `@Transactional` on all service methods that modify data
 - Google Java Style Guide naming conventions
-- Prefer immutability — use `final` fields
+- Prefer immutability: use `final` fields
 - Public methods before private
 
 ## Service Boundaries
 
 - Check the shared module for an existing base class or helper before writing a new one
-- Never hardcode service URLs — use `@Value` or service discovery
-- Schema-per-service — never query another service's schema directly
+- Never hardcode service URLs. Use `@Value` or service discovery
+- Schema-per-service. Never query another service's schema directly
 - All schema changes via Flyway: `V<version>__<description>.sql`
 
 ## Error Handling
@@ -28,9 +28,9 @@ globs: services/**/*.java,shared/**/*.java
 
 ## Security
 
-- Never commit secrets — use environment variables
+- Never commit secrets. Use environment variables
 - Validate and sanitize all user input
-- Use parameterized queries — no string concatenation in SQL
+- Use parameterized queries. No string concatenation in SQL
 - Least privilege on all permissions
 
 ## Sources

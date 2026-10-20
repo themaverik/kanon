@@ -125,7 +125,7 @@ Use descriptive names with `@DisplayName`:
 
 - Coverage is not evidence; PIT mutation testing is. Document surviving mutants *(Kanōn)*
 - JaCoCo reports show untested code, not a target to hit
-- Focus on service and domain logic — skip trivial getters/config classes
+- Focus on service and domain logic. Skip trivial getters/config classes
 
 ## References
 

@@ -29,10 +29,10 @@ Encapsulate data access behind a consistent interface:
 ### API Response Format
 
 - Errors follow RFC 9457 Problem Details (`application/problem+json`):
-  `type`, `title`, `status`, `detail`, `instance` — produced at the framework's
+  `type`, `title`, `status`, `detail`, `instance`, produced at the framework's
   exception-handler boundary, never ad hoc per endpoint. Do not invent a custom
   error envelope.
-- Success responses are plain DTOs — no wrapper envelope. *(Kanōn)*
+- Success responses are plain DTOs. No wrapper envelope. *(Kanōn)*
 - Paginated responses carry one consistent metadata shape (total, page, size).
 
 ## Sources

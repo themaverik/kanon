@@ -8,7 +8,7 @@ applyTo: "**/*.ts,**/*.tsx,**/*.js,**/*.jsx"
 
 ## API Response Format
 
-Errors follow RFC 9457 Problem Details (`application/problem+json`) — no custom
+Errors follow RFC 9457 Problem Details (`application/problem+json`). No custom
 success/error envelope. Success responses are plain DTOs; paginated responses share
 one metadata shape. *(Kanōn)* Validate at the boundary with Zod.
 

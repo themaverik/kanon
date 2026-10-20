@@ -18,14 +18,14 @@
 | Markdown AI frontmatter keys / embedded data URIs | Drop keys; clean embedded data URIs | `clean_file.py` | Loses YAML keys; cleans embedded rasters | Yes |
 | Pixel image watermark (SynthID-media / StegaStamp / Tree-Ring / StableSignature) | CtrlRegen regeneration (external backend) | `clean_ctrlregen.py` / `clean_image.py --remove-pixel ctrlregen` | Regenerates pixels; heavy compute; detail drift at higher strength | No without official detector; reverse-SynthID score is a local surrogate; **MarkDiffusion same-scheme harness** (`markdiffusion_harness.py detect`) verifies a Tree-Ring-class scheme config before/after |
 | Pixel image watermark (Tree-Ring-class) | DiffusionPurification regeneration (external MarkDiffusion backend) | `clean_image.py --remove-pixel diffusion` | Blind regeneration; more drift than CtrlRegen; heavy compute | Same-scheme only via the MarkDiffusion harness (not a vendor-detector oracle) |
-| Audio / video watermarks (SynthID-media) | — | Out of scope | — | — |
-| C2PA soft binding (in-content link to manifest) | — | Out of scope (survives our metadata strip) | — | Vendor detector only |
-| Data-driven model backdoors | — | Out of scope | — | — |
+| Audio / video watermarks (SynthID-media) | n/a | Out of scope | n/a | n/a |
+| C2PA soft binding (in-content link to manifest) | n/a | Out of scope (survives our metadata strip) | n/a | Vendor detector only |
+| Data-driven model backdoors | n/a | Out of scope | n/a | n/a |
 
 ## Default pipeline
 
 1. **Inspect** (`inspect_file.py` or specific inspect_*).
-2. **Deterministic clean** — Layer A text and/or container/image metadata; for images, optionally add pixel removal (`--remove-pixel ctrlregen`) after the metadata strip.
+2. **Deterministic clean**: Layer A text and/or container/image metadata; for images, optionally add pixel removal (`--remove-pixel ctrlregen`) after the metadata strip.
 3. **Always offer Layer B** rewrite for prose (paraphrase → optional strong pass: `humanize` / back-translate / structural).
 4. Prefer a **non-origin, open-weight** rewrite model when available (avoid re-stamping).
 5. Layer A again after rewrite.

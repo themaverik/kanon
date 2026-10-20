@@ -25,7 +25,7 @@ Objects.requireNonNull(apiKey, "PAYMENT_API_KEY must be set");
 
 ## SQL Injection Prevention
 
-- Always use parameterized queries — never concatenate user input into SQL
+- Always use parameterized queries. Never concatenate user input into SQL
 - Use `PreparedStatement` or your framework's parameterized query API
 - Validate and sanitize any input used in native queries
 
@@ -65,16 +65,16 @@ public Order createOrder(String customerName, BigDecimal amount) {
 
 ## Authentication and Authorization
 
-- Never implement custom auth crypto — use established libraries
+- Never implement custom auth crypto. Use established libraries
 - Store passwords with bcrypt or Argon2, never MD5/SHA1
 - Enforce authorization checks at service boundaries
-- Clear sensitive data from logs — never log passwords, tokens, or PII
+- Clear sensitive data from logs. Never log passwords, tokens, or PII
 
 ## Dependency Security
 
 - Run `mvn dependency:tree` or `./gradlew dependencies` to audit transitive dependencies
 - Use OWASP Dependency-Check or Snyk to scan for known CVEs
-- Keep dependencies updated — set up Dependabot or Renovate
+- Keep dependencies updated: set up Dependabot or Renovate
 
 ## Error Messages
 

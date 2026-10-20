@@ -6,10 +6,10 @@ This skill targets **mark classes**, not reverse-engineered private detectors. D
 
 Product and regulatory guidance often frames AI disclosure as:
 
-1. **C2PA Content Credentials** — signed, hard-bound metadata (easy to strip; what this skill removes).
-2. **Imperceptible watermark** (SynthID-class) — survives strip/re-upload; includes **soft binding** that can re-attach a remote C2PA manifest.
+1. **C2PA Content Credentials**: signed, hard-bound metadata (easy to strip; what this skill removes).
+2. **Imperceptible watermark** (SynthID-class): survives strip/re-upload; includes **soft binding** that can re-attach a remote C2PA manifest.
 
-See: [Institute of AI PM — C2PA and SynthID guide](https://www.institutepm.com/knowledge-hub/ai-content-provenance-watermarking) (SB 942 / EU AI Act Art. 50 framing). This project only implements the **hard-bound / Unicode / rewrite** side of that stack.
+See: [Institute of AI PM: C2PA and SynthID guide](https://www.institutepm.com/knowledge-hub/ai-content-provenance-watermarking) (SB 942 / EU AI Act Art. 50 framing). This project only implements the **hard-bound / Unicode / rewrite** side of that stack.
 
 ## Anthropic / Claude
 
@@ -31,18 +31,18 @@ Source: [How Claude marks AI-generated content](https://support.claude.com/en/ar
   - **Edit-based** (Unicode / synonym rules) → our Layer A (+ Layer B for synonyms)
   - **Data-driven / backdoor** (trigger phrases) → **out of scope**
   - **Generative** (sampling) → Layer B best-effort
-- Productionized in Gemini-scale systems; open research code exists, but **production keys are not public** — this skill does **not** ship a SynthID detector.
+- Productionized in Gemini-scale systems; open research code exists, but **production keys are not public**; this skill does **not** ship a SynthID detector.
 - **Retired from the API (Aug 2026):** Google confirmed the Generative Language API no longer watermarks text output and DETECT_TEXT_WATERMARK is rejected on current (3.x) models; "native text watermarking is not planned at the moment" ([Google AI forum](https://discuss.ai.google.dev/t/does-gemini-api-text-output-carry-synthid-watermarking-gemini-2-5-flash-lite-gemini-3-1-flash-lite-eu-ai-act-art-50-2/177241/2)). The gemini-synthid-text detector was **removed** for this reason; a vendor detector can be re-added (e.g. via Vertex AI) if Google exposes detection again.
-- Optional external verification harness: [`THU-BPM/MarkLLM`](https://github.com/THU-BPM/MarkLLM) (Apache-2.0) reimplements SynthID-Text among other schemes with configurable keys; wired as `detect_text_watermark.py` / `rewrite_text.py --markllm-scheme`. Same-config-only — it verifies a mark you generated under a known config, not Google's production keying.
+- Optional external verification harness: [`THU-BPM/MarkLLM`](https://github.com/THU-BPM/MarkLLM) (Apache-2.0) reimplements SynthID-Text among other schemes with configurable keys; wired as `detect_text_watermark.py` / `rewrite_text.py --markllm-scheme`. Same-config-only: it verifies a mark you generated under a known config, not Google's production keying.
 - Current frontier production watermarks are **token-by-token** (streaming constraint); paragraph-level robust methods (SemStamp / PostMark) are not deployed yet, which keeps paraphrase-class attacks effective today.
 - Optional external reference: [`aloshdenny/reverse-SynthID`](https://github.com/aloshdenny/reverse-SynthID) provides a reverse-engineered pixel-domain scorer. It is **not bundled** here, is best-effort, and is under a non-commercial Research License; it is not the official Google detector.
-- Optional pixel-domain removal: [`mertizci/noai-watermark`](https://github.com/mertizci/noai-watermark)'s CtrlRegen profile is wired through `clean_image.py --remove-pixel ctrlregen` / `clean_ctrlregen.py`. It is **not bundled** (no LICENSE file → all-rights-reserved), and no local detector certifies the result; the official Google check is the final authority. For Tree-Ring-class marks, the optional MarkDiffusion harness (`markdiffusion_harness.py`, Apache-2.0) adds a same-scheme detector and a blind-regeneration removal engine (`--remove-pixel diffusion`) — see `references/markdiffusion.md`.
+- Optional pixel-domain removal: [`mertizci/noai-watermark`](https://github.com/mertizci/noai-watermark)'s CtrlRegen profile is wired through `clean_image.py --remove-pixel ctrlregen` / `clean_ctrlregen.py`. It is **not bundled** (no LICENSE file → all-rights-reserved), and no local detector certifies the result; the official Google check is the final authority. For Tree-Ring-class marks, the optional MarkDiffusion harness (`markdiffusion_harness.py`, Apache-2.0) adds a same-scheme detector and a blind-regeneration removal engine (`--remove-pixel diffusion`), see `references/markdiffusion.md`.
 
 **Skill mapping:** same Layer B rewrite attacks (paraphrase / back-translate / structural) used in the literature against sampling watermarks.
 
 ## OpenAI / ChatGPT
 
-- Public provenance often surfaces as **labels**, **C2PA / Content Credentials** on some media exports, and product UI disclosure — not a fully public text-sampling watermark spec comparable to SynthID-Text.
+- Public provenance often surfaces as **labels**, **C2PA / Content Credentials** on some media exports, and product UI disclosure; not a fully public text-sampling watermark spec comparable to SynthID-Text.
 - Treat **file metadata / C2PA** as in-scope when present; treat any **unpublished** text watermark as the same statistical class → Layer B only, best-effort.
 - Do not invent algorithm claims.
 

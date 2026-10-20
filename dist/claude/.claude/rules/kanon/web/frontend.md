@@ -11,16 +11,16 @@ paths:
 
 - `const` by default, `let` when needed, never `var`
 - async/await over promise chains
-- TypeScript strict mode — avoid `any`
-- ESLint + Prettier enforced — configure format-on-save
+- TypeScript strict mode: avoid `any`
+- ESLint + Prettier enforced. Configure format-on-save
 
 ## Data and UI
 
-- One data-fetching layer (e.g. React Query) for all API calls — no raw `fetch` in components *(Kanōn)*
-- One component library per repo — do not mix UI libraries
+- One data-fetching layer (e.g. React Query) for all API calls. No raw `fetch` in components *(Kanōn)*
+- One component library per repo. Do not mix UI libraries
 - Server components by default; client components only when state or browser APIs needed
 - Forms validate against a schema (e.g. `react-hook-form` + `zod`)
-- No mock data in shipped dashboards — connect them to real APIs
+- No mock data in shipped dashboards. Connect them to real APIs
 
 ## Organisation
 

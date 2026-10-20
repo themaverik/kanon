@@ -56,15 +56,15 @@ How should ignored files be managed for this project?
 
 | Scenario | Recommendation |
 |----------|---------------|
-| Open source project | `.gitignore` — transparency expected |
-| Private/proprietary repo | `.git/info/exclude` — hides internal tooling from repo history |
+| Open source project | `.gitignore`: transparency expected |
+| Private/proprietary repo | `.git/info/exclude`: hides internal tooling from repo history |
 | Team project | `.gitignore` for shared rules + `.git/info/exclude` for personal exclusions |
-| Personal solo project | Either — prefer `.git/info/exclude` if repo may go public later |
-| CI/CD pipelines | `.gitignore` — exclude files must be visible to build systems |
+| Personal solo project | Either: prefer `.git/info/exclude` if repo may go public later |
+| CI/CD pipelines | `.gitignore`: exclude files must be visible to build systems |
 
 **What goes where (when using both)**:
 
-`.gitignore` — shared, committed:
+`.gitignore` (shared, committed):
 ```gitignore
 # Dependencies & build
 node_modules/
@@ -82,7 +82,7 @@ target/
 Thumbs.db
 ```
 
-`.git/info/exclude` — local only, never pushed:
+`.git/info/exclude` (local only, never pushed):
 ```
 # Personal LLM tooling (CLAUDE.md and .claude/settings.json stay committed)
 LLM.md
