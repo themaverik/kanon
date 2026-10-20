@@ -35,7 +35,7 @@ If unsure, default to Trivial and ask before escalating.
 5. **Verify** - build/test gates; risky paths get `failure-mode-engineer` (mutation/property verdicts, not coverage percent).
 6. **Review** - official code-review plugin generally; `architect-review` for structural changes; the stack reviewer per repo type. Reviews cover the diff plus touched files only.
 7. **Record** - ADR for decisions. Work-item status lives in the ticket, not in repo files.
-8. **Deliverables** - run `remove-ai-marks` on generated docs/artifacts before publishing.
+8. **Deliverables** - run `remove-ai-marks` (kanon-tools) on generated docs/artifacts before publishing.
 
 ## Agent Routing
 

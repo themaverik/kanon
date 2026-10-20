@@ -12,7 +12,7 @@ The full guide is the landing page, [`index.html`](index.html).
 - **Scaled to the task.** Trivial changes skip the process, while milestones get the full plan, build, verify and review loop.
 - **Enforced, not suggested.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses.
 - **Proven by verifiers.** Reviewers are read-only and lean on ArchUnit, dependency-cruiser, PIT and Stryker rather than opinion.
-- **Lean.** About 1.6–2.7K tokens are always loaded per session, not counting MCP tool schemas.
+- **Lean.** About 1.4–2.5K tokens are always loaded per session, not counting MCP tool schemas.
 - **Session mods.** Optional bands above the prompt for cache and cost, parallel-session collisions, and prompt rewriting.
 
 ## Plugins
@@ -25,11 +25,19 @@ The full guide is the landing page, [`index.html`](index.html).
 | kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript, NestJS and hexagonal rules |
 | kanon-web | frontend repos | frontend-discipline, web rules |
 | kanon-rust | Rust repos | rust-reviewer, rust-discipline, Rust and axum rules |
+| kanon-tools | any repo, opt-in | docker-dev, remove-ai-marks and diagram-on-the-fly skills |
 | cache-keeper | any repo (mod) | cache countdown, context size, rate limits, session cost, Handoff & Clear |
 | collision-guard | any repo (mod) | asks before editing a file another session just changed |
 | prompt-enhancer | any repo (mod) | rewrites a draft prompt into your template, unsent |
 
 The mods need a Claude Code build with hooks modules. The landing page's [Mods section](index.html#mods) covers their buttons, commands and settings.
+
+## What Kanōn does not cover
+
+Kanōn holds only its own stance: ticket keys, mutation evidence, read-only reviewers and the hooks that enforce them. For general workflow (brainstorming, planning, TDD, debugging), install one of these alongside it:
+
+- [superpowers](https://github.com/obra/superpowers): `brainstorming`, `writing-plans`, `test-driven-development`, `systematic-debugging`.
+- [Matt Pocock's skills](https://github.com/mattpocock/skills): `to-spec`, `tdd`, `diagnosing-bugs`, `code-review`.
 
 ## Install
 
@@ -38,6 +46,7 @@ The mods need a Claude Code build with hooks modules. The landing page's [Mods s
 /plugin install kanon-core@kanon
 /plugin install kanon-java@kanon      # or kanon-ts, kanon-web, kanon-rust
 /plugin install kanon-java-airails@kanon   # optional, Java only
+/plugin install kanon-tools@kanon          # optional utility skills
 ```
 
 Claude Code plugins can't ship rules, so sync them into the repo once, and again after each update:
@@ -57,7 +66,7 @@ Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo r
 }
 ```
 
-**Other editors:** run `python3 scripts/sync-editors.py --repo <repo> --stacks java --tools cursor`, or copy the matching tree from `dist/`. [Editor-Parity.md](Editor-Parity.md) lists what ports and what doesn't.
+**Other editors:** run `python3 scripts/sync-editors.py --repo <repo> --stacks java --tools cursor`, or copy the matching tree from `dist/`. Add `tools` to `--stacks` for the kanon-tools skills. [Editor-Parity.md](Editor-Parity.md) lists what ports and what doesn't.
 
 **Prerequisites:**
 - `uv`, for Serena MCP.

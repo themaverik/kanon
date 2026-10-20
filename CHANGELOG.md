@@ -2,8 +2,10 @@
 
 ## Unreleased
 
+- **Breaking:** docker-dev, remove-ai-marks and diagram-on-the-fly moved from kanon-core to the new opt-in plugin kanon-tools. Install it to keep them (`/plugin install kanon-tools@kanon`, or add `tools` to `--stacks` for other editors). The fixed floor drops by about 0.2K tokens.
+- `common/testing.md` and `common/development-workflow.md` keep only what Kanōn adds: ticket keys, mutation evidence and read-only reviewers. General TDD and planning now point to superpowers and Matt Pocock's skills.
 - The cooldown, env-mutation and ticket guards are now one PreToolUse script, `bash-guard.sh`, so each Bash call parses its payload once instead of three times. Block messages, overrides and `TICKET_REGEX` are unchanged.
-- CI runs `claude plugin validate`, the leak check, a dist drift check (`scripts/build-dist.sh`) and bats tests for the hooks. The leak check could never pass before, because an unescaped `.serena` pattern matched every Serena mention.
+- CI runs `claude plugin validate`, the leak check, a dist drift check (`scripts/build-dist.sh`) and bats tests for the hooks. The leak check could never pass before, because an unescaped dot in the Serena pattern matched every Serena mention.
 - kanon-ts covers TS backends beyond NestJS. `typescript/testing.md` now sets Vitest or Jest, supertest and Testcontainers by layer, and a new framework-neutral `typescript/hexagonal.md` defines ports and adapters with a dependency-cruiser config to enforce them.
 - New plugin kanon-rust: rust-reviewer agent (clippy, rustfmt, cargo-deny), rust-discipline router skill, Rust rules and an axum rule. post-edit-lint now runs `cargo fmt --check` on `.rs` files.
 - **Breaking:** the 8 airails skills moved from kanon-java to the new opt-in plugin kanon-java-airails. Install it to keep them. sbce, ears-tests and continuous-testing now run only as slash commands. This cuts about 1.4K tokens from every Java session.

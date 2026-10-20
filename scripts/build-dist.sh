@@ -2,7 +2,7 @@
 # Regenerate dist/ for every editor. CI runs this and fails on any diff.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-stacks=java,java-airails,ts,web,rust
+stacks=java,java-airails,ts,web,rust,tools
 for t in claude cursor vscode antigravity codex; do
   rm -f "dist/$t/AGENTS.md"
   legacy=""

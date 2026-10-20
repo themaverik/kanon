@@ -1,0 +1,8 @@
+{
+  "name": "kanon-tools",
+  "version": "1.0.0",
+  "description": "Optional utility skills: docker-dev, remove-ai-marks, diagram-on-the-fly.",
+  "author": {
+    "name": "themaverik"
+  }
+}

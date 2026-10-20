@@ -44,6 +44,12 @@
       "description": "Rust discipline: rules, rust-reviewer agent, axum rule. Enable in Rust repos."
     },
     {
+      "name": "kanon-tools",
+      "source": "./plugins/kanon-tools",
+      "version": "1.0.0",
+      "description": "Optional utility skills: docker-dev for local containers, remove-ai-marks for published text, diagram-on-the-fly for quick diagrams. Enable where you want them."
+    },
+    {
       "name": "cache-keeper",
       "source": "./plugins/cache-keeper",
       "version": "0.1.0",

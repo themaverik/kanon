@@ -6,7 +6,7 @@ other editors in sync.
 
 Usage:
   python3 scripts/sync-editors.py --repo /path/to/repo \
-      --stacks java,ts,web,rust --tools claude,cursor,vscode,antigravity [--legacy-agent-dir]
+      --stacks java,ts,web,rust,tools --tools claude,cursor,vscode,antigravity [--legacy-agent-dir]
 
 Mapping:
   rules/*.md (paths: frontmatter) -> .claude/rules/kanon/ (Claude Code loads by path; plugins can't ship rules)
@@ -184,7 +184,7 @@ def emit_references(repo, dirs):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
-    ap.add_argument("--stacks", default="", help="comma list: java,ts,web,rust")
+    ap.add_argument("--stacks", default="", help="comma list: java,java-airails,ts,web,rust,tools")
     ap.add_argument("--tools", default="cursor,vscode,antigravity,codex")
     ap.add_argument("--legacy-agent-dir", action="store_true",
                     help="Antigravity: also emit legacy .agent/ (singular) for pre-rename installs")

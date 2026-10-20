@@ -126,7 +126,7 @@ footer p{max-width:none}
 
 <header class="hero">
   <h1>Kanōn</h1>
-  <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~1.6–2.7K tokens fixed per session, not counting MCP tool schemas.</p>
+  <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~1.4–2.5K tokens fixed per session, not counting MCP tool schemas.</p>
   <p class="small"><strong>Discipline</strong>, as Kanōn uses the word: a named set of rules, roles and checks that the agent follows the same way on every task. Hooks and verifiers enforce it, so nothing depends on the model remembering.</p>
   <ul class="chips" aria-label="Supported editors">
     <li>Claude Code</li><li>Cursor</li><li>VS Code</li><li>Codex</li><li>Antigravity</li>
@@ -147,17 +147,18 @@ footer p{max-width:none}
 <main id="main">
 <section id="layout">
   <h2>What ships</h2>
-  <p>Five standard plugins, one opt-in airails pack for Java, one marketplace, plus three optional <a href="#mods">mods</a>. A repo enables <code>kanon-core</code> plus its stack, and a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
+  <p>Five standard plugins, one opt-in airails pack for Java, one opt-in tools pack, one marketplace, plus three optional <a href="#mods">mods</a>. A repo enables <code>kanon-core</code> plus its stack, and a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Plugins table">
   <table>
     <thead><tr><th scope="col">Plugin</th><th scope="col">Enable in</th><th scope="col">Carries</th></tr></thead>
     <tbody>
-    <tr><th scope="row">core</th><td>every repo</td><td>Skills: karpathy-guidelines, adr-manager, commit-craft, docker-dev, remove-ai-marks, diagram-on-the-fly. Agents: implementer, backend-architect, architect-review, failure-mode-engineer. Common rules plus git and doc policy. Six hook checks: cooldown, env-mutation, ticket (one Bash guard), artifact, post-edit-lint, graph-sync. Serena MCP and the CLAUDE.md &amp; AGENTS.md templates.</td></tr>
+    <tr><th scope="row">core</th><td>every repo</td><td>Skills: karpathy-guidelines, adr-manager, commit-craft. Agents: implementer, backend-architect, architect-review, failure-mode-engineer. Common rules plus git and doc policy. Six hook checks: cooldown, env-mutation, ticket (one Bash guard), artifact, post-edit-lint, graph-sync. Serena MCP and the CLAUDE.md &amp; AGENTS.md templates.</td></tr>
     <tr><th scope="row">java</th><td>Java / Kotlin repos</td><td>Agents: quarkus-reviewer and spring-reviewer. Skill: java-discipline, which picks Quarkus or Spring Boot from the repo. Rules: java, kotlin, quarkus and spring, plus the java-services rule.</td></tr>
     <tr><th scope="row">java-airails</th><td>Java repos that want them (opt-in)</td><td>8 vendored <a href="https://github.com/AdamBien/airails">airails</a> skills (MIT): java-conventions, bce, microprofile-server, system-tests and java-distiller load by description. sbce, ears-tests and continuous-testing run only as slash commands.</td></tr>
     <tr><th scope="row">ts</th><td>TS backend repos</td><td>Agent: nestjs-boundary-reviewer. Skill: typescript-discipline. Rules: typescript (including Vitest/Jest, supertest and Testcontainers testing), plus the nestjs and framework-neutral hexagonal rules.</td></tr>
     <tr><th scope="row">web</th><td>Frontend repos</td><td>Skill: frontend-discipline router. Rules: web (coding-style, testing, performance, patterns, hooks, design-quality, security) and the frontend.md rule. Accessibility checks are part of the testing rule.</td></tr>
     <tr><th scope="row">rust</th><td>Rust repos</td><td>Agent: rust-reviewer, backed by clippy, rustfmt and cargo-deny. Skill: rust-discipline. Rules: rust (coding-style, patterns, security, testing, hooks), plus the axum rule.</td></tr>
+    <tr><th scope="row">tools</th><td>Any repo that wants them (opt-in)</td><td>Skills: docker-dev, remove-ai-marks, diagram-on-the-fly. Moved out of core in 2.0.0 so repos that never use them stop paying for their registry entries.</td></tr>
     </tbody>
   </table>
   </div>
@@ -173,7 +174,8 @@ footer p{max-width:none}
       <h3>Claude Code</h3>
 <pre><code>/plugin marketplace add themaverik/kanon
 /plugin install kanon-core@kanon
-/plugin install kanon-java@kanon        # per repo type: -java | -ts | -web</code></pre>
+/plugin install kanon-java@kanon        # per repo type: -java | -ts | -web | -rust
+/plugin install kanon-tools@kanon       # optional: docker-dev, remove-ai-marks, diagram-on-the-fly</code></pre>
       <p>Per repo: sync the rules with <code>sync-editors.py --tools claude</code> (plugins can't ship them), copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the root, fill placeholders, then commit this to <span class="path">.claude/settings.json</span> so trusting the repo auto-installs:</p>
 <pre><code>{ "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "themaverik/kanon" } } },
   "enabledPlugins": { "kanon-core@kanon": true, "kanon-java@kanon": true } }</code></pre>
@@ -359,7 +361,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <li><strong>Implementer</strong>: fresh context, env-mutation and cooldown guards, ~15-file stop rule, and the mandatory six-section handoff report (what changed, deviations from the brief, premises verified or corrected, noticed but not touched, commands run, how to verify).</li>
     <li><strong>Verify</strong>: PIT/Stryker mutants and jqwik/kotest/fast-check properties are the evidence. Coverage percent is not.</li>
     <li><strong>Review</strong>: architect-review plus the stack reviewer (quarkus / spring / nestjs-boundary), all read-only. Design changes are recorded as ticket-linked ADRs.</li>
-    <li><strong>Commit &amp; deliver</strong>: commit-craft message (KEY: one-liner + bullets, no AI footers), ticket-guard backstop, remove-ai-marks on published artifacts.</li>
+    <li><strong>Commit &amp; deliver</strong>: commit-craft message (KEY: one-liner + bullets, no AI footers), ticket-guard backstop, remove-ai-marks (kanon-tools) on published artifacts.</li>
   </ul>
 </section>
 
@@ -370,12 +372,12 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <table>
     <thead><tr><th scope="col">Combination</th><th scope="col">Fixed floor</th><th scope="col">+ Serena (est.)</th><th scope="col">Session start</th><th scope="col">Rules ceiling*</th><th scope="col">Skills ceiling*</th></tr></thead>
     <tbody>
-    <tr><th scope="row">core only (docs / misc repos)</th><td class="num">~1.6K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">4.2K</td><td class="num">6.4K</td></tr>
-    <tr><th scope="row">backend TS (core+ts)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">7.0K</td><td class="num">6.6K</td></tr>
-    <tr><th scope="row">frontend (core+ts+web)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">10.7K</td><td class="num">6.8K</td></tr>
-    <tr><th scope="row">backend Java/Kotlin (core+java)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">9.0K</td><td class="num">7.3K</td></tr>
-    <tr><th scope="row">backend Rust (core+rust)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">5.7K</td><td class="num">6.6K</td></tr>
-    <tr><th scope="row">monorepo (core+java+ts+web)</th><td class="num">~1.9K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">15.5K</td><td class="num">7.6K</td></tr>
+    <tr><th scope="row">core only (docs / misc repos)</th><td class="num">~1.4K</td><td class="num">8–15K</td><td class="num good">~9–17K</td><td class="num">4.2K</td><td class="num">1.6K</td></tr>
+    <tr><th scope="row">backend TS (core+ts)</th><td class="num">~1.5K</td><td class="num">8–15K</td><td class="num good">~9–17K</td><td class="num">7.0K</td><td class="num">1.8K</td></tr>
+    <tr><th scope="row">frontend (core+ts+web)</th><td class="num">~1.5K</td><td class="num">8–15K</td><td class="num good">~9–17K</td><td class="num">10.7K</td><td class="num">2.0K</td></tr>
+    <tr><th scope="row">backend Java/Kotlin (core+java)</th><td class="num">~1.5K</td><td class="num">8–15K</td><td class="num good">~9–17K</td><td class="num">9.0K</td><td class="num">2.5K</td></tr>
+    <tr><th scope="row">backend Rust (core+rust)</th><td class="num">~1.5K</td><td class="num">8–15K</td><td class="num good">~9–17K</td><td class="num">5.7K</td><td class="num">1.8K</td></tr>
+    <tr><th scope="row">monorepo (core+java+ts+web)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~9–17K</td><td class="num">15.5K</td><td class="num">2.8K</td></tr>
     <tr><th scope="row">+ java-airails (opt-in)</th><td class="num">+0.8K</td><td class="num">–</td><td class="num">+0.8K</td><td class="num">–</td><td class="num">+13.4K</td></tr>
     </tbody>
   </table>
@@ -482,8 +484,8 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <table>
     <thead><tr><th scope="col">Setup</th><th scope="col">Session-start overhead</th><th scope="col">Why</th></tr></thead>
     <tbody>
-    <tr><th scope="row">kanon (core + one stack)</th><td class="num good">~10–18K</td><td>1.6–2.7K registries + CLAUDE.md. Serena is the single MCP, all analyzers run as CLI in hooks/CI, and rules load on demand</td></tr>
-    <tr><th scope="row">Same standard, no MCP at all</th><td class="num good">~1.6–2.7K</td><td>Drop Serena, rely on graphify + LSP plugins. Viable for small repos, but it loses symbol-level navigation</td></tr>
+    <tr><th scope="row">kanon (core + one stack)</th><td class="num good">~9–18K</td><td>1.4–2.5K registries + CLAUDE.md. Serena is the single MCP, all analyzers run as CLI in hooks/CI, and rules load on demand</td></tr>
+    <tr><th scope="row">Same standard, no MCP at all</th><td class="num good">~1.4–2.5K</td><td>Drop Serena, rely on graphify + LSP plugins. Viable for small repos, but it loses symbol-level navigation</td></tr>
     <tr><th scope="row">Typical multi-MCP setup (GitHub + DB + browser + …)</th><td class="num bad">tens of K, often 60K+</td><td>Each server adds its full tool schema every session. A large server such as GitHub's can be tens of K alone</td></tr>
     <tr><th scope="row">Full agent library install (hundreds of agents)</th><td class="num bad">tens of K</td><td>Every agent/skill description registers per session, and most never fire</td></tr>
     <tr><th scope="row">Very large skill libraries (a thousand or more)</th><td class="num bad">slow first init</td><td>Startup indexes every SKILL.md. Community reports describe long first runs, which this bundle's per-stack split avoids</td></tr>
