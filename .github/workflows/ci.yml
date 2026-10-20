@@ -1,0 +1,47 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Pinned so a CLI release can't change what "valid" means under us.
+      - run: npm install -g @anthropic-ai/claude-code@2.1.292
+      - name: Validate marketplace and plugins
+        run: |
+          claude plugin validate .
+          for d in plugins/*/; do claude plugin validate "$d"; done
+      - name: Leak check
+        run: bash scripts/leak-check.sh
+
+  dist-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/build-dist.sh
+      # porcelain also catches new untracked files, which git diff misses.
+      - name: Fail if dist/ is stale
+        run: |
+          if [ -n "$(git status --porcelain dist)" ]; then
+            git status --porcelain dist
+            echo "dist/ is stale. Run scripts/build-dist.sh and commit the result." >&2
+            exit 1
+          fi
+
+  hooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y bats
+      - run: bats tests/

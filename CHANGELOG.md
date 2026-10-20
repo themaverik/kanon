@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- CI runs `claude plugin validate`, the leak check, a dist drift check (`scripts/build-dist.sh`) and bats tests for the hooks. The leak check could never pass before, because an unescaped `.serena` pattern matched every Serena mention.
 - kanon-ts covers TS backends beyond NestJS. `typescript/testing.md` now sets Vitest or Jest, supertest and Testcontainers by layer, and a new framework-neutral `typescript/hexagonal.md` defines ports and adapters with a dependency-cruiser config to enforce them.
 - New plugin kanon-rust: rust-reviewer agent (clippy, rustfmt, cargo-deny), rust-discipline router skill, Rust rules and an axum rule. post-edit-lint now runs `cargo fmt --check` on `.rs` files.
 - **Breaking:** the 8 airails skills moved from kanon-java to the new opt-in plugin kanon-java-airails. Install it to keep them. sbce, ears-tests and continuous-testing now run only as slash commands. This cuts about 1.4K tokens from every Java session.
