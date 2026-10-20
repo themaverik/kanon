@@ -6,10 +6,10 @@ themaverik author and owner fields. Run from anywhere; operates on the repo root
 containing this script's parent.
 
 Usage:
-  python3 scripts/rename.py --prefix kanon --org "Kanon" [--dry-run]
+  python3 scripts/rename.py --prefix acme --org "Acme" [--dry-run]
 
-Result: marketplace 'kanon', plugins 'kanon-core', 'kanon-java',
-'kanon-ts', 'kanon-web'; all JSON/MD references updated.
+Result: marketplace 'acme', plugins 'acme-core', 'acme-java', and so on.
+All JSON/MD references are updated.
 """
 import argparse, sys
 from pathlib import Path
@@ -20,13 +20,13 @@ TEXT_EXT = {".md", ".json", ".sh", ".py", ".yml", ".yaml", ".txt", ".html", ".md
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--prefix", required=True, help="real plugin prefix, e.g. kanon (lowercase, hyphens)")
+    ap.add_argument("--prefix", required=True, help="real plugin prefix, e.g. acme (lowercase, hyphens)")
     ap.add_argument("--org", default=None, help="org display name for author fields (default: prefix)")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     prefix, org = a.prefix.strip(), (a.org or a.prefix).strip()
     if not prefix or " " in prefix or prefix != prefix.lower():
-        sys.exit("prefix must be non-empty, lowercase, no spaces (e.g. kanon)")
+        sys.exit("prefix must be non-empty, lowercase, no spaces (e.g. acme)")
     if TOKEN in prefix:
         sys.exit("prefix must not contain the placeholder token itself")
 
