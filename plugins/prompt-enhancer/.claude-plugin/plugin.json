@@ -9,6 +9,36 @@
       "title": "Rewrite model",
       "description": "Alias or id for the rewrite and reviewer pick. Cheap and fast is the point.",
       "default": "haiku"
+    },
+    "implementerAgent": {
+      "type": "string",
+      "title": "Implementer agent",
+      "description": "Agent name put into {{implementer}}.",
+      "default": "staff-engineer"
+    },
+    "backendAgent": {
+      "type": "string",
+      "title": "Backend reviewer",
+      "description": "Agent name put into {{reviewer}} for this area.",
+      "default": "backend-architect"
+    },
+    "frontendAgent": {
+      "type": "string",
+      "title": "Frontend reviewer",
+      "description": "Agent name put into {{reviewer}} for this area.",
+      "default": "frontend-developer"
+    },
+    "securityAgent": {
+      "type": "string",
+      "title": "Security reviewer",
+      "description": "Agent name put into {{reviewer}} for this area.",
+      "default": "security-auditor"
+    },
+    "generalAgent": {
+      "type": "string",
+      "title": "Reviewer when the area is unclear",
+      "description": "Agent name put into {{reviewer}} for this area.",
+      "default": "code-reviewer"
     }
   },
   "author": {

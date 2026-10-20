@@ -5,8 +5,10 @@ import type { UndoText } from '../types'
 import {
   AREA_LABELS,
   DEFAULT_TEMPLATE,
+  DEFAULT_AGENTS,
   DEFAULT_TEMPLATE_NAME,
   REWRITE_SYSTEM,
+  agentsFrom,
   applyTemplate,
   isEnhanced,
   reviewerFor,
@@ -21,6 +23,7 @@ const isBusy = atom({ plugin: 'prompt-enhancer', key: 'isBusy' } as const, false
 const undoText = atom({ plugin: 'prompt-enhancer', key: 'undoText' } as const, null as UndoText)
 
 let model = 'haiku'
+let agents = DEFAULT_AGENTS
 
 async function templatesDir($: EngineInterface): Promise<string | null> {
   const home = await $.env.get('HOME')
@@ -68,7 +71,7 @@ async function enhance($: EngineInterface, name: string): Promise<void> {
       $.ui.toast(`Enhance failed: ${reply.reason}. Draft left as is.`)
       return
     }
-    const filled = await $.prompt.fill({ text: applyTemplate(template, reviewerFor(area), stripProcessWording(reply.text.trim())) })
+    const filled = await $.prompt.fill({ text: applyTemplate(template, reviewerFor(area, agents), stripProcessWording(reply.text.trim()), agents.implementer) })
     if (!filled.isFilled) {
       $.ui.toast('Could not fill the prompt box. Draft left as is.')
       return
@@ -95,6 +98,7 @@ async function listTemplates($: EngineInterface): Promise<string> {
 
 export const register: Register = (on, options) => {
   model = String(options.model ?? 'haiku')
+  agents = agentsFrom(options)
 
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'enhance', description: 'Rewrite the draft and wrap it in a prompt template', argumentHint: '[template]' })

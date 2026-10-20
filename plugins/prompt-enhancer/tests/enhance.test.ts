@@ -2,7 +2,7 @@ import type { On } from 'claude-code'
 import type { Engine } from 'claude-code/testing'
 import { describe, expect, test } from 'claude-code/testing'
 
-import { DEFAULT_TEMPLATE, applyTemplate, isEnhanced, reviewerFor, stripProcessWording, templateName } from '../hooks/enhance'
+import { DEFAULT_TEMPLATE, agentsFrom, applyTemplate, isEnhanced, reviewerFor, stripProcessWording, templateName } from '../hooks/enhance'
 
 const run = async ($: Engine, command: string, args: string) =>
   // The engine stamps origin and presentation; the test kit's type still names them.
@@ -49,9 +49,17 @@ describe('template', () => {
     expect(applyTemplate('Point-wise, 2-3 liners.', 'x', 'Do Y')).toBe('Point-wise, 2-3 liners. Do Y')
   })
 
-  test('leaves the reviewer choice to the person when the area is unknown', () => {
-    expect(reviewerFor(undefined)).toBe('backend-architect/frontend-developer')
+  test('falls back to the general reviewer when the area is unknown', () => {
+    expect(reviewerFor(undefined)).toBe('code-reviewer')
     expect(reviewerFor('fullstack')).toBe('backend-architect + frontend-developer')
+    expect(reviewerFor('security')).toBe('security-auditor')
+  })
+
+  test('uses configured agent names and keeps defaults for blank ones', () => {
+    const agents = agentsFrom({ implementerAgent: 'implementer', backendAgent: ' ', frontendAgent: 'web-reviewer' })
+    expect(applyTemplate(DEFAULT_TEMPLATE, reviewerFor('fullstack', agents), 'Do Y', agents.implementer)).toBe(
+      'Use the discipline implementer + backend-architect + web-reviewer + karpathy skills + "Do Y"',
+    )
   })
 
   test('spots a draft that already carries the template prefix', () => {

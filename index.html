@@ -412,11 +412,11 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
       <ul>
         <li>Type a draft, then press <strong>Enhance</strong> (<code>e</code>) or run <code>/enhance</code>. A small model rewrites it and wraps it in your template. Nothing is sent. You edit and press Enter.</li>
         <li><strong>Undo</strong> (<code>u</code>) restores your draft until you send.</li>
-        <li>Templates are Markdown files in <code>~/.claude/prompt-templates/</code>. <code>{{task}}</code> takes the rewritten prompt and <code>{{reviewer}}</code> the picked reviewer. <code>/enhance &lt;name&gt;</code> picks one, and <code>/templates</code> lists them.</li>
+        <li>Templates are Markdown files in <code>~/.claude/prompt-templates/</code>. <code>{{task}}</code> takes the rewritten prompt, <code>{{implementer}}</code> the implementer, and <code>{{reviewer}}</code> the reviewer picked for the area (backend, frontend, fullstack or security). <code>/enhance &lt;name&gt;</code> picks one, and <code>/templates</code> lists them.</li>
       </ul>
     </div>
   </div>
-  <p class="fine">Settings for each mod are under <code>/plugin</code>: cache-keeper <code>ttlMinutes</code>, <code>warnTokens</code>, <code>inputUsdPerMtok</code>. collision-guard has <code>windowMinutes</code>, and prompt-enhancer has <code>model</code>.</p>
+  <p class="fine">Settings for each mod are under <code>/plugin</code>: cache-keeper <code>ttlMinutes</code>, <code>warnTokens</code>, <code>inputUsdPerMtok</code>. collision-guard has <code>windowMinutes</code>, and prompt-enhancer has <code>model</code> plus one agent name per role. The defaults are staff-engineer, backend-architect, frontend-developer, security-auditor and code-reviewer.</p>
 </section>
 
 <section id="tools">
