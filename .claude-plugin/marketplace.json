@@ -38,6 +38,12 @@
       "description": "Frontend discipline: web rules and router skill. Enable in frontend repos."
     },
     {
+      "name": "kanon-rust",
+      "source": "./plugins/kanon-rust",
+      "version": "1.0.0",
+      "description": "Rust discipline: rules, rust-reviewer agent, axum rule. Enable in Rust repos."
+    },
+    {
       "name": "cache-keeper",
       "source": "./plugins/cache-keeper",
       "version": "0.1.0",

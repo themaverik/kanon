@@ -147,7 +147,7 @@ footer p{max-width:none}
 <main id="main">
 <section id="layout">
   <h2>What ships</h2>
-  <p>Four standard plugins, one opt-in airails pack for Java, one marketplace, plus three optional <a href="#mods">mods</a>. A repo enables <code>kanon-core</code> plus its stack, and a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
+  <p>Five standard plugins, one opt-in airails pack for Java, one marketplace, plus three optional <a href="#mods">mods</a>. A repo enables <code>kanon-core</code> plus its stack, and a monorepo enables all. Everything else in the tree is either enforcement (hooks, git hooks, CI scripts) or generated output.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Plugins table">
   <table>
     <thead><tr><th scope="col">Plugin</th><th scope="col">Enable in</th><th scope="col">Carries</th></tr></thead>
@@ -157,6 +157,7 @@ footer p{max-width:none}
     <tr><th scope="row">java-airails</th><td>Java repos that want them (opt-in)</td><td>8 vendored <a href="https://github.com/AdamBien/airails">airails</a> skills (MIT): java-conventions, bce, microprofile-server, system-tests and java-distiller load by description. sbce, ears-tests and continuous-testing run only as slash commands.</td></tr>
     <tr><th scope="row">ts</th><td>TS backend repos</td><td>Agent: nestjs-boundary-reviewer. Skill: typescript-discipline. Rules: typescript, plus the nestjs rule.</td></tr>
     <tr><th scope="row">web</th><td>Frontend repos</td><td>Skill: frontend-discipline router. Rules: web (coding-style, testing, performance, patterns, hooks, design-quality, security) and the frontend.md rule. Accessibility checks are part of the testing rule.</td></tr>
+    <tr><th scope="row">rust</th><td>Rust repos</td><td>Agent: rust-reviewer, backed by clippy, rustfmt and cargo-deny. Skill: rust-discipline. Rules: rust (coding-style, patterns, security, testing, hooks), plus the axum rule.</td></tr>
     </tbody>
   </table>
   </div>
@@ -373,7 +374,8 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <tr><th scope="row">backend TS (core+ts)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">6.3K</td><td class="num">6.6K</td></tr>
     <tr><th scope="row">frontend (core+ts+web)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">10.0K</td><td class="num">6.8K</td></tr>
     <tr><th scope="row">backend Java/Kotlin (core+java)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">9.0K</td><td class="num">7.3K</td></tr>
-    <tr><th scope="row">monorepo (all four)</th><td class="num">~1.9K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">14.8K</td><td class="num">7.6K</td></tr>
+    <tr><th scope="row">backend Rust (core+rust)</th><td class="num">~1.7K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">5.7K</td><td class="num">6.6K</td></tr>
+    <tr><th scope="row">monorepo (core+java+ts+web)</th><td class="num">~1.9K</td><td class="num">8–15K</td><td class="num good">~10–17K</td><td class="num">14.8K</td><td class="num">7.6K</td></tr>
     <tr><th scope="row">+ java-airails (opt-in)</th><td class="num">+0.8K</td><td class="num">–</td><td class="num">+0.8K</td><td class="num">–</td><td class="num">+13.4K</td></tr>
     </tbody>
   </table>

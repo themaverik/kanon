@@ -21,5 +21,11 @@ case "$file" in
       ./mvnw -q spotless:check -DspotlessFiles="$file" >&2 || exit 2
     fi
     ;;
+  *.rs)
+    # cargo fmt rather than bare rustfmt so the crate's edition applies.
+    if [ -f Cargo.toml ] && command -v cargo >/dev/null; then
+      cargo fmt --check -- "$file" >&2 || exit 2
+    fi
+    ;;
 esac
 exit 0

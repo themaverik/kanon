@@ -45,7 +45,7 @@ installs read `.agent/` (singular). `--legacy-agent-dir` emits both.
 
 ## Per-repo setup (any editor)
 
-1. `python3 scripts/sync-editors.py --repo <repo> --stacks <java,ts,web> --tools cursor,vscode,antigravity [--legacy-agent-dir]`
+1. `python3 scripts/sync-editors.py --repo <repo> --stacks <java,ts,web,rust> --tools cursor,vscode,antigravity [--legacy-agent-dir]`
 2. Fill AGENTS.md placeholders (and CLAUDE.md for Claude Code repos).
 3. `scripts/install-githooks.sh` inside the repo.
 4. Commit the generated dirs. Regenerate on standard updates. A CI check
