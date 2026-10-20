@@ -6,10 +6,12 @@ other editors in sync.
 
 Usage:
   python3 scripts/sync-editors.py --repo /path/to/repo \
-      --stacks java,ts,web --tools cursor,vscode,antigravity [--legacy-agent-dir]
+      --stacks java,ts,web --tools claude,cursor,vscode,antigravity [--legacy-agent-dir]
 
 Mapping:
-  rules/*.md (paths: frontmatter) -> .cursor/rules/*.mdc (globs)
+  rules/*.md (paths: frontmatter) -> .claude/rules/kanon/ (Claude Code loads by path; plugins can't ship rules)
+                                     unscoped ones -> .claude/kanon/rules/ (read on demand by the router skills)
+                                  -> .cursor/rules/*.mdc (globs)
                                   -> .github/instructions/*.instructions.md (applyTo)
                                   -> .agents/rules/*.md (trigger: glob)
   skills/  (open SKILL.md std)    -> .cursor/skills/, .github/skills/, .agents/skills/  (verbatim copy)
@@ -64,6 +66,18 @@ def copy_tree(src, dst):
     if dst.exists(): shutil.rmtree(dst)
     shutil.copytree(src, dst, ignore=shutil.ignore_patterns(".DS_Store"))
     print(f"  copied {dst}")
+
+def emit_claude(repo, dirs):
+    # Unscoped rules would load every session in .claude/rules, so they stay out of it.
+    for d in (repo / ".claude/rules/kanon", repo / ".claude/kanon/rules"):
+        if d.exists(): shutil.rmtree(d)
+    for stack, d in dirs:
+        rd = d / "rules"
+        if not rd.is_dir(): continue
+        for f in sorted(rd.rglob("*.md")):
+            text = f.read_text(encoding="utf-8")
+            base = ".claude/rules/kanon" if parse_frontmatter(text)[0].get("paths") else ".claude/kanon/rules"
+            write(repo / base / stack / f.relative_to(rd), text)
 
 def emit_cursor(repo, dirs):
     for slug, globs, body in iter_rules(dirs):
@@ -170,6 +184,7 @@ def main():
     stacks = [s for s in a.stacks.split(",") if s]
     dirs = plugin_dirs(stacks)
     tools = set(a.tools.split(","))
+    if "claude" in tools:     print("== Claude Code"); emit_claude(repo, dirs)
     if "codex" in tools:      print("== Codex");       emit_codex(repo, dirs)
     if "cursor" in tools:      print("== Cursor");      emit_cursor(repo, dirs)
     if "vscode" in tools:      print("== VS Code");     emit_vscode(repo, dirs)

@@ -10,7 +10,9 @@ description: Java coding standards for Quarkus or Spring Boot: patterns, securit
 2. Otherwise detect from the build file: `io.quarkus` vs `org.springframework.boot` in pom.xml or build.gradle(.kts).
 3. Load only the matching rule file (`rules/java/quarkus.md` or `rules/java/spring.md`) and dispatch the matching reviewer (`quarkus-reviewer` or `spring-reviewer`). If both or neither match, ask; do not guess.
 
-Read only the rule files relevant to the task, from the plugin's `rules/` directory:
+Where the rules live: after `scripts/sync-editors.py --tools claude`, Claude Code loads the path-scoped ones from `.claude/rules/kanon/` when you touch matching files. The unscoped `common/` ones are in `.claude/kanon/rules/core/common/`. Without a sync, read them from `../../rules/` relative to this skill's base directory (`common/` is in the kanon-core plugin, `typescript/` in kanon-ts).
+
+Read only the rule files relevant to the task:
 
 - `rules/common/` - cross-language: coding-style (immutability is CRITICAL), patterns, security, testing, performance, code-review, development-workflow, git-workflow.
 - `rules/java/` - Java specifics: coding-style, patterns, security, testing, hooks.

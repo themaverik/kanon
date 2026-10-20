@@ -10,7 +10,7 @@ edit the plugin, never the output.
 | Canonical (this repo) | Claude Code | Cursor | VS Code Copilot | Antigravity |
 |---|---|---|---|---|
 | AGENTS.md template | CLAUDE.md (richer) + AGENTS.md | native | native | native (also GEMINI.md) |
-| rules/*.md (`paths:` fm) | discipline router skills | .cursor/rules/*.mdc (globs, auto-attach) | .github/instructions/*.instructions.md (applyTo) | .agents/rules/*.md (trigger: glob) |
+| rules/*.md (`paths:` fm) | .claude/rules/kanon/ via `sync-editors.py --tools claude` (path-scoped); unscoped ones read by the router skills | .cursor/rules/*.mdc (globs, auto-attach) | .github/instructions/*.instructions.md (applyTo) | .agents/rules/*.md (trigger: glob) |
 | skills/ (SKILL.md open standard) | plugin skills | .cursor/skills/ verbatim | .github/skills/ verbatim | .agents/skills/ verbatim |
 | agents/ | plugin subagents | persona skills | .github/agents/*.agent.md | persona skills |
 | Serena MCP | .mcp.json | .cursor/mcp.json | .vscode/mcp.json (key: servers) | .agents/mcp_config.json |

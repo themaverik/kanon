@@ -5,7 +5,9 @@ description: Frontend (React/Next.js) standards, design quality, performance, an
 
 # Frontend Discipline Router
 
-Read only the rule files relevant to the task, from the plugin's `rules/` directory:
+Where the rules live: after `scripts/sync-editors.py --tools claude`, Claude Code loads the path-scoped ones from `.claude/rules/kanon/` when you touch matching files. The unscoped `common/` ones are in `.claude/kanon/rules/core/common/`. Without a sync, read them from `../../rules/` relative to this skill's base directory (`common/` is in the kanon-core plugin, `typescript/` in kanon-ts).
+
+Read only the rule files relevant to the task:
 
 - `rules/web/` - coding-style, design-quality, patterns, performance, security, testing, hooks.
 - `rules/frontend.md` - repo-level frontend conventions.

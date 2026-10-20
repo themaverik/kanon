@@ -172,7 +172,7 @@ footer p{max-width:none}
 <pre><code>/plugin marketplace add themaverik/kanon
 /plugin install kanon-core@kanon
 /plugin install kanon-java@kanon        # per repo type: -java | -ts | -web</code></pre>
-      <p>Per repo: copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the root, fill placeholders, then commit this to <span class="path">.claude/settings.json</span> so trusting the repo auto-installs:</p>
+      <p>Per repo: sync the rules with <code>sync-editors.py --tools claude</code> (plugins can't ship them), copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the root, fill placeholders, then commit this to <span class="path">.claude/settings.json</span> so trusting the repo auto-installs:</p>
 <pre><code>{ "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "themaverik/kanon" } } },
   "enabledPlugins": { "kanon-core@kanon": true, "kanon-java@kanon": true } }</code></pre>
       <p>Teams can pin a semver tag and enforce the setup with managed settings. Finish with <code>scripts/install-githooks.sh</code> inside the repo.</p>
@@ -252,15 +252,16 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
 
 <section id="recipes">
   <h2>Stack recipes: what you actually do</h2>
-  <p>Every repo starts with the same four steps. The recipe then tells you which plugins to enable and which lines to put in your copied CLAUDE.md/AGENTS.md.</p>
+  <p>Every repo starts with the same five steps. The recipe then tells you which plugins to enable and which lines to put in your copied CLAUDE.md/AGENTS.md.</p>
   <div class="note"><strong>Per-repo setup, always:</strong>
     <ol>
       <li>Enable plugins in the repo's <span class="path">.claude/settings.json</span> (snippet per recipe below).</li>
       <li>Copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the repo root. Fill the three header lines: repo name, <strong>Stack</strong>, and <strong>Architecture</strong> (pick one option, delete the rest). That Architecture line is what activates BCE vs hexagonal rules. Nothing else needs editing.</li>
+      <li>Run <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools claude</code> and commit <span class="path">.claude/rules/kanon/</span> and <span class="path">.claude/kanon/</span>. Claude Code plugins can't ship rules, so this is how they reach the session. Re-run it after each Kanōn update.</li>
       <li>Run <code>scripts/install-githooks.sh</code> in the repo (ticket key + commit skeleton for every committer).</li>
       <li>Run <code>graphify</code> once at the repo root (tier-0 graph, which the graph-sync hook then maintains).</li>
     </ol>
-    Non-Claude editors: replace step 1 with <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools &lt;editor&gt;</code> and commit the generated directory.
+    Non-Claude editors: replace steps 1 and 3 with <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools &lt;editor&gt;</code> and commit the generated directory.
   </div>
 
   <h3>Quarkus backend: Java, with BCE</h3>

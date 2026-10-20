@@ -37,6 +37,14 @@ The mods need a Claude Code build with hooks modules. The landing page's [Mods s
 /plugin install kanon-java@kanon      # or kanon-ts, kanon-web
 ```
 
+Claude Code plugins can't ship rules, so sync them into the repo once, and again after each update:
+
+```
+python3 scripts/sync-editors.py --repo <repo> --stacks java --tools claude
+```
+
+This writes path-scoped rules to `.claude/rules/kanon/`, which Claude Code loads when you touch matching files. Cross-cutting rules go to `.claude/kanon/rules/`, where the discipline skills read them on demand.
+
 Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo root and fill in the placeholders, including `Java framework:` for Java repos. To make a repo install the plugins for everyone who trusts it, commit this to `.claude/settings.json`:
 
 ```json
