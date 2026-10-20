@@ -2,7 +2,7 @@ flowchart TD
   T["Ticket + brief\nPROJ-123 · success criteria"] --> RD["Tiered read\ngraph → symbols → lines"]
   RD --> PC["Premise check\nverify load-bearing facts"]
   PC -->|trivial| DE["Direct edit\nmain context, no dispatch"]
-  PC -->|standard| BG["Budget gate\nS/M/L · approval for M/L"]
+  PC -->|standard| BG["Budget gate\nS/M/L · approval per plan"]
   BG --> IM["Implementer\nguards · handoff report"]
   IM --> V["Verify\nmutation + property tests"]
   DE --> V
