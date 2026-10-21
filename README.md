@@ -60,10 +60,12 @@ flowchart LR
 
 | Plan | Room | Grace | Cap | Target / ceiling from a 60K floor |
 |---|---|---|---|---|
-| Pro | 80K | 20K | 180K | 140K / 160K |
-| Max 5x, Team | 130K | 40K | 250K | 190K / 230K |
-| Max 20x | 170K | 50K | 300K | 230K / 280K |
-| API | 140K | 30K | 250K | 200K / 230K |
+| Pro | 80K | 5K | 180K | 140K / 145K |
+| Max 5x, Team | 130K | 15K | 250K | 190K / 205K |
+| Max 20x | 170K | 40K | 300K | 230K / 270K |
+| API | 140K | 10K | 250K | 200K / 210K |
+
+Grace keeps the plans' ratio, Pro 1 : Max 5x 3 : Max 20x 8. A light turn adds 1–3K, so Pro holds for a couple of quick questions and Max 20x for a dozen or more. The band's `ctx` reading turns orange past the target and red, with `quality risk`, past the ceiling. Before the first floor is measured it falls back to `warnTokens` (orange) and twice that (red).
 
 Why these numbers:
 
@@ -72,7 +74,7 @@ Why these numbers:
 - **Continuity.** A summary loses detail and causes re-reads. Max plans have quota to spare, so they keep more raw context.
 - **Floor drift.** A plain floor + room rule moves with the floor: a 101K floor put the target at 201K. The cap holds the ceiling in place.
 
-The engine's own auto-compaction fires near the model's window (about 967K on a 1M model), so on its own it almost never fires in time ([compaction internals](https://github.com/anthropics/claude-code/issues/27036)). By default the band only shows the verdict, for example `compact @190k-230k floor 60k (holding: light turn)`. With `enforce` on it asks **Compact**, **Handoff & Clear** or **Keep going** once at a heavy turn past the target and once more at the ceiling. With `autoCompact` on too, it compacts between turns without asking. It never vetoes an engine compaction once the context passes 80% of the model window, so a prompt that is too long still compacts. Override any plan with `compactRoomTokens`, `compactGraceTokens` and `compactCapTokens`.
+The engine's own auto-compaction fires near the model's window (about 967K on a 1M model), so on its own it almost never fires in time ([compaction internals](https://github.com/anthropics/claude-code/issues/27036)). By default the band only shows the verdict, for example `compact @190k-205k floor 60k (holding: light turn)`. With `enforce` on it asks **Compact**, **Handoff & Clear** or **Keep going** once at a heavy turn past the target and once more at the ceiling. With `autoCompact` on too, it compacts between turns without asking. It never vetoes an engine compaction once the context passes 80% of the model window, so a prompt that is too long still compacts. Override any plan with `compactRoomTokens`, `compactGraceTokens` and `compactCapTokens`.
 
 The thresholds are Kanōn's own reading of these sources, not published figures. No long-context scores are public yet for Opus 5.5 or Fable 5.1, so 256K is a conservative line, not a measured one.
 

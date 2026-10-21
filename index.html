@@ -210,7 +210,7 @@ footer p{max-width:none}
     <li><span class="stationlabel">Cost aware</span>
       <h3>Model routing and compaction that fit your plan</h3>
       <p>Subagents run on Sonnet by default, Opus needs approval, and Fable is held to one bounded task per session. cache-keeper reads your plan (Pro, Max, Team or API) and compacts at your real context floor plus working room, capped per plan. Past that target heavy work compacts and a short query holds inside a grace buffer.</p>
-      <span class="metric">Max 5x: 190K target, 230K ceiling from a 60K floor</span></li>
+      <span class="metric">Max 5x: 190K target, 205K ceiling from a 60K floor</span></li>
     <li><span class="stationlabel">Visibility</span>
       <h3>Session mods above the prompt</h3>
       <p>See cache time left, context size, 5-hour and weekly use, and session cost on every turn. Hand off and clear in one key. Get asked before editing a file another session just changed.</p>
@@ -515,7 +515,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
       <span class="stationlabel">Cost and cache</span>
       <h3>cache-keeper</h3>
       <pre><code>Cache 55m/60m · ctx 110k (11%) · 5h 20% · wk 23% · $14.39 · cold ~$1.10   [Handoff &amp; Clear] [Fresh]
-Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · compact @190k-230k floor 60k · display only</code></pre>
+Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · compact @190k-205k floor 60k · display only</code></pre>
       <p>Line one, left to right: time before the prompt cache expires, context size, 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold. Line two is cost mode, below.</p>
       <ul>
         <li><strong>Handoff &amp; Clear</strong> (<code>h</code>) or <code>/handoff</code>: writes a handoff brief, clears the session and puts the brief in the prompt to review and send.</li>
@@ -523,16 +523,16 @@ Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · 
         <li><code>/autohandoff 80k</code> hands off at that context size, and <code>/autohandoff off</code> stops it.</li>
         <li><code>/cache-ttl &lt;minutes|auto&gt;</code> sets the cache TTL by hand. By default it is detected.</li>
         <li><strong>Cost mode:</strong> a second line shows the profile for your plan (read from your account, or set <code>profile</code> to <code>pro</code>, <code>max5</code>, <code>max20</code>, <code>team</code> or <code>api</code>): main model and effort, agent defaults, Fable use, and the compaction target and ceiling. It only displays by default. Turn on <code>enforce</code> to rewrite agent model and effort, cap Fable per session, stop auto-compaction below the target, and get asked to compact when it is due. Add <code>autoCompact</code> to compact between turns without asking.</li>
-        <li><strong>Adaptive compaction:</strong> the target is your measured floor plus room, and the ceiling adds a grace buffer, both held under a per-plan cap. Between them, a turn that added 8K+ tokens or edited 3+ files compacts, because work in flight keeps growing. A short query holds instead, shown as <code>(holding: light turn)</code>. At the ceiling it compacts regardless.</li>
+        <li><strong>Adaptive compaction:</strong> the target is your measured floor plus room, and the ceiling adds a grace buffer, both held under a per-plan cap. Between them, a turn that added 8K+ tokens or edited 3+ files compacts, because work in flight keeps growing. A short query holds instead, shown as <code>(holding: light turn)</code>. At the ceiling it compacts regardless. Grace keeps the plans' ratio (Pro 1 : Max 5x 3 : Max 20x 8). The <code>ctx</code> reading turns orange past the target and red past the ceiling.</li>
       </ul>
       <div class="table-scroll" tabindex="0" role="region" aria-label="Compaction limits per plan">
       <table>
         <thead><tr><th scope="col">Plan</th><th scope="col">Room</th><th scope="col">Grace</th><th scope="col">Cap</th><th scope="col">Target / ceiling, 60K floor</th></tr></thead>
         <tbody>
-        <tr><th scope="row">Pro</th><td>80K</td><td>20K</td><td>180K</td><td>140K / 160K</td></tr>
-        <tr><th scope="row">Max 5x, Team</th><td>130K</td><td>40K</td><td>250K</td><td>190K / 230K</td></tr>
-        <tr><th scope="row">Max 20x</th><td>170K</td><td>50K</td><td>300K</td><td>230K / 280K</td></tr>
-        <tr><th scope="row">API</th><td>140K</td><td>30K</td><td>250K</td><td>200K / 230K</td></tr>
+        <tr><th scope="row">Pro</th><td>80K</td><td>5K</td><td>180K</td><td>140K / 145K</td></tr>
+        <tr><th scope="row">Max 5x, Team</th><td>130K</td><td>15K</td><td>250K</td><td>190K / 205K</td></tr>
+        <tr><th scope="row">Max 20x</th><td>170K</td><td>40K</td><td>300K</td><td>230K / 270K</td></tr>
+        <tr><th scope="row">API</th><td>140K</td><td>10K</td><td>250K</td><td>200K / 210K</td></tr>
         </tbody>
       </table>
       </div>

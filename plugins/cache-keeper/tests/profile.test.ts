@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'claude-code/testing'
 
-import { PROFILES, compactLimits, decideAgent, decideCompact, detectPlan, isAheadOfWeeklyPace, isBelowTarget, resolveProfile } from '../hooks/meter'
+import { PROFILES, compactLimits, contextLevel, decideAgent, decideCompact, detectPlan, isAheadOfWeeklyPace, isBelowTarget, resolveProfile } from '../hooks/meter'
 
 const DAY = 24 * 60 * 60_000
 
@@ -40,14 +40,25 @@ describe('detectPlan', () => {
 describe('compaction limits', () => {
   const max5 = PROFILES.max5
   test('target is floor plus room and ceiling adds grace, unknown until the floor is measured', () => {
-    expect(compactLimits(60_000, max5)).toEqual({ target: 190_000, ceiling: 230_000 })
+    expect(compactLimits(60_000, max5)).toEqual({ target: 190_000, ceiling: 205_000 })
     expect(compactLimits(null, max5)).toBe(null)
   })
   test('a high floor is held under the cap', () => {
-    expect(compactLimits(101_000, max5)).toEqual({ target: 210_000, ceiling: 250_000 })
+    expect(compactLimits(101_000, max5)).toEqual({ target: 231_000, ceiling: 246_000 })
+    expect(compactLimits(150_000, max5)).toEqual({ target: 235_000, ceiling: 250_000 })
   })
   test('every plan keeps its ceiling at or under its cap', () => {
     for (const p of Object.values(PROFILES)) expect(compactLimits(200_000, p)!.ceiling).toBeLessThanOrEqual(p.capTokens)
+  })
+  test('grace keeps the plan ratio Pro 1 : Max 5x 3 : Max 20x 8', () => {
+    expect([PROFILES.pro.graceTokens, PROFILES.max5.graceTokens, PROFILES.max20.graceTokens]).toEqual([5_000, 15_000, 40_000])
+  })
+  test('context level is warn past the target and high past the ceiling', () => {
+    const limits = { target: 190_000, ceiling: 205_000 }
+    expect(contextLevel(150_000, 50_000, limits)).toBe('ok')
+    expect(contextLevel(190_000, 50_000, limits)).toBe('warn')
+    expect(contextLevel(205_000, 50_000, limits)).toBe('high')
+    expect(contextLevel(120_000, 50_000, null)).toBe('high')
   })
   test('below the target only once a floor is known', () => {
     expect(isBelowTarget(150_000, 60_000, max5)).toBe(true)
@@ -73,7 +84,7 @@ describe('decideCompact', () => {
     expect(decideCompact(200_000, 60_000, max5, { growthTokens: 2_000, edits: 3 })).toMatchObject({ action: 'compact', reason: 'heavy' })
   })
   test('the ceiling compacts even a light turn', () => {
-    expect(decideCompact(230_000, 60_000, max5, light)).toMatchObject({ action: 'compact', reason: 'ceiling' })
+    expect(decideCompact(205_000, 60_000, max5, light)).toMatchObject({ action: 'compact', reason: 'ceiling' })
   })
 })
 

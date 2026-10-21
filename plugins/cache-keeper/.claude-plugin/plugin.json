@@ -13,7 +13,7 @@
     "warnTokens": {
       "type": "number",
       "title": "Context warning (tokens)",
-      "description": "Context size where quality may start degrading. Turns yellow here, red at twice this.",
+      "description": "Used until the compaction floor is measured: context turns orange here, red at twice this. After that, orange past the target and red past the ceiling.",
       "default": 50000
     },
     "inputUsdPerMtok": {

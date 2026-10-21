@@ -29,6 +29,8 @@ const COMPACT_DELAY_MS = 2_000
 // The engine's own auto-compaction at this share of the model window means the prompt may not fit: never veto it.
 const NEVER_VETO_PERCENT = 80
 const EDIT_TOOLS = ['Edit', 'Write', 'NotebookEdit'] as const
+// The theme's orange: `warning` is amber, and a theme key follows light and dark themes.
+const ORANGE = 'claude'
 const EMPTY: Meter = {
   lastResponseAt: null,
   contextTokens: null,
@@ -439,8 +441,9 @@ export const register: Register = (on, options) => {
     const left = m.lastResponseAt === null ? null : remainingMs(m.lastResponseAt, minutes, now)
     const cacheColor = left === null ? undefined : left <= 0 ? 'error' : left <= warnLeadMs(minutes) ? 'warning' : undefined
     const tokens = m.contextTokens ?? 0
-    const level = contextLevel(tokens, warnTokens)
-    const ctxColor = level === 'high' ? 'error' : level === 'warn' ? 'warning' : undefined
+    const limits = compactLimits(await read($, floor), (await activeProfile($)).profile)
+    const level = contextLevel(tokens, warnTokens, limits)
+    const ctxColor = level === 'high' ? 'error' : level === 'warn' ? ORANGE : undefined
     const cold = await coldUsd($, tokens, minutes)
     const ttlTag = source === 'detected' ? '' : '?'
     const band = cfg.isProfileShown ? await profileLine($, m, now) : null

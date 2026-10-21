@@ -50,7 +50,9 @@ export function formatRemaining(ms: number): string {
 
 export type Level = 'ok' | 'warn' | 'high'
 
-export function contextLevel(tokens: number, warnTokens: number): Level {
+/** Past the compaction target is `warn`, past the ceiling `high`; before a floor is measured, `warnTokens` and twice it. */
+export function contextLevel(tokens: number, warnTokens: number, limits: CompactLimits | null = null): Level {
+  if (limits !== null) return tokens >= limits.ceiling ? 'high' : tokens >= limits.target ? 'warn' : 'ok'
   if (tokens >= warnTokens * 2) return 'high'
   return tokens >= warnTokens ? 'warn' : 'ok'
 }
@@ -91,15 +93,15 @@ export type Profile = {
   graceTokens: number
 }
 
-const MAX5: Profile = { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 130_000, capTokens: 250_000, graceTokens: 40_000 }
+const MAX5: Profile = { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 130_000, capTokens: 250_000, graceTokens: 15_000 }
 
-// Caps sit at or under 256k, where published Claude long-context recall still holds (README, Compaction).
+// Caps sit at or under 256k, where published Claude long-context recall still holds; grace scales Pro 1 : Max 5x 3 : Max 20x 8 (README, Compaction).
 export const PROFILES: Record<PlanName, Profile> = {
-  pro: { mainModel: 'sonnet', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'low', fablePerSession: 0, roomTokens: 80_000, capTokens: 180_000, graceTokens: 20_000 },
+  pro: { mainModel: 'sonnet', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'low', fablePerSession: 0, roomTokens: 80_000, capTokens: 180_000, graceTokens: 5_000 },
   max5: MAX5,
-  max20: { mainModel: 'opus', mainEffort: 'high', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 2, roomTokens: 170_000, capTokens: 300_000, graceTokens: 50_000 },
+  max20: { mainModel: 'opus', mainEffort: 'high', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 2, roomTokens: 170_000, capTokens: 300_000, graceTokens: 40_000 },
   team: MAX5,
-  api: { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 140_000, capTokens: 250_000, graceTokens: 30_000 },
+  api: { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 140_000, capTokens: 250_000, graceTokens: 10_000 },
 }
 
 export type ProfileOverrides = Partial<

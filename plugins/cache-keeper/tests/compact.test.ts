@@ -28,7 +28,7 @@ test('auto-compact: a light turn past the target holds, a heavy one compacts', {
   await turn($, 187_000)
   await turn($, 192_000)
   expect(state.compacts).toBe(0)
-  await turn($, 205_000)
+  await turn($, 200_000)
   expect(state.compacts).toBe(1)
 })
 
@@ -43,8 +43,10 @@ test('auto-compact: several edits in one turn count as heavy', { options: { prof
 test('auto-compact: the ceiling compacts a light turn', { options: { profile: 'max5', enforce: true, autoCompact: true } }, async ($, on) => {
   const { state, turn } = harness(on)
   await turn($, 60_000)
-  await turn($, 228_000)
-  await turn($, 230_000)
+  await turn($, 200_000)
+  await turn($, 202_000)
+  expect(state.compacts).toBe(1)
+  await turn($, 206_000)
   expect(state.compacts).toBe(2)
 })
 
