@@ -4,6 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 stacks=java,java-airails,ts,web,rust,tools
 for t in claude cursor vscode antigravity codex; do
+  mkdir -p "dist/$t"
   rm -f "dist/$t/AGENTS.md"
   legacy=""
   [ "$t" = antigravity ] && legacy=--legacy-agent-dir
