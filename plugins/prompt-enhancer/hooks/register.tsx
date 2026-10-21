@@ -131,7 +131,7 @@ export const register: Register = (on, options) => {
     return (
       <Box flexDirection="column">
         <Box>
-          <Text dimColor>prompt </Text>
+          <Text dimColor>Prompt </Text>
           <Button key="enhance" label={busy ? 'Enhancing...' : 'Enhance'} hotkey="e" onPress={() => enhance($, DEFAULT_TEMPLATE_NAME)} />
           {original !== null ? <Button key="undo" label="Undo" hotkey="u" onPress={() => undo($)} /> : null}
         </Box>

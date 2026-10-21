@@ -1,29 +1,34 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
-import type { Meter, TtlSource } from '../types'
+import type { CompactVerdict, Meter, TtlSource } from '../types'
 import type { Account, AgentModel, Effort, PlanName, PlanSource, Profile, ProfileOverrides } from './meter'
 import {
   HANDOFF_PROMPT,
   coldCostUsd,
+  compactLimits,
   contextLevel,
   decideAgent,
+  decideCompact,
   detectPlan,
   formatRemaining,
   formatTokens,
   inferTtl,
   isAheadOfWeeklyPace,
-  isBelowWindow,
+  isBelowTarget,
   modelFamily,
   parseThreshold,
   remainingMs,
   resolveProfile,
   ttlForVerdict,
   warnLeadMs,
-  windowTokens,
 } from './meter'
 
 const TICK_MS = 30_000
+const COMPACT_DELAY_MS = 2_000
+// The engine's own auto-compaction at this share of the model window means the prompt may not fit: never veto it.
+const NEVER_VETO_PERCENT = 80
+const EDIT_TOOLS = ['Edit', 'Write', 'NotebookEdit'] as const
 const EMPTY: Meter = {
   lastResponseAt: null,
   contextTokens: null,
@@ -40,6 +45,7 @@ const isBusy = atom({ plugin: 'cache-keeper', key: 'isBusy' } as const, false)
 const floor = atom({ plugin: 'cache-keeper', key: 'floor' } as const, null as number | null)
 const fableUsed = atom({ plugin: 'cache-keeper', key: 'fableUsed' } as const, 0)
 const liveEffort = atom({ plugin: 'cache-keeper', key: 'liveEffort' } as const, null as string | null)
+const verdict = atom({ plugin: 'cache-keeper', key: 'verdict' } as const, { action: 'none' } as CompactVerdict)
 
 type Usage = Awaited<ReturnType<EngineInterface['session']['usage']>>
 
@@ -63,26 +69,41 @@ type Config = {
   inputUsdPerMtok: number
   profile: PlanName | 'auto'
   isEnforced: boolean
+  isAutoCompact: boolean
   isProfileShown: boolean
   overrides: ProfileOverrides
 }
 
-let cfg: Config = { ttlMinutes: 60, warnTokens: 50_000, inputUsdPerMtok: 5, profile: 'auto', isEnforced: false, isProfileShown: true, overrides: {} }
+let cfg: Config = {
+  ttlMinutes: 60,
+  warnTokens: 50_000,
+  inputUsdPerMtok: 5,
+  profile: 'auto',
+  isEnforced: false,
+  isAutoCompact: false,
+  isProfileShown: true,
+  overrides: {},
+}
 let turnStartedAt = 0
+let turnEdits = 0
 let isWarned = false
-let isWindowAsked = false
+let actedStage: 'none' | 'target' | 'ceiling' = 'none'
 let account: Promise<Account | null> | null = null
 
 function readOverrides(options: Record<string, unknown>): ProfileOverrides {
   const pick = <T extends string>(v: unknown) => (v === undefined || v === 'profile' ? undefined : (v as T))
   const fable = Number(options.fablePerSession ?? -1)
   const room = Number(options.compactRoomTokens ?? 0)
+  const cap = Number(options.compactCapTokens ?? 0)
+  const grace = Number(options.compactGraceTokens ?? -1)
   return {
     agentModel: pick<AgentModel>(options.agentModel),
     agentEffort: pick<Effort>(options.agentEffort),
     mainEffort: pick<Effort>(options.mainEffort),
     fablePerSession: fable >= 0 ? fable : undefined,
     roomTokens: room > 0 ? room : undefined,
+    capTokens: cap > 0 ? cap : undefined,
+    graceTokens: grace >= 0 ? grace : undefined,
   }
 }
 
@@ -111,17 +132,44 @@ async function activeProfile($: EngineInterface): Promise<Active> {
 async function resetSession($: EngineInterface): Promise<void> {
   await update($, floor, () => null)
   await update($, fableUsed, () => 0)
-  isWindowAsked = false
+  await afterCompaction($)
 }
 
-async function askAtWindow($: EngineInterface, tokens: number, window: number): Promise<void> {
-  isWindowAsked = true
+async function afterCompaction($: EngineInterface): Promise<void> {
+  await update($, floor, () => null)
+  await update($, verdict, () => ({ action: 'none' }) as CompactVerdict)
+  actedStage = 'none'
+}
+
+async function compactNow($: EngineInterface): Promise<void> {
   try {
-    const answer = await $.ui.ask(`Context ${formatTokens(tokens)} passed the ${formatTokens(window)} window. Hand off now?`, ['Handoff & Clear', 'Keep going'])
+    const r = await $.session.compact()
+    if (r.skip === undefined) await afterCompaction($)
+  } catch {
+    // A turn started first: the next turn.complete decides again.
+    actedStage = 'none'
+  }
+}
+
+async function askToCompact($: EngineInterface, tokens: number, v: Extract<CompactVerdict, { action: 'compact' }>): Promise<void> {
+  const why = v.reason === 'ceiling' ? `reached the ${formatTokens(v.limits.ceiling)} ceiling` : `passed ${formatTokens(v.limits.target)} with work in flight`
+  try {
+    const answer = await $.ui.ask(`Context ${formatTokens(tokens)} ${why}. Compact now?`, ['Compact', 'Handoff & Clear', 'Keep going'])
+    if (answer === 'Compact') await compactNow($)
     if (answer === 'Handoff & Clear') await handoff($)
   } catch {
     // Dismissed: the band's Handoff button stays.
   }
+}
+
+/** Acts once per stage: a heavy turn past target, then again at the ceiling. */
+async function actOnVerdict($: EngineInterface, tokens: number, v: CompactVerdict): Promise<void> {
+  if (v.action !== 'compact') return
+  const stage = v.reason === 'ceiling' ? 'ceiling' : 'target'
+  if (actedStage === 'ceiling' || actedStage === stage) return
+  actedStage = stage
+  if (cfg.isAutoCompact) $.clock.after(COMPACT_DELAY_MS, () => void compactNow($))
+  else void askToCompact($, tokens, v)
 }
 
 async function ttl($: EngineInterface): Promise<{ minutes: number; source: TtlSource }> {
@@ -185,21 +233,31 @@ async function profileLine($: EngineInterface, m: Meter, now: number): Promise<{
   const measured = await read($, floor)
   const effort = (await read($, liveEffort)) ?? '?'
   const model = modelFamily(await $.session.model())
-  const window = windowTokens(measured, profile.roomTokens)
-  const compact = window === null ? `compact @floor+${formatTokens(profile.roomTokens)}` : `compact @${formatTokens(window)} floor ${formatTokens(measured!)}`
+  const limits = compactLimits(measured, profile)
+  const v = await read($, verdict)
+  const compact =
+    limits === null
+      ? `compact @floor+${formatTokens(profile.roomTokens)} cap ${formatTokens(profile.capTokens)}`
+      : `compact @${formatTokens(limits.target)}-${formatTokens(limits.ceiling)} floor ${formatTokens(measured!)}${verdictTag(v)}`
   const tag = source === 'set' ? '' : ` (${source})`
   const isFableSpent = profile.fablePerSession > 0 && used >= profile.fablePerSession
   return {
     text: [
-      `profile ${plan}${tag}`,
+      `Profile ${plan}${tag}`,
       `main ${model}/${effort}`,
       `agents ${profile.agentModel}/${profile.agentEffort}`,
       `fable ${used}/${profile.fablePerSession}`,
       compact,
       cfg.isEnforced ? 'enforced' : 'display only',
     ].join(' · '),
-    isWarned: isFableSpent || isAheadOfWeeklyPace(m.sevenDay, m.sevenDayResetsAt, now),
+    isWarned: isFableSpent || v.action === 'compact' || isAheadOfWeeklyPace(m.sevenDay, m.sevenDayResetsAt, now),
   }
+}
+
+function verdictTag(v: CompactVerdict): string {
+  if (v.action === 'hold') return ' (holding: light turn)'
+  if (v.action === 'compact') return v.reason === 'ceiling' ? ' (due: ceiling)' : ' (due: heavy work)'
+  return ''
 }
 
 export const register: Register = (on, options) => {
@@ -209,6 +267,7 @@ export const register: Register = (on, options) => {
     inputUsdPerMtok: Number(options.inputUsdPerMtok ?? 5),
     profile: (options.profile ?? 'auto') as Config['profile'],
     isEnforced: options.enforce === true,
+    isAutoCompact: options.autoCompact === true,
     isProfileShown: options.showProfile !== false,
     overrides: readOverrides(options),
   }
@@ -236,6 +295,13 @@ export const register: Register = (on, options) => {
     return next(e)
   })
 
+  for (const tool of EDIT_TOOLS) {
+    on('tool.call', { tool }, async ($, e, next) => {
+      if (e.agentId === undefined) turnEdits += 1
+      return next(e)
+    })
+  }
+
   on('turn.complete', async ($, e, next) => {
     if (e.agentId !== undefined) return next(e)
     const now = await $.clock.now()
@@ -254,8 +320,11 @@ export const register: Register = (on, options) => {
     const measured = await read($, floor)
     if (measured === null && tokens > 0) await update($, floor, () => tokens)
     const { profile } = await activeProfile($)
-    const window = windowTokens(measured, profile.roomTokens)
-    if (cfg.isEnforced && window !== null && tokens >= window && !isWindowAsked && !e.isAborted) void askAtWindow($, tokens, window)
+    const work = { growthTokens: tokens - (prior.contextTokens ?? tokens), edits: turnEdits }
+    turnEdits = 0
+    const v = decideCompact(tokens, measured, profile, work)
+    await update($, verdict, () => v)
+    if (cfg.isEnforced && !e.isAborted) await actOnVerdict($, tokens, v)
 
     const threshold = (await $.store.get('autohandoff')) as number | undefined
     if (threshold !== undefined && (m.contextTokens ?? 0) >= threshold && !e.isAborted) {
@@ -272,17 +341,16 @@ export const register: Register = (on, options) => {
 
   on('session.compact', async ($, e, next) => {
     if (e.agentId !== undefined || e.trigger === 'precompute') return next(e)
-    const tokens = (await read($, meter)).contextTokens ?? 0
+    const m = await read($, meter)
+    const tokens = m.contextTokens ?? 0
     const measured = await read($, floor)
     const { profile } = await activeProfile($)
-    if (cfg.isEnforced && e.trigger === 'auto' && isBelowWindow(tokens, measured, profile.roomTokens)) {
-      return { skip: `cache-keeper: ${formatTokens(tokens)} is under the ${formatTokens(measured! + profile.roomTokens)} window (floor + room).` }
+    const isNearModelLimit = (m.contextPercent ?? 0) >= NEVER_VETO_PERCENT
+    if (cfg.isEnforced && e.trigger === 'auto' && !isNearModelLimit && isBelowTarget(tokens, measured, profile)) {
+      return { skip: `cache-keeper: ${formatTokens(tokens)} is under the ${formatTokens(compactLimits(measured, profile)!.target)} target (floor + room).` }
     }
     const r = await next(e)
-    if (r.skip === undefined) {
-      await update($, floor, () => null)
-      isWindowAsked = false
-    }
+    if (r.skip === undefined) await afterCompaction($)
     return r
   })
 
@@ -381,7 +449,7 @@ export const register: Register = (on, options) => {
       <Box flexDirection="column">
         <Box>
           <Text color={cacheColor} dimColor={cacheColor === undefined}>
-            cache {left === null ? '--' : formatRemaining(left)}/{minutes}m{ttlTag}
+            Cache {left === null ? '--' : formatRemaining(left)}/{minutes}m{ttlTag}
           </Text>
           <Text dimColor> · </Text>
           <Text color={ctxColor} dimColor={ctxColor === undefined}>

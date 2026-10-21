@@ -1,6 +1,6 @@
 {
   "name": "collision-guard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Warns before editing a file another Claude Code session in the same folder changed recently, and shows what the other sessions are working on.",
   "types": "./types/index.d.ts",
   "userConfig": {

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'claude-code/testing'
 
-import { PROFILES, decideAgent, detectPlan, isAheadOfWeeklyPace, isBelowWindow, resolveProfile, windowTokens } from '../hooks/meter'
+import { PROFILES, compactLimits, decideAgent, decideCompact, detectPlan, isAheadOfWeeklyPace, isBelowTarget, resolveProfile } from '../hooks/meter'
 
 const DAY = 24 * 60 * 60_000
 
@@ -13,7 +13,7 @@ describe('resolveProfile', () => {
     expect(p.agentModel).toBe('haiku')
     expect(p.fablePerSession).toBe(0)
     expect(p.agentEffort).toBe('medium')
-    expect(p.roomTokens).toBe(100_000)
+    expect(p.roomTokens).toBe(130_000)
   })
 })
 
@@ -37,16 +37,47 @@ describe('detectPlan', () => {
   })
 })
 
-describe('window math', () => {
-  test('window is floor plus room, unknown until the floor is measured', () => {
-    expect(windowTokens(62_000, 100_000)).toBe(162_000)
-    expect(windowTokens(null, 100_000)).toBe(null)
+describe('compaction limits', () => {
+  const max5 = PROFILES.max5
+  test('target is floor plus room and ceiling adds grace, unknown until the floor is measured', () => {
+    expect(compactLimits(60_000, max5)).toEqual({ target: 190_000, ceiling: 230_000 })
+    expect(compactLimits(null, max5)).toBe(null)
   })
-  test('below the window only once a floor is known', () => {
-    expect(isBelowWindow(120_000, 62_000, 100_000)).toBe(true)
-    expect(isBelowWindow(162_000, 62_000, 100_000)).toBe(false)
-    expect(isBelowWindow(120_000, null, 100_000)).toBe(false)
+  test('a high floor is held under the cap', () => {
+    expect(compactLimits(101_000, max5)).toEqual({ target: 210_000, ceiling: 250_000 })
   })
+  test('every plan keeps its ceiling at or under its cap', () => {
+    for (const p of Object.values(PROFILES)) expect(compactLimits(200_000, p)!.ceiling).toBeLessThanOrEqual(p.capTokens)
+  })
+  test('below the target only once a floor is known', () => {
+    expect(isBelowTarget(150_000, 60_000, max5)).toBe(true)
+    expect(isBelowTarget(190_000, 60_000, max5)).toBe(false)
+    expect(isBelowTarget(150_000, null, max5)).toBe(false)
+  })
+})
+
+describe('decideCompact', () => {
+  const max5 = PROFILES.max5
+  const light = { growthTokens: 1_200, edits: 0 }
+  test('nothing below the target or before a floor', () => {
+    expect(decideCompact(150_000, 60_000, max5, light)).toEqual({ action: 'none' })
+    expect(decideCompact(400_000, null, max5, light)).toEqual({ action: 'none' })
+  })
+  test('a light turn past the target holds inside the grace', () => {
+    expect(decideCompact(200_000, 60_000, max5, light)).toMatchObject({ action: 'hold' })
+  })
+  test('a turn that grew the context a lot compacts at the target', () => {
+    expect(decideCompact(200_000, 60_000, max5, { growthTokens: 12_000, edits: 0 })).toMatchObject({ action: 'compact', reason: 'heavy' })
+  })
+  test('a turn with several file edits compacts at the target', () => {
+    expect(decideCompact(200_000, 60_000, max5, { growthTokens: 2_000, edits: 3 })).toMatchObject({ action: 'compact', reason: 'heavy' })
+  })
+  test('the ceiling compacts even a light turn', () => {
+    expect(decideCompact(230_000, 60_000, max5, light)).toMatchObject({ action: 'compact', reason: 'ceiling' })
+  })
+})
+
+describe('weekly pace', () => {
   test('weekly pace compares use with time elapsed in the window', () => {
     const now = 0
     expect(isAheadOfWeeklyPace(60, now + 3.5 * DAY, now)).toBe(true)

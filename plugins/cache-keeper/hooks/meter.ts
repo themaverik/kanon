@@ -1,3 +1,5 @@
+import type { CompactLimits, CompactVerdict } from '../types'
+
 const MINUTE = 60_000
 const SHORT_TTL_MIN = 5
 const LONG_TTL_MIN = 60
@@ -85,20 +87,24 @@ export type Profile = {
   agentEffort: Effort
   fablePerSession: number
   roomTokens: number
+  capTokens: number
+  graceTokens: number
 }
 
-const MAX5: Profile = { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 100_000 }
+const MAX5: Profile = { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 130_000, capTokens: 250_000, graceTokens: 40_000 }
 
-// api: the design's fixed 200k auto window, expressed as room over a ~60k floor.
+// Caps sit at or under 256k, where published Claude long-context recall still holds (README, Compaction).
 export const PROFILES: Record<PlanName, Profile> = {
-  pro: { mainModel: 'sonnet', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'low', fablePerSession: 0, roomTokens: 80_000 },
+  pro: { mainModel: 'sonnet', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'low', fablePerSession: 0, roomTokens: 80_000, capTokens: 180_000, graceTokens: 20_000 },
   max5: MAX5,
-  max20: { mainModel: 'opus', mainEffort: 'high', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 2, roomTokens: 150_000 },
+  max20: { mainModel: 'opus', mainEffort: 'high', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 2, roomTokens: 170_000, capTokens: 300_000, graceTokens: 50_000 },
   team: MAX5,
-  api: { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 140_000 },
+  api: { mainModel: 'opus', mainEffort: 'medium', agentModel: 'sonnet', agentEffort: 'medium', fablePerSession: 1, roomTokens: 140_000, capTokens: 250_000, graceTokens: 30_000 },
 }
 
-export type ProfileOverrides = Partial<Pick<Profile, 'mainEffort' | 'agentModel' | 'agentEffort' | 'fablePerSession' | 'roomTokens'>>
+export type ProfileOverrides = Partial<
+  Pick<Profile, 'mainEffort' | 'agentModel' | 'agentEffort' | 'fablePerSession' | 'roomTokens' | 'capTokens' | 'graceTokens'>
+>
 
 export function resolveProfile(plan: PlanName, overrides: ProfileOverrides): Profile {
   const defined = Object.fromEntries(Object.entries(overrides).filter(([, v]) => v !== undefined))
@@ -127,13 +133,40 @@ export function detectPlan(hasRateLimits: boolean | null, account: Account | nul
   return plan === null ? { plan: 'max5', source: 'assumed' } : { plan, source: 'auto' }
 }
 
-export function windowTokens(floor: number | null, roomTokens: number): number | null {
-  return floor === null ? null : floor + roomTokens
+/**
+ * `target` is floor plus room, held under the cap less grace; `ceiling` is
+ * target plus grace, so a high floor can never push past the cap.
+ */
+export function compactLimits(floor: number | null, profile: Profile): CompactLimits | null {
+  if (floor === null) return null
+  const target = Math.min(floor + profile.roomTokens, profile.capTokens - profile.graceTokens)
+  return { target, ceiling: target + profile.graceTokens }
 }
 
-export function isBelowWindow(tokens: number, floor: number | null, roomTokens: number): boolean {
-  const w = windowTokens(floor, roomTokens)
-  return w !== null && tokens < w
+export function isBelowTarget(tokens: number, floor: number | null, profile: Profile): boolean {
+  const limits = compactLimits(floor, profile)
+  return limits !== null && tokens < limits.target
+}
+
+const HEAVY_GROWTH_TOKENS = 8_000
+const HEAVY_EDITS = 3
+
+/** What the last main-loop turn did: context it added and files it edited. */
+export type TurnWork = { growthTokens: number; edits: number }
+
+export function isHeavyTurn(work: TurnWork): boolean {
+  return work.growthTokens >= HEAVY_GROWTH_TOKENS || work.edits >= HEAVY_EDITS
+}
+
+/**
+ * Between target and ceiling, a heavy turn compacts and a light one holds:
+ * work in flight keeps growing, a short query barely moves the context.
+ */
+export function decideCompact(tokens: number, floor: number | null, profile: Profile, work: TurnWork): CompactVerdict {
+  const limits = compactLimits(floor, profile)
+  if (limits === null || tokens < limits.target) return { action: 'none' }
+  if (tokens >= limits.ceiling) return { action: 'compact', limits, reason: 'ceiling' }
+  return isHeavyTurn(work) ? { action: 'compact', limits, reason: 'heavy' } : { action: 'hold', limits }
 }
 
 const MODEL_RANK: Record<AgentModel, number> = { haiku: 0, sonnet: 1, opus: 2, fable: 3 }

@@ -1,6 +1,6 @@
 {
   "name": "prompt-enhancer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Band above the prompt: rewrite the draft as a sharper prompt and wrap it in your standing template (~/.claude/prompt-templates).",
   "types": "./types/index.d.ts",
   "userConfig": {

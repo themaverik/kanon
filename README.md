@@ -11,7 +11,7 @@ The full guide is the landing page, [`index.html`](index.html).
 Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as code, and every pattern points to its source. The figures below come from this repo's files and the author's own Claude Code transcripts.
 
 - **Distilled from the best public packs.** Benchmarked against [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), [mattpocock/skills](https://github.com/mattpocock/skills) and [obra/superpowers](https://github.com/obra/superpowers). Kanōn keeps what works and points to them for what they do better. Adam Bien's airails ships vendored for Java. The CLAUDE.md template went from 7.9 KB to 4.2 KB, with every line earning its place.
-- **Cost-aware routing and compaction.** Subagents run on Sonnet by default, Opus needs approval, and Fable is held to one bounded task per session. cache-keeper reads your plan (Pro, Max, Team or API) and compacts at your real context floor plus working room. A fixed 50K gate would sit below the ~57K floor a fresh session already starts at.
+- **Cost-aware routing and compaction.** Subagents run on Sonnet by default, Opus needs approval, and Fable is held to one bounded task per session. cache-keeper reads your plan (Pro, Max, Team or API) and compacts at your real context floor plus working room, capped per plan. Past that target it adapts: heavy work compacts, a short query holds inside a grace buffer. See [Compaction](#compaction).
 - **Visibility in session mods.** Cache time left, context size, 5-hour and weekly use, and session cost show on every turn. Handoff & Clear is one key, and collision-guard asks before you edit a file another session just changed.
 - **Layered plugins.** Enable core plus your stack, and nothing else loads. About 1.4–2.5K tokens are fixed per session, not counting MCP tool schemas. Eight tech stack recipes cover Quarkus, Spring Boot, Kotlin, NestJS, Next.js, plain TypeScript and Rust.
 - **Audited prompts.** The CLAUDE.md template, agents, skills and rules are audited with `/claude-api prompt-audit` against current Claude models (Opus 5.5, Sonnet 5.5, Fable 5.1), so instructions written for older models get caught. The template is about 1.05K tokens.
@@ -36,6 +36,45 @@ Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as
 | prompt-enhancer | any repo (mod) | rewrites a draft prompt into your template, unsent |
 
 The mods need a Claude Code build with hooks modules. The landing page's [Mods section](index.html#mods) covers their buttons, commands and settings.
+
+## Compaction
+
+cache-keeper decides when to compact from three numbers per plan: room, grace and cap. It measures the floor, which is the context size at the first response after a start or a compaction. Then it derives two limits:
+
+- **Target** = floor + room, held at or under cap − grace.
+- **Ceiling** = target + grace. It never passes the cap, however high the floor.
+
+Between target and ceiling the decision adapts to the last turn. A turn that added 8K+ tokens or edited 3+ files is work in flight, and the context will keep growing, so compaction pays off now. A short query barely moves the context, so it holds inside the grace instead of paying for a summary it doesn't need. At the ceiling it compacts regardless.
+
+```mermaid
+flowchart LR
+  T[Turn ends] --> A{context ≥ target?}
+  A -- no --> N[Nothing]
+  A -- yes --> B{context ≥ ceiling?}
+  B -- yes --> C[Compact]
+  B -- no --> H{heavy turn?}
+  H -- yes --> C
+  H -- no --> W[Hold in grace]
+```
+*One verdict per main-loop turn. Subagent turns are ignored.*
+
+| Plan | Room | Grace | Cap | Target / ceiling from a 60K floor |
+|---|---|---|---|---|
+| Pro | 80K | 20K | 180K | 140K / 160K |
+| Max 5x, Team | 130K | 40K | 250K | 190K / 230K |
+| Max 20x | 170K | 50K | 300K | 230K / 280K |
+| API | 140K | 30K | 250K | 200K / 230K |
+
+Why these numbers:
+
+- **Quality.** Recall falls as context grows, on every model these studies tested ([Chroma](https://www.trychroma.com/research/context-rot), [UIUC, arXiv 2510.05381](https://arxiv.org/abs/2510.05381)). On MRCR v2 8-needle, Opus 4.6 scores 93% up to 256K and 76% at 1M (Sonnet 4.6 system card, Table 2.16.A, [compiled by Klu](https://klu.ai/benchmarks/mrcr-v2)). Caps stay at or under that 256K line, except Max 20x, which buys continuity with some quality risk.
+- **Usage.** Each turn re-sends the whole context, and Anthropic says longer conversations use more of your limit ([usage limits](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work)). Pro runs out of quota first, so it compacts earliest.
+- **Continuity.** A summary loses detail and causes re-reads. Max plans have quota to spare, so they keep more raw context.
+- **Floor drift.** A plain floor + room rule moves with the floor: a 101K floor put the target at 201K. The cap holds the ceiling in place.
+
+The engine's own auto-compaction fires near the model's window (about 967K on a 1M model), so on its own it almost never fires in time ([compaction internals](https://github.com/anthropics/claude-code/issues/27036)). By default the band only shows the verdict, for example `compact @190k-230k floor 60k (holding: light turn)`. With `enforce` on it asks **Compact**, **Handoff & Clear** or **Keep going** once at a heavy turn past the target and once more at the ceiling. With `autoCompact` on too, it compacts between turns without asking. It never vetoes an engine compaction once the context passes 80% of the model window, so a prompt that is too long still compacts. Override any plan with `compactRoomTokens`, `compactGraceTokens` and `compactCapTokens`.
+
+The thresholds are Kanōn's own reading of these sources, not published figures. No long-context scores are public yet for Opus 5.5 or Fable 5.1, so 256K is a conservative line, not a measured one.
 
 ## What Kanōn does not cover
 

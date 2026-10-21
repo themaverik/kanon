@@ -1,6 +1,6 @@
 {
   "name": "cache-keeper",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, one-click handoff, and a cost profile per plan that can steer subagent models, effort and compaction.",
   "types": "./types/index.d.ts",
   "userConfig": {
@@ -39,13 +39,13 @@
     "enforce": {
       "type": "boolean",
       "title": "Enforce profile",
-      "description": "Off: the band only shows the profile. On: rewrite subagent model and effort, cap Fable, set main effort, veto early auto-compaction.",
+      "description": "Off: the band only shows the profile and the compaction verdict. On: rewrite subagent model and effort, cap Fable, set main effort, veto early auto-compaction, and ask to compact when the verdict is due.",
       "default": false
     },
     "showProfile": {
       "type": "boolean",
       "title": "Show profile line",
-      "description": "Second band line with the profile, live main model and effort, Fable count and compaction window.",
+      "description": "Second band line with the profile, live main model and effort, Fable count, and compaction target, ceiling and verdict.",
       "default": true
     },
     "agentModel": {
@@ -97,8 +97,26 @@
     "compactRoomTokens": {
       "type": "number",
       "title": "Compaction room (tokens)",
-      "description": "Working room over the measured floor before the window. 0 uses the profile's.",
+      "description": "Working room over the measured floor before the compaction target. 0 uses the profile's.",
       "default": 0
+    },
+    "compactCapTokens": {
+      "type": "number",
+      "title": "Compaction cap (tokens)",
+      "description": "Hard ceiling the target plus grace never passes, however high the floor. 0 uses the profile's.",
+      "default": 0
+    },
+    "compactGraceTokens": {
+      "type": "number",
+      "title": "Compaction grace (tokens)",
+      "description": "Buffer past the target where a light turn holds instead of compacting. -1 uses the profile's.",
+      "default": -1
+    },
+    "autoCompact": {
+      "type": "boolean",
+      "title": "Auto-compact",
+      "description": "With enforce on: compact by itself between turns when the verdict is due, instead of asking.",
+      "default": false
     }
   },
   "author": {

@@ -10,6 +10,13 @@ export type Meter = {
 
 export type TtlSource = 'config' | 'detected' | 'manual'
 
+export type CompactLimits = { target: number; ceiling: number }
+
+export type CompactVerdict =
+  | { action: 'none' }
+  | { action: 'hold'; limits: CompactLimits }
+  | { action: 'compact'; limits: CompactLimits; reason: 'heavy' | 'ceiling' }
+
 declare module 'claude-code' {
   interface PluginState {
     'cache-keeper': {
@@ -19,6 +26,7 @@ declare module 'claude-code' {
       floor: number | null
       fableUsed: number
       liveEffort: string | null
+      verdict: CompactVerdict
     }
   }
 }

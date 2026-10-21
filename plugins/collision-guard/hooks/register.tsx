@@ -139,7 +139,7 @@ export const register: Register = (on, options) => {
           const status = p.state === 'working' ? 'working on' : 'done'
           return (
             <Text key={p.id} color={p.state === 'working' ? 'warning' : undefined} dimColor={p.state !== 'working'}>
-              other session {shortId(p.id)} · {status}: {p.task || '(no prompt since it loaded)'}
+              Other session {shortId(p.id)} · {status}: {p.task || '(no prompt since it loaded)'}
               {p.edits.length > 0 && last ? ` · ${p.edits.length} file(s), last ${baseName(last.path)} ${ago(now - last.at)}` : ''}
             </Text>
           )

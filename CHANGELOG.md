@@ -4,6 +4,13 @@ Kanōn follows [Semantic Versioning](https://semver.org/). Each release is a `vX
 
 ## Unreleased
 
+Plugin versions: cache-keeper 0.3.0, collision-guard 0.1.1, prompt-enhancer 0.1.1.
+
+- cache-keeper compacts adaptively. The target is floor plus room and the ceiling adds a grace buffer, both held under a per-plan cap (Pro 180K, Max 5x and Team 250K, Max 20x 300K, API 250K). Between them a heavy turn (8K+ tokens added or 3+ files edited) compacts and a light one holds. Max 5x room rises from 100K to 130K, Max 20x from 150K to 170K. See the README's Compaction section for the sources.
+- cache-keeper: with `enforce` on it asks Compact, Handoff & Clear or Keep going when the verdict is due. The new `autoCompact` option compacts between turns without asking. New `compactCapTokens` and `compactGraceTokens` options.
+- cache-keeper no longer vetoes an engine auto-compaction past 80% of the model window, so a prompt that is too long still compacts. Before, the API profile's 200K window could veto the engine's 167K compaction on a 200K model.
+- Band labels start with a capital: `Cache`, `Profile`, `Other session`, `Prompt`.
+
 ## 2.0.0 (Oct 2026)
 
 Plugin versions: kanon-core 2.0.0, kanon-java 2.0.0, kanon-ts 1.1.0, kanon-web 1.0.1. New plugins kanon-rust, kanon-java-airails and kanon-tools start at 1.0.0.

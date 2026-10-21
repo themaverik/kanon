@@ -52,19 +52,19 @@
     {
       "name": "cache-keeper",
       "source": "./plugins/cache-keeper",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "description": "Band above the prompt: prompt-cache countdown, context size, rate limits, session cost, cold-cache cost, and one-click handoff. Needs a Claude Code build with hooks modules."
     },
     {
       "name": "collision-guard",
       "source": "./plugins/collision-guard",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Warns before editing a file another Claude Code session in the same folder changed recently, and shows what the other sessions are working on. Needs a Claude Code build with hooks modules."
     },
     {
       "name": "prompt-enhancer",
       "source": "./plugins/prompt-enhancer",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Band above the prompt: rewrite the draft as a sharper prompt and wrap it in your standing template (~/.claude/prompt-templates). Needs a Claude Code build with hooks modules."
     }
   ]
