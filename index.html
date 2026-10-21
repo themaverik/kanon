@@ -322,21 +322,21 @@ footer p{max-width:75ch}
     <div class="station">
       <span class="stationlabel">Generated</span>
       <h3>Cursor</h3>
-<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools cursor
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools cursor</code></pre>
       <p>Produces <code>.cursor/rules/*.mdc</code> (glob auto-attach), <code>.cursor/skills/</code> (verbatim SKILL.md standard, incl. agent charters as <code>persona-*</code> skills), <code>.cursor/mcp.json</code> (Serena). AGENTS.md at the root is read natively.</p>
     </div>
 
     <div class="station">
       <span class="stationlabel">Generated</span>
       <h3>VS Code (Copilot)</h3>
-<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks ts,web --tools vscode
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks ts,web --tools vscode</code></pre>
       <p>Produces <code>.github/instructions/*.instructions.md</code> (applyTo globs), <code>.github/skills/</code>, real custom agents in <code>.github/agents/*.agent.md</code>, <code>.github/copilot-instructions.md</code> pointing at AGENTS.md, and <code>.vscode/mcp.json</code>.</p>
     </div>
 
     <div class="station">
       <span class="stationlabel">Generated</span>
       <h3>Codex</h3>
-<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools codex
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools codex</code></pre>
       <p>Codex reads <code>AGENTS.md</code> natively, and skills land in <code>.codex/skills/</code>. Verify the project-level skills path against your Codex version. The global fallback is <code>~/.codex/skills</code>.</p>
     </div>
 
