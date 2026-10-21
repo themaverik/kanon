@@ -10,6 +10,7 @@ Plugin versions: cache-keeper 0.3.0, collision-guard 0.1.1, prompt-enhancer 0.1.
 - cache-keeper: with `enforce` on it asks Compact, Handoff & Clear or Keep going when the verdict is due. The new `autoCompact` option compacts between turns without asking. New `compactCapTokens` and `compactGraceTokens` options.
 - cache-keeper no longer vetoes an engine auto-compaction past 80% of the model window, so a prompt that is too long still compacts. Before, the API profile's 200K window could veto the engine's 167K compaction on a 200K model.
 - cache-keeper's `ctx` reading turns orange past the compaction target and red past the ceiling, instead of yellow and red at fixed `warnTokens` multiples.
+- New `commit-msg` githook strips AI attribution trailers (`Co-Authored-By: Claude`, "Generated with Claude Code") and keeps human co-authors. Before, the no-attribution rule was policy text only. Bypass once with `SKIP_ATTRIBUTION_HOOK=1`.
 - Band labels start with a capital: `Cache`, `Profile`, `Other session`, `Prompt`.
 
 ## 2.0.0 (Oct 2026)

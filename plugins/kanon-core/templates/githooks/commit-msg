@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Strips AI tool attribution from the commit message (git-policy.md: attribution
+# traces a change to an accountable person). Human Co-Authored-By lines stay.
+# Bypass once with: SKIP_ATTRIBUTION_HOOK=1 git commit ...
+[ "${SKIP_ATTRIBUTION_HOOK:-0}" = "1" ] && exit 0
+MSG_FILE="$1"
+
+AI='claude|anthropic|copilot|cursor|codex|chatgpt|openai|gemini|devin|aider|windsurf|codeium|tabnine'
+# A "Generated with" line counts only when it opens the line (after an emoji or bullet), so prose that names a tool stays.
+PATTERN="^[[:space:]]*co-authored-by:.*($AI)|^[^[:alnum:]]*generated (with|by) .*($AI)"
+
+grep -qiE "$PATTERN" "$MSG_FILE" || exit 0
+
+grep -viE "$PATTERN" "$MSG_FILE" > "$MSG_FILE.tmp"
+# Drop the blank lines the removed trailers leave at the end.
+awk '{ lines[NR] = $0 } END { n = NR; while (n > 0 && lines[n] ~ /^[[:space:]]*$/) n--; for (i = 1; i <= n; i++) print lines[i] }' "$MSG_FILE.tmp" > "$MSG_FILE"
+rm -f "$MSG_FILE.tmp"
+echo "commit-msg: removed AI attribution lines (git-policy.md)." >&2

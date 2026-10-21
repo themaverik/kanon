@@ -24,6 +24,9 @@ echo "pre-commit strips invisible Unicode from staged code and docs via the wate
 echo "service (WATERMARKS_SERVICE_URL, default http://127.0.0.1:8765). It fails open when"
 echo "the service is down. Bypass once with: SKIP_WATERMARK_HOOK=1 git commit ..."
 echo
+echo "commit-msg strips AI attribution trailers (Co-Authored-By: Claude, \"Generated with\")"
+echo "and keeps human co-authors. Bypass once with: SKIP_ATTRIBUTION_HOOK=1 git commit ..."
+echo
 echo "pre-push blocks pushes whose outgoing commits add secrets (key patterns, private"
 echo "keys, dotenv files; extend with BANNED='term1|term2'). Findings print masked."
 echo "Bypass once with: SKIP_SECRET_HOOK=1 git push ..."
