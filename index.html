@@ -10,127 +10,160 @@
 <meta property="og:description" content="One canonical source, generated dialects for every editor. Ticket-driven, verifier-backed, built lean.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://github.com/themaverik/kanon">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M11 8v16M11 16l9-8M11 16l9 8' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="assets/kanon-mark.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(assets/fonts/ibm-plex-sans-latin-ext-wght-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(assets/fonts/ibm-plex-sans-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"IBM Plex Sans";font-style:italic;font-weight:100 700;font-display:swap;src:url(assets/fonts/ibm-plex-sans-latin-wght-italic.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(assets/fonts/jetbrains-mono-latin-wght-normal.woff2) format("woff2")}
+/* taste-skill-ignore: code blocks only */ @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(assets/fonts/jetbrains-mono-latin-wght-normal.woff2) format("woff2")}
 
 :root{
   color-scheme:dark;
   /* Slate-950 base; secondary text stays at slate-400 so it clears WCAG AA on every surface. */
   --page:#020617; --bg:#0b1220; --surface:#0f172a; --surface-2:#1e293b; --border:#1e293b; --border-2:#334155;
   --text:#cbd5e1; --heading:#f8fafc; --text-2:#94a3b8; --label:#94a3b8;
-  --accent:#3b82f6; --accent-hover:#60a5fa; --on-accent:#ffffff;
+  --accent:#2563eb; --accent-hover:#60a5fa; --on-accent:#ffffff;
   --link:#60a5fa; --accent-tint:rgba(59,130,246,.14); --focus:#60a5fa;
   --good:#34d399; --good-tint:rgba(52,211,153,.12); --bad:#f87171;
   --warn-tint:rgba(251,191,36,.12); --warn-line:#f59e0b; --warn-text:#fbbf24;
   --code-bg:#050b18; --code-text:#e2e8f0; --code-border:#1e293b;
-  --syn-cmd:#60a5fa; --syn-flag:#c4b5fd; --syn-str:#fcd34d; --syn-key:#7dd3fc; --syn-com:#64748b; --syn-num:#f9a8d4;
+  --syn-cmd:#60a5fa; --syn-flag:#c4b5fd; --syn-str:#fcd34d; --syn-key:#7dd3fc; --syn-com:#8391a7; --syn-num:#f9a8d4;
   --font:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  /* taste-skill-ignore: code blocks only */ --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --radius:8px; --radius-lg:14px; --nav-h:60px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{background:var(--page);color:var(--text);font-family:var(--font);font-size:15.5px;line-height:1.65;-webkit-text-size-adjust:100%}
-body::before{content:"";position:fixed;inset:0 0 auto;height:560px;pointer-events:none;z-index:-1;background:radial-gradient(60% 100% at 50% 0,rgba(59,130,246,.16),transparent 70%)}
+body{background:var(--page);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-text-size-adjust:100%}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px 80px}
-code,pre,.path{font-family:var(--mono);font-size:.86em}
-code,.path{background:var(--surface-2);color:#e2e8f0;padding:.12em .42em;border-radius:5px;overflow-wrap:anywhere}
-pre{position:relative;background:var(--code-bg);color:var(--code-text);border:1px solid var(--code-border);padding:42px 18px 16px;border-radius:var(--radius-lg);overflow-x:auto;line-height:1.6;margin:14px 0;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
-/* Window chrome: three dots drawn as gradients so no extra markup is needed. */
-pre::before{content:"";position:absolute;top:14px;left:16px;width:52px;height:10px;background:radial-gradient(circle at 5px 5px,#f87171 4.5px,transparent 5px),radial-gradient(circle at 23px 5px,#fbbf24 4.5px,transparent 5px),radial-gradient(circle at 41px 5px,#34d399 4.5px,transparent 5px);opacity:.8}
-pre[data-title]::after{content:attr(data-title);position:absolute;top:9px;left:84px;font:500 12px var(--mono);color:var(--text-2)}
+code,pre{font-family:var(--mono);font-size:.9em}
+code{background:var(--surface-2);color:#e2e8f0;padding:.12em .42em;border-radius:5px;overflow-wrap:anywhere}
+pre{position:relative;background:var(--code-bg);color:var(--code-text);padding:40px 18px 16px;border-radius:var(--radius);overflow-x:auto;line-height:1.6;margin:14px 0}
+pre[data-title]::after{content:attr(data-title);position:absolute;top:12px;left:18px;font:500 13px var(--font);color:var(--text-2)}
 pre code{background:none;padding:0;font-size:.84rem;color:inherit}
 pre.wrap-pre{white-space:pre-wrap}
 .t-cmd{color:var(--syn-cmd);font-weight:600}.t-flag{color:var(--syn-flag)}.t-str{color:var(--syn-str)}.t-key{color:var(--syn-key)}.t-com{color:var(--syn-com);font-style:italic}.t-num{color:var(--syn-num)}
 a{color:var(--link);text-decoration:underline;text-decoration-color:rgba(96,165,250,.4);text-decoration-thickness:1px;text-underline-offset:.2em}
 a:hover{color:#93c5fd;text-decoration-color:currentColor}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
-.skip{position:absolute;left:12px;top:-60px;background:var(--accent);color:var(--on-accent);padding:8px 16px;border-radius:999px;z-index:20;text-decoration:none}
+.skip{position:absolute;left:12px;top:-60px;background:#1d4ed8;color:var(--on-accent);padding:8px 16px;border-radius:999px;z-index:20;text-decoration:none}
 .skip:focus{top:12px;color:var(--on-accent)}
 
 header.hero{padding:88px 0 48px;text-align:left}
-.badge{display:inline-flex;align-items:center;gap:8px;font:500 13px var(--mono);color:#bfdbfe;background:var(--accent-tint);border:1px solid rgba(59,130,246,.35);border-radius:999px;padding:4px 14px;margin-bottom:22px;text-decoration:none}
-.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent-hover);box-shadow:0 0 8px var(--accent)}
+.release{margin:24px 0 0;font-size:16px;color:var(--text-2)}
 h1{font-size:clamp(40px,6vw,64px);font-weight:700;color:var(--heading);letter-spacing:-.03em;line-height:1.05;margin:0 0 18px}
-h1 .grad{background:linear-gradient(90deg,#93c5fd,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{display:flex;align-items:center;gap:.28em}
+h1 .mark{width:.82em;height:.82em;flex:none}
 .lede{font-size:19px;line-height:1.55;color:var(--text-2);max-width:72ch}
 .lede b{color:var(--heading);font-weight:600}
 .cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.cta pre{margin:0;padding:10px 18px;border-radius:999px;max-width:100%;min-width:0}
-.cta pre::before,.cta pre::after{display:none}
+.cta pre{margin:0;padding:10px 18px;border-radius:4px;max-width:100%;min-width:0;background:var(--surface)}
+.cta pre::after{display:none}
 .cta pre code::before{content:"$ ";color:var(--syn-com)}
-.btn{display:inline-block;padding:10px 22px;border-radius:999px;font-weight:600;text-decoration:none;background:var(--accent);color:var(--on-accent);transition:background .15s,box-shadow .15s}
-.btn:hover{background:#2563eb;color:var(--on-accent);box-shadow:0 0 0 4px var(--accent-tint)}
-.btn.ghost{background:none;color:var(--heading);border:1px solid var(--border-2)}
-.btn.ghost:hover{background:var(--surface-2);color:var(--heading)}
-.stats{display:flex;gap:40px;flex-wrap:wrap;list-style:none;margin:40px 0 0}
-.stats li{margin:0}.stats b{display:block;font:600 26px var(--mono);color:var(--heading);letter-spacing:-.02em}.stats span{font-size:13px;color:var(--text-2)}
+.btn{display:inline-block;padding:10px 22px;border-radius:4px;font-weight:600;text-decoration:none;background:var(--accent);color:var(--on-accent);transition:background .15s,transform .15s}
+.btn:hover{background:#1d4ed8;color:var(--on-accent)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--surface-2);color:var(--heading)}
+.btn.ghost:hover{background:var(--border-2);color:var(--heading)}
+.stats{display:flex;gap:40px;flex-wrap:wrap;list-style:none;margin:36px 0 0}
+.stats li{margin:0}.stats b{display:block;font:600 34px/1.1 var(--font);color:var(--heading);letter-spacing:-.02em;font-variant-numeric:tabular-nums}.stats span{font-size:16px;color:var(--text-2)}
 .integrations{margin-top:44px}
-.integrations p{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--label);margin:0 0 12px}
+.integrations p{font-size:16px;color:var(--text-2);margin:0 0 12px}
 .chips{display:flex;gap:10px;flex-wrap:wrap;list-style:none;margin:0}
-.chips li{margin:0;display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surface);font-size:14px;font-weight:500;color:var(--heading)}
-.chips li[data-mono]::before{content:attr(data-mono);display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--surface-2);font:700 11px var(--mono);color:var(--accent-hover)}
-.small{font-size:14px;color:var(--text-2)}
-.fine{font-size:14px;color:var(--text-2)}
+.chips li{margin:0;padding:8px 16px;border-radius:999px;background:var(--surface);font-size:16px;font-weight:500;color:var(--heading)}
+.small{font-size:16px;color:var(--text-2)}
+.fine{font-size:15px;color:var(--text-2)}
 
-/* The shadow and clip-path stretch the bar edge to edge while it stays inside .wrap. */
-nav.toc{position:sticky;top:0;background:rgba(2,6,23,.96);box-shadow:0 0 0 100vmax rgba(2,6,23,.96),0 1px 0 100vmax var(--border);clip-path:inset(0 -100vmax -1px);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:2px 4px;flex-wrap:wrap;padding:8px 0;font-size:14px}
+/* A 100vmax spread plus clip-path paints the bar edge to edge while it stays inside .wrap. */
+nav.toc{/* taste-skill-ignore: sticky bar */ position:sticky;top:0;font-size:15px;background:rgba(2,6,23,.96);box-shadow:0 0 0 100vmax rgba(2,6,23,.96);clip-path:inset(0 -100vmax);z-index:10;min-height:var(--nav-h);display:flex;align-items:center;gap:2px 4px;flex-wrap:wrap;padding:8px 0;font-size:14px}
 nav.toc a{text-decoration:none;font-weight:500;color:var(--text-2);padding:5px 12px;border-radius:8px}
+nav.toc a{transition:background .15s,color .15s}
 nav.toc a:hover{background:var(--surface-2);color:var(--heading)}
-nav.toc a.docs{margin-left:auto;color:var(--heading);border:1px solid var(--border-2)}
+nav.toc a[aria-current="true"]{background:var(--accent-tint);color:var(--heading)}
+nav.toc a.docs{margin-left:auto;color:var(--heading);background:var(--surface-2)}
 
-main{counter-reset:sec}
-section{padding:72px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
-section+section{border-top:1px solid var(--border);margin-top:40px}
-section[data-eyebrow]::before{counter-increment:sec;content:counter(sec,decimal-leading-zero) "  /  " attr(data-eyebrow);display:block;white-space:pre;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-hover);margin-bottom:10px}
-h2{font-size:34px;font-weight:700;color:var(--heading);letter-spacing:-.025em;line-height:1.2;margin-bottom:10px}
-h2+p{font-size:17px;color:var(--text-2);max-width:90ch}
+section{padding:120px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
+h2{font-size:40px;font-weight:700;color:var(--heading);letter-spacing:-.025em;line-height:1.2;margin-bottom:10px}
+h2+p{font-size:18px;color:var(--text-2);max-width:66ch}
 h3{font-size:18px;font-weight:600;color:var(--heading);margin:32px 0 8px;scroll-margin-top:calc(var(--nav-h) + 16px)}
-p{margin:10px 0;max-width:120ch}
-ul,ol{margin:8px 0 8px 22px;max-width:120ch}
+p{margin:10px 0;max-width:72ch}
+ul,ol{margin:8px 0 8px 22px;max-width:76ch}
 li{margin:5px 0}
 li::marker{color:var(--accent-hover)}
 strong{color:var(--heading);font-weight:600}
 em{color:#e2e8f0}
-.note{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--surface);border-radius:var(--radius);padding:12px 16px;margin:18px 0;font-size:14px}
+.note{background:var(--surface-2);border-radius:var(--radius);padding:16px 20px;margin:18px 0;font-size:16px}
 .note ol{margin:6px 0 2px 20px}
 
 .stations{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin:20px 0}
-.station{position:relative;border:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--bg));border-radius:var(--radius-lg);padding:24px 26px;transition:border-color .2s,box-shadow .2s,transform .2s}
-.station:hover{border-color:rgba(59,130,246,.5);box-shadow:0 0 0 1px rgba(59,130,246,.2),0 12px 32px -12px rgba(59,130,246,.35)}
-@media (prefers-reduced-motion:no-preference){.station:hover{transform:translateY(-2px)}}
-.stationlabel{display:inline-block;font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#bfdbfe;background:var(--accent-tint);border:1px solid rgba(59,130,246,.3);border-radius:6px;padding:3px 10px}
-.station h3,.station h4{margin-top:12px}
+.station{display:flex;flex-direction:column;background:var(--surface);border-radius:var(--radius-lg);padding:28px 32px;transition:background .2s}
+.station:hover{background:#111b30}
+.station>*{order:3}
+.station>h3,.station>h4{order:1;margin-top:0}
+/* The label reads as the heading's subtitle, not as a tag above it. */
+.stationlabel{order:2;font-size:16px;color:var(--text-2);margin:0 0 8px}
 #stack-recipes{font-size:22px;margin-top:44px}
 h4{font-size:16px;font-weight:600;color:var(--heading);margin:8px 0 6px}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;margin:24px 0;list-style:none}
-.features li{margin:0;display:flex;flex-direction:column;border:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--bg));border-radius:var(--radius-lg);padding:22px 22px 18px;transition:border-color .2s,box-shadow .2s}
-.features li:hover{border-color:rgba(59,130,246,.5);box-shadow:0 12px 32px -12px rgba(59,130,246,.35)}
-.features .stationlabel{align-self:flex-start}
-.features h3{margin:12px 0 6px;font-size:17px}
-.features p{font-size:14.5px;color:var(--text-2);margin:0 0 14px}
-.features .metric{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);font:500 12.5px var(--mono);color:var(--accent-hover)}
-details{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;background:var(--surface)}
+/* Features: each row leads with the figure it is measured by. Rows part by a tone step, not a line. */
+.ledger{list-style:none;margin:40px 0 0;max-width:none}
+.ledger li{margin:0;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px 56px;padding:36px 32px}
+.ledger li:nth-child(odd){background:var(--surface)}
+.ledger .fig{margin:0;font:600 clamp(40px,4.6vw,64px)/1 var(--font);letter-spacing:-.035em;color:var(--heading);font-variant-numeric:tabular-nums}
+.ledger .fig-note{margin:12px 0 0;font-size:16px;font-weight:400;line-height:1.45;letter-spacing:0;color:var(--text-2);max-width:34ch}
+.ledger h3{margin:4px 0 10px;font-size:22px;letter-spacing:-.01em}
+.ledger li div+div p{margin:0;font-size:17px;line-height:1.6;color:var(--text);max-width:62ch}
+
+/* Mods: the band each one draws, set as the real terminal fragment it is. */
+.mod-lead{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:40px 56px;margin:48px 0 0;align-items:start}
+.mod-head{grid-column:1/-1;margin-bottom:-16px}
+.mod-lead h3,.mod-pair h3{margin:0 0 10px;font-size:24px;letter-spacing:-.01em}
+.mod-sum{font-size:18px;color:var(--heading);max-width:62ch;margin:0 0 14px}
+.mod-copy ul{margin-left:20px;font-size:16px}
+.mod-copy li{margin:10px 0}
+.band-demo{margin:0;background:var(--surface);padding:24px;position:sticky;top:calc(var(--nav-h) + 24px)}
+.band{display:block;background:var(--code-bg);padding:16px 18px;font:400 13px/1.7 var(--mono);color:var(--code-text);overflow-wrap:anywhere}
+.band .ln{display:block}
+.band .dim{color:#7d8799}
+.band .key{color:var(--heading);white-space:nowrap}
+.band .warn{color:#ffc107}
+.band .ctx{transition:color .2s}
+.band .ctx[data-level="warn"]{color:#d77757}
+.band .ctx[data-level="high"]{color:#ff6b80}
+.band .dim.due{color:#ffc107}
+.band-controls{display:grid;gap:16px;margin:20px 0 0}
+.band-controls label{display:grid;gap:6px;font-size:15px;color:var(--heading)}
+.band-controls .bc-check{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--text)}
+.band-controls select{font:inherit;color:var(--heading);background:var(--surface-2);border:0;padding:8px 12px;border-radius:0}
+.band-controls input[type=range]{width:100%;accent-color:var(--accent)}
+.band-controls input[type=checkbox]{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+.band-controls output{font-variant-numeric:tabular-nums;color:var(--text-2)}
+.band-demo figcaption{margin-top:16px;font-size:16px;color:var(--heading);min-height:3.2em}
+.mod-limits{margin:56px 0 0;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 56px;align-items:start}
+.mod-limits .table-scroll{margin:0}
+.mod-limits .fine{grid-column:1/-1;margin:0}
+.mod-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin:56px 0 24px}
+.mod-pair>div{background:var(--surface);padding:28px}
+.mod-pair .band{margin:0 0 18px}
+.mod-pair>div>p{font-size:16px;max-width:62ch}
+@media(max-width:900px){.mod-lead,.mod-pair,.mod-limits{grid-template-columns:minmax(0,1fr)}.band-demo{position:static;order:-1}.mod-head{order:-2}}
+@media(max-width:760px){.ledger li{grid-template-columns:minmax(0,1fr);padding:24px 16px}.band-demo,.mod-pair>div{padding:16px}}
+details{margin:10px 0;border-radius:var(--radius);padding:10px 16px;background:var(--surface-2)}
 summary{font-weight:600;color:var(--heading);cursor:pointer;margin:2px 0}
 summary::marker{color:var(--accent-hover)}
 
-.table-scroll{overflow-x:auto;background:var(--surface);margin:18px 0;border:1px solid var(--border);border-radius:var(--radius-lg)}
-table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
-th{font:600 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-align:left;background:var(--bg);color:var(--label);padding:12px 16px;border-bottom:1px solid var(--border-2)}
+.table-scroll{overflow-x:auto;background:var(--surface);margin:18px 0;border-radius:var(--radius-lg)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15px}
+th{font:600 15px var(--font);text-align:left;background:var(--bg);color:var(--label);padding:12px 16px}
 td{border-top:1px solid var(--border);padding:11px 16px;vertical-align:top}
 tbody tr:hover td,tbody tr:hover th{background:rgba(59,130,246,.05)}
 tbody tr:first-child td{border-top:none}
-tbody th{background:none;color:var(--heading);font:600 14px var(--font);letter-spacing:0;text-transform:none;border-bottom:none;border-top:1px solid var(--border);vertical-align:top}
+tbody th{background:none;color:var(--heading);border-top:1px solid var(--border);vertical-align:top}
 tbody tr:first-child th{border-top:none}
-.num{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--heading)}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--heading)}
 .good{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}
 
-.diagram{overflow-x:auto;margin:16px 0;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.diagram{overflow-x:auto;margin:16px 0;padding:20px;background:var(--surface);border-radius:var(--radius-lg)}
 .diagram svg{display:block;width:100%;min-width:440px;max-width:520px;height:auto;margin:0 auto}
 .wfth{font:600 15px var(--font);fill:var(--heading)}
 .wfts{font:400 13px var(--font);fill:var(--text-2)}
@@ -144,22 +177,29 @@ tbody tr:first-child th{border-top:none}
 .sh rect{fill:var(--accent);stroke:var(--accent-hover)}.sh .wfth,.sh .wfts{fill:var(--on-accent)}
 .lg-ev{fill:var(--accent-hover)}.lg-gt{fill:var(--warn-text)}.lg-ag{fill:var(--good)}
 
-footer{margin-top:72px;border-top:1px solid var(--border);padding-top:24px;font-size:14px;color:var(--text-2)}
-footer p{max-width:none}
+footer{margin-top:120px;padding:32px;background:var(--surface);border-radius:var(--radius-lg);font-size:15px;color:var(--text-2)}
+footer p{max-width:75ch}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 @media(max-width:760px){
   .two{grid-template-columns:minmax(0,1fr)}
   .wrap{padding:0 16px 64px}
   header.hero{padding:56px 0 32px}
   .stats{gap:24px}
-  section{padding-top:48px}
-  .station{padding:16px}
   .note{padding:10px 12px}
   /* One scrolling row keeps the sticky bar from eating the viewport on phones. */
   nav.toc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   nav.toc a{white-space:nowrap}
   nav.toc a.docs{margin-left:0}
-  h2{font-size:26px}
+  h2{font-size:28px}
+  section{padding-top:80px}
+  pre{white-space:break-spaces;overflow-wrap:anywhere}
+  .station{padding:20px 16px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .js .rv{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+  .js .rv.in{opacity:1;transform:none}
+  .ledger li,.mod-pair>div{transition:background .2s}
+  .ledger li:hover{background:#111b30}
 }
 </style>
 </head>
@@ -168,25 +208,25 @@ footer p{max-width:none}
 <div class="wrap">
 
 <header class="hero">
-  <a class="badge" href="CHANGELOG.md">v2.0.0 · 10 plugins, 5 editors</a>
-  <h1><span class="grad">Kanōn</span></h1>
+  <h1><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="5" width="4" height="22" fill="#f8fafc"/><g fill="#60a5fa"><rect x="10" y="5" width="16" height="2"/><rect x="10" y="8.33" width="12" height="2"/><rect x="10" y="11.67" width="8" height="2"/><rect x="10" y="15" width="4" height="2"/><rect x="10" y="18.33" width="8" height="2"/><rect x="10" y="21.67" width="12" height="2"/><rect x="10" y="25" width="16" height="2"/></g></svg>Kanōn</h1>
   <p class="lede">A ticket-driven, verifier-backed engineering standard for AI coding agents. One <b>canon</b>ical source, generated dialects for every editor. Built lean: ~1.4–2.5K tokens fixed per session, not counting MCP tool schemas.</p>
   <p class="small"><strong>Discipline</strong>, as Kanōn uses the word: a named set of rules, roles and checks that the agent follows the same way on every task. Hooks and verifiers enforce it, so nothing depends on the model remembering.</p>
+  <ul class="stats">
+    <li><b>1.4–2.5K</b><span>tokens fixed per session</span></li>
+    <li><b>10</b><span>plugins and mods</span></li>
+    <li><b>5</b><span>editor dialects from one source</span></li>
+  </ul>
   <div class="cta">
     <pre><code>/plugin marketplace add themaverik/kanon</code></pre>
     <a class="btn" href="#install">Install</a>
     <a class="btn ghost" href="https://github.com/themaverik/kanon#readme">Documentation</a>
     <a class="btn ghost" href="https://github.com/themaverik/kanon">GitHub</a>
   </div>
-  <ul class="stats">
-    <li><b>1.4–2.5K</b><span>tokens fixed per session</span></li>
-    <li><b>10</b><span>plugins and mods</span></li>
-    <li><b>5</b><span>editor dialects from one source</span></li>
-  </ul>
+  <p class="release">Version 2.0.0, with 10 plugins for 5 editors. <a href="CHANGELOG.md">Read the changelog</a>.</p>
   <div class="integrations">
     <p>Works with</p>
     <ul class="chips" aria-label="Supported editors">
-      <li data-mono="CC">Claude Code</li><li data-mono="Cu">Cursor</li><li data-mono="VS">VS Code</li><li data-mono="Cx">Codex</li><li data-mono="AG">Antigravity</li>
+      <li>Claude Code</li><li>Cursor</li><li>VS Code</li><li>Codex</li><li>Antigravity</li>
     </ul>
   </div>
 </header>
@@ -202,43 +242,43 @@ footer p{max-width:none}
 <section id="features" data-eyebrow="Why Kanōn">
   <h2>Lean by measurement, strict by default</h2>
   <p>Most agent standards grow by adding text. Kanōn shrinks by measuring: every rule earns its tokens, every check runs as code, and every pattern points to where it came from. The numbers below come from this repo's files and a year of the author's own Claude Code transcripts.</p>
-  <ul class="features">
-    <li><span class="stationlabel">Proven practice</span>
-      <h3>Distilled from the best public packs</h3>
-      <p>Benchmarked line by line against addyosmani/agent-skills, mattpocock/skills and obra/superpowers, keeping what works and pointing to them for what they do better. Adam Bien's airails ships vendored for Java. The CLAUDE.md template is written so every line earns its place.</p>
-      <span class="metric">CLAUDE.md template 7.9 KB → 4.2 KB</span></li>
-    <li><span class="stationlabel">Cost aware</span>
-      <h3>Model routing and compaction that fit your plan</h3>
-      <p>Subagents run on Sonnet by default, Opus needs approval, and Fable is held to one bounded task per session. cache-keeper reads your plan (Pro, Max, Team or API) and compacts at your real context floor plus working room, capped per plan. Past that target heavy work compacts and a short query holds inside a grace buffer.</p>
-      <span class="metric">Max 5x: 190K target, 205K ceiling from a 60K floor</span></li>
-    <li><span class="stationlabel">Visibility</span>
-      <h3>Session mods above the prompt</h3>
-      <p>See cache time left, context size, 5-hour and weekly use, and session cost on every turn. Hand off and clear in one key. Get asked before editing a file another session just changed.</p>
-      <span class="metric">3 opt-in mods, drawn outside the context</span></li>
-    <li><span class="stationlabel">Layered</span>
-      <h3>Load only what the repo uses</h3>
-      <p>Enable core plus your stack. A frontend repo never sees Quarkus text, and airails and the utility skills stay opt-in. Eight tech stack recipes cover Quarkus, Spring Boot, Kotlin, NestJS, Next.js, plain TypeScript and Rust.</p>
-      <span class="metric">~1.4–2.5K tokens fixed per session</span></li>
-    <li><span class="stationlabel">Audited</span>
-      <h3>Prompts checked for drift</h3>
-      <p>The CLAUDE.md template, agents, skills and rules are audited with <code>/claude-api prompt-audit</code> against the current Claude models, so instructions written for older models get caught and removed.</p>
-      <span class="metric">CLAUDE.md template ~1.05K tokens, audited</span></li>
-    <li><span class="stationlabel">Deterministic</span>
-      <h3>Safety gates that run as code</h3>
-      <p>Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses. Nothing depends on the model remembering a rule.</p>
-      <span class="metric">6 hook checks · 14 bats tests in CI</span></li>
-    <li><span class="stationlabel">Evidence</span>
-      <h3>Verifiers, not opinions</h3>
-      <p>Reviewers are read-only and quote ArchUnit, dependency-cruiser, clippy and cargo-deny output. Tests prove themselves with mutation testing (PIT, Stryker, cargo-mutants), not a coverage percent.</p>
-      <span class="metric">Surviving mutants, not 80% coverage</span></li>
-    <li><span class="stationlabel">Cited</span>
-      <h3>Industry standards, with sources</h3>
-      <p>Every rule file ends with the source behind each pattern it names, from Cockburn's hexagonal architecture to RFC 9457 and the OWASP cheat sheets. Kanōn's own stances are marked as such, so you know which is which.</p>
-      <span class="metric">370 citations across 53 files</span></li>
-    <li><span class="stationlabel">Portable</span>
-      <h3>One source, five editors</h3>
-      <p>Write the standard once and generate it for Claude Code, Cursor, VS Code, Codex and Antigravity, plus a paste-in block for plain chat. A drift check in CI keeps the generated copies honest.</p>
-      <span class="metric">5 editor dialects from one tree</span></li>
+  <ul class="ledger">
+    <li>
+      <div><p class="fig">4.2 KB</p><p class="fig-note">CLAUDE.md template, down from 7.9 KB</p></div>
+      <div><h3>Distilled from the best public packs</h3><p>Benchmarked line by line against addyosmani/agent-skills, mattpocock/skills and obra/superpowers, keeping what works and pointing to them for what they do better. Adam Bien's airails ships vendored for Java. The CLAUDE.md template is written so every line earns its place.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">190K</p><p class="fig-note">Max 5x compaction target, 205K ceiling, from a 60K floor</p></div>
+      <div><h3>Model routing and compaction that fit your plan</h3><p>Subagents run on Sonnet by default, Opus needs approval, and Fable is held to one bounded task per session. cache-keeper reads your plan (Pro, Max, Team or API) and compacts at your real context floor plus working room, capped per plan. Past that target heavy work compacts and a short query holds inside a grace buffer.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">3</p><p class="fig-note">opt-in mods, drawn outside the context</p></div>
+      <div><h3>Session mods above the prompt</h3><p>See cache time left, context size, 5-hour and weekly use, and session cost on every turn. Hand off and clear in one key. Get asked before editing a file another session just changed.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">1.4–2.5K</p><p class="fig-note">tokens fixed per session</p></div>
+      <div><h3>Load only what the repo uses</h3><p>Enable core plus your stack. A frontend repo never sees Quarkus text, and airails and the utility skills stay opt-in. Eight tech stack recipes cover Quarkus, Spring Boot, Kotlin, NestJS, Next.js, plain TypeScript and Rust.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">1.05K</p><p class="fig-note">tokens in the audited CLAUDE.md template</p></div>
+      <div><h3>Prompts checked for drift</h3><p>The CLAUDE.md template, agents, skills and rules are audited with <code>/claude-api prompt-audit</code> against the current Claude models, so instructions written for older models get caught and removed.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">6</p><p class="fig-note">hook checks, with 14 bats tests in CI</p></div>
+      <div><h3>Safety gates that run as code</h3><p>Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses. Nothing depends on the model remembering a rule.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">Mutants</p><p class="fig-note">surviving mutants are the evidence, not an 80% coverage target</p></div>
+      <div><h3>Verifiers, not opinions</h3><p>Reviewers are read-only and quote ArchUnit, dependency-cruiser, clippy and cargo-deny output. Tests prove themselves with mutation testing (PIT, Stryker, cargo-mutants), not a coverage percent.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">370</p><p class="fig-note">citations across 53 files</p></div>
+      <div><h3>Industry standards, with sources</h3><p>Every rule file ends with the source behind each pattern it names, from Cockburn's hexagonal architecture to RFC 9457 and the OWASP cheat sheets. Kanōn's own stances are marked as such, so you know which is which.</p></div>
+    </li>
+    <li>
+      <div><p class="fig">5</p><p class="fig-note">editor dialects from one tree</p></div>
+      <div><h3>One source, five editors</h3><p>Write the standard once and generate it for Claude Code, Cursor, VS Code, Codex and Antigravity, plus a paste-in block for plain chat. A drift check in CI keeps the generated copies honest.</p></div>
+    </li>
   </ul>
 </section>
 
@@ -273,7 +313,7 @@ footer p{max-width:none}
 /plugin install kanon-core@kanon
 /plugin install kanon-java@kanon        # per repo type: -java | -ts | -web | -rust
 /plugin install kanon-tools@kanon       # optional: docker-dev, remove-ai-marks, diagram-on-the-fly</code></pre>
-      <p>Per repo: sync the rules with <code>sync-editors.py --tools claude</code> (plugins can't ship them), copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the root, fill placeholders, then commit this to <span class="path">.claude/settings.json</span> so trusting the repo auto-installs:</p>
+      <p>Per repo: sync the rules with <code>sync-editors.py --tools claude</code> (plugins can't ship them), copy <code>templates/CLAUDE.md</code> and <code>templates/AGENTS.md</code> to the root, fill placeholders, then commit this to <code>.claude/settings.json</code> so trusting the repo auto-installs:</p>
 <pre><code>{ "extraKnownMarketplaces": { "kanon": { "source": { "source": "github", "repo": "themaverik/kanon" } } },
   "enabledPlugins": { "kanon-core@kanon": true, "kanon-java@kanon": true } }</code></pre>
       <p>Teams can pin a semver tag and enforce the setup with managed settings. Finish with <code>scripts/install-githooks.sh</code> inside the repo.</p>
@@ -284,7 +324,7 @@ footer p{max-width:none}
       <h3>Cursor</h3>
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools cursor
 # or: cp -r dist/cursor/.cursor &lt;repo&gt;/</code></pre>
-      <p>Produces <span class="path">.cursor/rules/*.mdc</span> (glob auto-attach), <span class="path">.cursor/skills/</span> (verbatim SKILL.md standard, incl. agent charters as <code>persona-*</code> skills), <span class="path">.cursor/mcp.json</span> (Serena). AGENTS.md at the root is read natively.</p>
+      <p>Produces <code>.cursor/rules/*.mdc</code> (glob auto-attach), <code>.cursor/skills/</code> (verbatim SKILL.md standard, incl. agent charters as <code>persona-*</code> skills), <code>.cursor/mcp.json</code> (Serena). AGENTS.md at the root is read natively.</p>
     </div>
 
     <div class="station">
@@ -292,7 +332,7 @@ footer p{max-width:none}
       <h3>VS Code (Copilot)</h3>
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks ts,web --tools vscode
 # or: cp -r dist/vscode/.github dist/vscode/.vscode &lt;repo&gt;/</code></pre>
-      <p>Produces <span class="path">.github/instructions/*.instructions.md</span> (applyTo globs), <span class="path">.github/skills/</span>, real custom agents in <span class="path">.github/agents/*.agent.md</span>, <span class="path">.github/copilot-instructions.md</span> pointing at AGENTS.md, and <span class="path">.vscode/mcp.json</span>.</p>
+      <p>Produces <code>.github/instructions/*.instructions.md</code> (applyTo globs), <code>.github/skills/</code>, real custom agents in <code>.github/agents/*.agent.md</code>, <code>.github/copilot-instructions.md</code> pointing at AGENTS.md, and <code>.vscode/mcp.json</code>.</p>
     </div>
 
     <div class="station">
@@ -300,7 +340,7 @@ footer p{max-width:none}
       <h3>Codex</h3>
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools codex
 # or: cp -r dist/codex/.codex &lt;repo&gt;/</code></pre>
-      <p>Codex reads <span class="path">AGENTS.md</span> natively, and skills land in <span class="path">.codex/skills/</span>. Verify the project-level skills path against your Codex version. The global fallback is <span class="path">~/.codex/skills</span>.</p>
+      <p>Codex reads <code>AGENTS.md</code> natively, and skills land in <code>.codex/skills/</code>. Verify the project-level skills path against your Codex version. The global fallback is <code>~/.codex/skills</code>.</p>
     </div>
 
     <div class="station">
@@ -309,13 +349,13 @@ footer p{max-width:none}
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools antigravity --legacy-agent-dir
 # or: cp -r dist/antigravity/.agents &lt;repo&gt;/          (current installs)
 #     cp -r dist/antigravity/.agent  &lt;repo&gt;/          (pre-rename installs)</code></pre>
-      <p>Current Antigravity reads <span class="path">.agents/</span> (rules, skills, mcp_config.json). Pre-rename installs read the singular <span class="path">.agent/</span>, so the generator emits both with <code>--legacy-agent-dir</code>. Rules stay under Antigravity's 12,000-char/file cap (the generator warns if a rule outgrows it). Set the env-mutation equivalent in Settings → Security → Terminal Command Deny List (<code>rm -rf</code>, <code>docker rm</code>, <code>DROP TABLE</code>…).</p>
+      <p>Current Antigravity reads <code>.agents/</code> (rules, skills, mcp_config.json). Pre-rename installs read the singular <code>.agent/</code>, so the generator emits both with <code>--legacy-agent-dir</code>. Rules stay under Antigravity's 12,000-char/file cap (the generator warns if a rule outgrows it). Set the env-mutation equivalent in Settings → Security → Terminal Command Deny List (<code>rm -rf</code>, <code>docker rm</code>, <code>DROP TABLE</code>…).</p>
     </div>
 
     <div class="station">
       <span class="stationlabel">No editor at all</span>
       <h3>Plain chat: Claude, ChatGPT, Gemini</h3>
-      <p>For copy-paste work in a bare chat interface, the standard compresses into one ~1.5K-char instruction block per stack. Paste it once into <strong>Claude</strong> Project instructions, <strong>ChatGPT</strong> Custom Instructions / a Project / a GPT, or a <strong>Gemini</strong> Gem. Then every snippet you request follows the same conventions as the full plugin. Keep exactly one option in the Architecture line and delete the other. Source files: <span class="path">templates/chat-instructions-backend.md</span> · <span class="path">chat-instructions-frontend.md</span>.</p>
+      <p>For copy-paste work in a bare chat interface, the standard compresses into one ~1.5K-char instruction block per stack. Paste it once into <strong>Claude</strong> Project instructions, <strong>ChatGPT</strong> Custom Instructions / a Project / a GPT, or a <strong>Gemini</strong> Gem. Then every snippet you request follows the same conventions as the full plugin. Keep exactly one option in the Architecture line and delete the other. Source files: <code>templates/chat-instructions-backend.md</code> · <code>chat-instructions-frontend.md</code>.</p>
       <details open><summary>Backend: Java/Kotlin · Quarkus or Spring Boot</summary>
 <pre class="wrap-pre"><code>You are a senior Java/Kotlin backend engineer. Follow these rules in every answer.
 
@@ -348,7 +388,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     </div>
   </div>
 
-  <div class="note"><strong>All editors, always:</strong> run <code>scripts/install-githooks.sh</code> in the repo. The <code>prepare-commit-msg</code> git hook (ticket key from branch, pointwise skeleton) and CI verifiers are the enforcement layer every editor shares. Editor-specific hooks are Claude Code only. See <span class="path">Editor-Parity.md</span> for exactly what does not port.</div>
+  <div class="note"><strong>All editors, always:</strong> run <code>scripts/install-githooks.sh</code> in the repo. The <code>prepare-commit-msg</code> git hook (ticket key from branch, pointwise skeleton) and CI verifiers are the enforcement layer every editor shares. Editor-specific hooks are Claude Code only. See <code>Editor-Parity.md</code> for exactly what does not port.</div>
 </section>
 
 <section id="recipes" data-eyebrow="Setup">
@@ -356,9 +396,9 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <p>Every repo starts with the same five steps. Then pick the recipe for your stack below.</p>
   <div class="note"><strong>Per-repo setup, always:</strong>
     <ol>
-      <li>Enable plugins in the repo's <span class="path">.claude/settings.json</span> (snippet per stack recipe below).</li>
-      <li>Copy <span class="path">templates/CLAUDE.md</span> and <span class="path">templates/AGENTS.md</span> to the repo root. Fill the three header lines: repo name, <strong>Stack</strong>, and <strong>Architecture</strong> (pick one option, delete the rest). That Architecture line is what activates BCE vs hexagonal rules. Nothing else needs editing.</li>
-      <li>Run <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools claude</code> and commit <span class="path">.claude/rules/kanon/</span>, <span class="path">.claude/kanon/</span> and <span class="path">.kanon/</span>. Claude Code plugins can't ship rules, so this is how they reach the session. Re-run it after each Kanōn update.</li>
+      <li>Enable plugins in the repo's <code>.claude/settings.json</code> (snippet per stack recipe below).</li>
+      <li>Copy <code>templates/CLAUDE.md</code> and <code>templates/AGENTS.md</code> to the repo root. Fill the three header lines: repo name, <strong>Stack</strong>, and <strong>Architecture</strong> (pick one option, delete the rest). That Architecture line is what activates BCE vs hexagonal rules. Nothing else needs editing.</li>
+      <li>Run <code>python3 scripts/sync-editors.py --repo . --stacks &lt;list&gt; --tools claude</code> and commit <code>.claude/rules/kanon/</code>, <code>.claude/kanon/</code> and <code>.kanon/</code>. Claude Code plugins can't ship rules, so this is how they reach the session. Re-run it after each Kanōn update.</li>
       <li>Run <code>scripts/install-githooks.sh</code> in the repo (ticket key + commit skeleton for every committer).</li>
       <li>Run <code>graphify</code> once at the repo root (tier-0 graph, which the graph-sync hook then maintains).</li>
     </ol>
@@ -373,7 +413,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
       <ul>
     <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-java@kanon": true, "kanon-java-airails@kanon": true</code></li>
     <li><strong>Step 2 Architecture line:</strong> keep <em>Spec-Driven BCE</em> in both files. That single line makes the <code>bce</code> skill govern packaging and suppresses hexagonal vocabulary.</li>
-    <li>Nothing else to configure: <code>microprofile-server</code> covers REST/config/fault-tolerance idioms (Quarkus implements MicroProfile), and <span class="path">rules/java/quarkus.md</span> wins on Quarkus-specific conflicts automatically.</li>
+    <li>Nothing else to configure: <code>microprofile-server</code> covers REST/config/fault-tolerance idioms (Quarkus implements MicroProfile), and <code>rules/java/quarkus.md</code> wins on Quarkus-specific conflicts automatically.</li>
     <li><strong>Optional adoption, per team decision:</strong> the <code>sbce</code> spec-driven workflow (one capability spec per business component) with <code>ears-tests</code> generating table-driven tests from the spec. Run them as <code>/sbce</code> and <code>/ears-tests</code>. They never activate on their own.</li>
     <li><strong>Recommended follow-up:</strong> ask Claude to "freeze our layering as Taikai/ArchUnit tests" once, so future violations fail the build instead of appearing in review comments.</li>
       </ul>
@@ -396,7 +436,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <div class="station"><span class="stationlabel">Kotlin</span>
       <h4>Quarkus backend: Kotlin</h4>
       <ul>
-    <li>Same plugins and steps as Java (the <code>java</code> plugin covers Kotlin). <strong>Step 2 Stack line:</strong> mention Kotlin, e.g. <em>"Quarkus services (Kotlin)"</em>. <span class="path">rules/java/kotlin.md</span> already self-activates on <code>.kt</code> files regardless.</li>
+    <li>Same plugins and steps as Java (the <code>java</code> plugin covers Kotlin). <strong>Step 2 Stack line:</strong> mention Kotlin, e.g. <em>"Quarkus services (Kotlin)"</em>. <code>rules/java/kotlin.md</code> already self-activates on <code>.kt</code> files regardless.</li>
     <li><strong>One choice to make in the repo:</strong> detekt or ktlint-via-spotless as the lint baseline. Add whichever to the build, since the rules accept either but require one.</li>
     <li>Everything else carries over unchanged. The ArchUnit/Taikai rules are the same (they run on Kotlin bytecode), all-open handles CDI proxying, and PIT runs with the Kotlin plugin, alongside kotest-property or jqwik. BCE vs hexagonal works exactly as for Java, because packages define layers, not the language.</li>
       </ul>
@@ -406,7 +446,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
       <ul>
     <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-ts@kanon": true</code></li>
     <li><strong>Step 2:</strong> Stack line e.g. <em>"NestJS APIs"</em>. Architecture line: <em>hexagonal</em> if your domain/use-case layers must stay framework-free (the boundary reviewer's first check), otherwise <em>layered MVC</em>.</li>
-    <li><strong>One-time in the repo:</strong> add <span class="path">.dependency-cruiser.js</span> and knip config if absent. Ask Claude to "add dependency-cruiser boundary rules for our module layout", and the nestjs-boundary-reviewer quotes their output instead of opining.</li>
+    <li><strong>One-time in the repo:</strong> add <code>.dependency-cruiser.js</code> and knip config if absent. Ask Claude to "add dependency-cruiser boundary rules for our module layout", and the nestjs-boundary-reviewer quotes their output instead of opining.</li>
       </ul>
     </div>
     <div class="station"><span class="stationlabel">TypeScript · Web</span>
@@ -414,7 +454,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
       <ul>
     <li><strong>Step 1 plugins:</strong> core + <code>-ts</code> + <code>-web</code> (all three).</li>
     <li><strong>Step 2:</strong> Stack line e.g. <em>"Next.js portal"</em>. Architecture line: <em>layered MVC</em> is usually right for frontends, so delete BCE/hexagonal.</li>
-    <li>The web rules (design quality, performance, patterns, security, testing with accessibility checks, plus <span class="path">frontend.md</span> for server/client component boundaries) are loaded by the frontend-discipline router when you work on <code>.tsx</code>. Add Playwright as the e2e layer (see Companion tools).</li>
+    <li>The web rules (design quality, performance, patterns, security, testing with accessibility checks, plus <code>frontend.md</code> for server/client component boundaries) are loaded by the frontend-discipline router when you work on <code>.tsx</code>. Add Playwright as the e2e layer (see Companion tools).</li>
       </ul>
     </div>
     <div class="station"><span class="stationlabel">TypeScript</span>
@@ -429,7 +469,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
       <ul>
     <li><strong>Step 1 plugins:</strong> <code>"kanon-core@kanon": true, "kanon-rust@kanon": true</code></li>
     <li><strong>Step 2:</strong> Stack line e.g. <em>"axum API, Rust workspace"</em>. Architecture line: <em>hexagonal</em> fits Rust well. The domain crate defines the port traits and depends on no framework or I/O crate, adapters implement them, and the binary crate wires them together.</li>
-    <li><strong>One-time in the repo:</strong> add a <span class="path">deny.toml</span> if absent, so the rust-reviewer runs <code>cargo deny check</code> for advisories, licenses and duplicate versions. It also runs clippy with <code>-D warnings</code> and rustfmt.</li>
+    <li><strong>One-time in the repo:</strong> add a <code>deny.toml</code> if absent, so the rust-reviewer runs <code>cargo deny check</code> for advisories, licenses and duplicate versions. It also runs clippy with <code>-D warnings</code> and rustfmt.</li>
     <li>The axum rule applies only when the crate depends on axum, so libraries and CLIs get the Rust rules alone. Tests use cargo-nextest, proptest and insta, and cargo-mutants supplies the mutation evidence.</li>
       </ul>
     </div>
@@ -440,7 +480,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
 
 <section id="workflow" data-eyebrow="Workflow">
   <h2>Execution workflow</h2>
-  <p>Every Standard/Milestone task runs this track. Trivial work forks off after the premise check and skips dispatch entirely. Source lives at <span class="path">docs/workflow.mmd</span>.</p>
+  <p>Every Standard/Milestone task runs this track. Trivial work forks off after the premise check and skips dispatch entirely. Source lives at <code>docs/workflow.mmd</code>.</p>
   <div class="diagram">
   <svg viewBox="130 0 520 760" role="img" aria-labelledby="wf-title wf-desc" xmlns="http://www.w3.org/2000/svg">
     <title id="wf-title">Kanōn execution workflow</title>
@@ -510,50 +550,62 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <pre><code>/plugin install cache-keeper@kanon
 /plugin install collision-guard@kanon
 /plugin install prompt-enhancer@kanon</code></pre>
-  <div class="stations">
-    <div class="station">
-      <span class="stationlabel">Cost and cache</span>
+  <div class="mod-lead">
+    <div class="mod-head">
       <h3>cache-keeper</h3>
-      <pre><code>Cache 55m/60m · ctx 110k (11%) · 5h 20% · wk 23% · $14.39 · cold ~$1.10   [Handoff &amp; Clear] [Fresh]
-Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · compact @190k-205k floor 60k · display only</code></pre>
-      <p>Line one, left to right: time before the prompt cache expires, context size, 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold. Line two is cost mode, below.</p>
-      <ul>
-        <li><strong>Handoff &amp; Clear</strong> (<code>h</code>) or <code>/handoff</code>: writes a handoff brief, clears the session and puts the brief in the prompt to review and send.</li>
-        <li><strong>Fresh</strong> (<code>f</code>): clears the session without a brief.</li>
-        <li><code>/autohandoff 80k</code> hands off at that context size, and <code>/autohandoff off</code> stops it.</li>
-        <li><code>/cache-ttl &lt;minutes|auto&gt;</code> sets the cache TTL by hand. By default it is detected.</li>
-        <li><strong>Cost mode:</strong> a second line shows the profile for your plan (read from your account, or set <code>profile</code> to <code>pro</code>, <code>max5</code>, <code>max20</code>, <code>team</code> or <code>api</code>): main model and effort, agent defaults, Fable use, and the compaction target and ceiling. It only displays by default. Turn on <code>enforce</code> to rewrite agent model and effort, cap Fable per session, stop auto-compaction below the target, and get asked to compact when it is due. Add <code>autoCompact</code> to compact between turns without asking.</li>
-        <li><strong>Adaptive compaction:</strong> the target is your measured floor plus room, and the ceiling adds a grace buffer, both held under a per-plan cap. Between them, a turn that added 8K+ tokens or edited 3+ files compacts, because work in flight keeps growing. A short query holds instead, shown as <code>(holding: light turn)</code>. At the ceiling it compacts regardless. Grace keeps the plans' ratio (Pro 1 : Max 5x 3 : Max 20x 8). The <code>ctx</code> reading turns orange past the target and red past the ceiling.</li>
-      </ul>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Compaction limits per plan">
-      <table>
-        <thead><tr><th scope="col">Plan</th><th scope="col">Room</th><th scope="col">Grace</th><th scope="col">Cap</th><th scope="col">Target / ceiling, 60K floor</th></tr></thead>
-        <tbody>
-        <tr><th scope="row">Pro</th><td>80K</td><td>5K</td><td>180K</td><td>140K / 145K</td></tr>
-        <tr><th scope="row">Max 5x, Team</th><td>130K</td><td>15K</td><td>250K</td><td>190K / 205K</td></tr>
-        <tr><th scope="row">Max 20x</th><td>170K</td><td>40K</td><td>300K</td><td>230K / 270K</td></tr>
-        <tr><th scope="row">API</th><td>140K</td><td>10K</td><td>250K</td><td>200K / 210K</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <p class="fine">Why: recall drops as context grows on every model these studies tested (<a href="https://www.trychroma.com/research/context-rot">Chroma, Context Rot</a>; <a href="https://arxiv.org/abs/2510.05381">UIUC, arXiv 2510.05381</a>). Opus 4.6 holds 93% on MRCR v2 8-needle up to 256K and 76% at 1M (Sonnet 4.6 system card, <a href="https://klu.ai/benchmarks/mrcr-v2">compiled by Klu</a>). Each turn re-sends the whole context, and longer conversations use more of your limit (<a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work">Anthropic, usage limits</a>). The engine's own auto-compaction waits until about 967K on a 1M model (<a href="https://github.com/anthropics/claude-code/issues/27036">compaction internals</a>). The caps are Kanōn's reading of these sources, not published figures.</p>
+      <p class="mod-sum">Keeps cost and cache in view, and decides when to compact from what the last turn did.</p>
     </div>
-    <div class="station">
-      <span class="stationlabel">Parallel sessions</span>
+    <div class="mod-copy">
+      <ul>
+        <li><strong>Line one</strong>, left to right: time before the prompt cache expires, context size, 5-hour and weekly rate-limit use, this session's cost, and what the next message costs if the cache goes cold.</li>
+        <li><strong>Handoff &amp; Clear</strong> (<code>h</code>) or <code>/handoff</code>: writes a handoff brief, clears the session and puts the brief in the prompt to review and send. <strong>Fresh</strong> (<code>f</code>) clears without a brief.</li>
+        <li><code>/autohandoff 80k</code> hands off at that context size, and <code>/autohandoff off</code> stops it. <code>/cache-ttl &lt;minutes|auto&gt;</code> sets the cache TTL by hand. By default it is detected.</li>
+        <li><strong>Cost mode</strong> is line two: the profile for your plan (read from your account, or set <code>profile</code> to <code>pro</code>, <code>max5</code>, <code>max20</code>, <code>team</code> or <code>api</code>), main model and effort, agent defaults, Fable use, and the compaction target and ceiling. It only displays by default. Turn on <code>enforce</code> to rewrite agent model and effort, cap Fable per session, stop auto-compaction below the target, and get asked to compact when it is due. Add <code>autoCompact</code> to compact between turns without asking.</li>
+      </ul>
+    </div>
+    <figure class="band-demo">
+      <samp class="band" data-ui id="band" aria-live="polite">
+        <span class="ln"><span>Cache 55m/60m</span> · <span class="ctx" id="band-ctx">ctx 110k (11%)</span> · 5h 20% · wk 23% · $14.39 · cold ~$1.10 <span class="key">[ Handoff &amp; Clear ]</span> <span class="key">[ Fresh ]</span></span>
+        <span class="ln dim" id="band-profile">Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · compact @190k-205k floor 60k · display only</span>
+      </samp>
+      <form class="band-controls" id="band-controls" hidden>
+        <label>Plan
+          <select id="bc-plan"><option value="pro">Pro</option><option value="max5" selected>Max 5x</option><option value="max20">Max 20x</option></select>
+        </label>
+        <label class="bc-range">Context <output id="bc-out" for="bc-ctx">110K</output>
+          <input type="range" id="bc-ctx" min="60" max="300" step="1" value="110">
+        </label>
+        <label class="bc-check"><input type="checkbox" id="bc-heavy"> Last turn was heavy: 8K+ tokens added or 3+ files edited</label>
+      </form>
+      <figcaption id="band-verdict">Drag the context size. Below the target nothing happens.</figcaption>
+    </figure>
+  </div>
+  <div class="mod-limits">
+    <p class="mod-sum"><strong>Adaptive compaction.</strong> The target is your measured floor plus room, and the ceiling adds a grace buffer, both held under a per-plan cap. Between them, a heavy turn compacts, because work in flight keeps growing. A short query holds inside the grace instead. At the ceiling it compacts regardless. The <code>ctx</code> reading turns orange past the target and red past the ceiling. Grace keeps the plans' ratio, Pro 1 : Max 5x 3 : Max 20x 8.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Compaction limits per plan">
+    <table>
+      <thead><tr><th scope="col">Plan</th><th scope="col">Room</th><th scope="col">Grace</th><th scope="col">Cap</th><th scope="col">Target / ceiling, 60K floor</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Pro</th><td>80K</td><td>5K</td><td>180K</td><td>140K / 145K</td></tr>
+      <tr><th scope="row">Max 5x, Team</th><td>130K</td><td>15K</td><td>250K</td><td>190K / 205K</td></tr>
+      <tr><th scope="row">Max 20x</th><td>170K</td><td>40K</td><td>300K</td><td>230K / 270K</td></tr>
+      <tr><th scope="row">API</th><td>140K</td><td>10K</td><td>250K</td><td>200K / 210K</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="fine">Why: recall drops as context grows on every model these studies tested (<a href="https://www.trychroma.com/research/context-rot">Chroma, Context Rot</a>; <a href="https://arxiv.org/abs/2510.05381">UIUC, arXiv 2510.05381</a>). Opus 4.6 holds 93% on MRCR v2 8-needle up to 256K and 76% at 1M (Sonnet 4.6 system card, <a href="https://klu.ai/benchmarks/mrcr-v2">compiled by Klu</a>). Each turn re-sends the whole context, and longer conversations use more of your limit (<a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work">Anthropic, usage limits</a>). The engine's own auto-compaction waits until about 967K on a 1M model (<a href="https://github.com/anthropics/claude-code/issues/27036">compaction internals</a>). The caps are Kanōn's reading of these sources, not published figures.</p>
+  </div>
+  <div class="mod-pair">
+    <div>
       <h3>collision-guard</h3>
-      <ul>
-        <li>Before an edit to a file another session in the same folder changed in the last 30 minutes, it asks: <strong>Proceed</strong>, <strong>Move to a worktree</strong> or <strong>Cancel</strong>.</li>
-        <li>The band lists the other live sessions and what each is working on.</li>
-      </ul>
+      <samp class="band" data-ui><span class="ln warn">Other session 3294b75f · working on: add the login page · 4 file(s), last page.tsx 2m ago</span></samp>
+      <p>Before an edit to a file another session in the same folder changed in the last 30 minutes, it asks: <strong>Proceed</strong>, <strong>Move to a worktree</strong> or <strong>Cancel</strong>. The band lists the other live sessions and what each is working on.</p>
     </div>
-    <div class="station">
-      <span class="stationlabel">Prompting</span>
+    <div>
       <h3>prompt-enhancer</h3>
-      <ul>
-        <li>Type a draft, then press <strong>Enhance</strong> (<code>e</code>) or run <code>/enhance</code>. A small model rewrites it and wraps it in your template. Nothing is sent. You edit and press Enter.</li>
-        <li><strong>Undo</strong> (<code>u</code>) restores your draft until you send.</li>
-        <li>Templates are Markdown files in <code>~/.claude/prompt-templates/</code>. <code>{{task}}</code> takes the rewritten prompt, <code>{{implementer}}</code> the implementer, and <code>{{reviewer}}</code> the reviewer picked for the area (backend, frontend, fullstack or security). <code>/enhance &lt;name&gt;</code> picks one, and <code>/templates</code> lists them.</li>
-      </ul>
+      <samp class="band" data-ui><span class="ln"><span class="dim">Prompt</span> <span class="key">[ Enhance ]</span> <span class="key">[ Undo ]</span></span></samp>
+      <p>Type a draft, then press <strong>Enhance</strong> (<code>e</code>) or run <code>/enhance</code>. A small model rewrites it and wraps it in your template. Nothing is sent: you edit and press Enter. <strong>Undo</strong> (<code>u</code>) restores your draft until you send.</p>
+      <p>Templates are Markdown files in <code>~/.claude/prompt-templates/</code>. <code>{{task}}</code> takes the rewritten prompt, <code>{{implementer}}</code> the implementer, and <code>{{reviewer}}</code> the reviewer picked for the area. <code>/enhance &lt;name&gt;</code> picks one, and <code>/templates</code> lists them.</p>
     </div>
   </div>
   <p class="fine">Settings for each mod are under <code>/plugin</code>: cache-keeper <code>ttlMinutes</code>, <code>warnTokens</code>, <code>inputUsdPerMtok</code>, <code>enforce</code>, <code>autoCompact</code>, <code>compactRoomTokens</code>, <code>compactGraceTokens</code>, <code>compactCapTokens</code>. collision-guard has <code>windowMinutes</code>, and prompt-enhancer has <code>model</code> plus one agent name per role. The defaults are staff-engineer, backend-architect, frontend-developer, security-auditor and code-reviewer.</p>
@@ -566,12 +618,12 @@ Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · 
     <thead><tr><th scope="col">Tool</th><th scope="col">Role</th><th scope="col">Wiring</th></tr></thead>
     <tbody>
     <tr><th scope="row">graphify</th><td>Tier-0 read protocol: structure, dependencies, blast radius from a cached graph (~2K/query vs 50K+ of file reads)</td><td>Install per machine. Run <code>graphify</code> once per repo. The <code>graph-sync</code> hook refreshes it after edits (silent no-op if absent)</td></tr>
-    <tr><th scope="row">Serena MCP</th><td>Tier-1: symbol definitions, references, call chains, safe symbol-level edits (Java via JDT.LS, TS, Kotlin)</td><td>Shipped in core's <span class="path">.mcp.json</span>. Needs <code>uv</code>. The first Java project downloads ~500MB JDT.LS</td></tr>
+    <tr><th scope="row">Serena MCP</th><td>Tier-1: symbol definitions, references, call chains, safe symbol-level edits (Java via JDT.LS, TS, Kotlin)</td><td>Shipped in core's <code>.mcp.json</code>. Needs <code>uv</code>. The first Java project downloads ~500MB JDT.LS</td></tr>
     <tr><th scope="row">Playwright</th><td>E2E for Next.js/web, and the QA layer's browser tier</td><td>Per repo dev-dependency. Drive it from the failure-mode workflow and keep suites in CI</td></tr>
     <tr><th scope="row">dependency-cruiser · knip</th><td>TS boundary enforcement + dead code. Also tier-0 module graphs (<code>--output-type mermaid</code>)</td><td>CLI in hooks/CI. The nestjs-boundary-reviewer quotes their output</td></tr>
     <tr><th scope="row">ArchUnit/Taikai · detekt</th><td>Java/Kotlin architecture-as-tests and lint</td><td>Build-time. Review comments that recur become frozen rules</td></tr>
     <tr><th scope="row">PIT · Stryker · jqwik/kotest · fast-check</th><td>Failure-mode verification: mutation + property testing, the evidence behind every "this will break" claim</td><td>On-demand and CI, never in edit hooks</td></tr>
-    <tr><th scope="row">SonarQube MCP <em>(enterprise, optional)</em></th><td>Quality-gate queries where the org already runs Sonar</td><td><span class="path">templates/mcp.enterprise.json</span> into the managed <span class="path">.mcp.json</span></td></tr>
+    <tr><th scope="row">SonarQube MCP <em>(enterprise, optional)</em></th><td>Quality-gate queries where the org already runs Sonar</td><td><code>templates/mcp.enterprise.json</code> into the managed <code>.mcp.json</code></td></tr>
     </tbody>
   </table>
   </div>
@@ -584,16 +636,16 @@ Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · 
       <h3>Claude Code: use the native memory, correctly</h3>
       <ul>
         <li><strong>Auto Memory</strong> maintains its own MEMORY.md outside the repo. Leave it on and never commit it. It carries session continuity, and you do nothing.</li>
-        <li><strong>CLAUDE.md hierarchy</strong> is deliberate memory: repo root for the standard (from the template), <span class="path">~/.claude/CLAUDE.md</span> for personal preferences only, never org policy. Levels are additive.</li>
+        <li><strong>CLAUDE.md hierarchy</strong> is deliberate memory: repo root for the standard (from the template), <code>~/.claude/CLAUDE.md</code> for personal preferences only, never org policy. Levels are additive.</li>
         <li><strong>Quick capture:</strong> start a message with <code>#</code> to file a note into memory, or <code>/memory</code> to inspect and edit what's stored.</li>
-        <li><strong>ADRs are the durable, shareable memory:</strong> decisions go to <span class="path">docs/adr/</span> via adr-manager, ticket-linked. That is the memory other people and other editors can read.</li>
+        <li><strong>ADRs are the durable, shareable memory:</strong> decisions go to <code>docs/adr/</code> via adr-manager, ticket-linked. That is the memory other people and other editors can read.</li>
       </ul>
     </div>
     <div>
       <h3>Other editors, and the one rule that holds everywhere</h3>
       <ul>
         <li><strong>Cursor</strong>: built-in Memories (Settings → Rules &amp; Memories) cover session continuity per project.</li>
-        <li><strong>Antigravity</strong>: its knowledge/memory lives under <span class="path">~/.gemini</span>, and workspace rules carry the standing context.</li>
+        <li><strong>Antigravity</strong>: its knowledge/memory lives under <code>~/.gemini</code>, and workspace rules carry the standing context.</li>
         <li><strong>VS Code / Codex</strong>: no rich native memory. AGENTS.md + ADRs + the ticket carry context between sessions, so paste relevant ticket context into briefs.</li>
         <li><strong>External managers</strong> (mem0 MCP and similar) only if you need one memory shared across editors. It costs an extra MCP schema per session and most teams do not need it. Check the licence (some are AGPL) before using one in an enterprise.</li>
         <li><strong>The invariant, enforced by the artifact-guard hook:</strong> committed docs describe the <em>system</em> (ADRs, diagrams, runbooks), and nothing committed describes the <em>session</em>. That means no MEMORY.md, SESSION/PROGRESS notes, or generated knowledge bases in any repo.</li>
@@ -604,7 +656,7 @@ Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · 
   <h3>Session continuity: across sessions, without committing session files</h3>
   <p>Cross-session state has exactly three sanctioned homes. The artifact-guard hook blocks the unsanctioned fourth (session files in the tree):</p>
   <ul>
-    <li><strong>Tool-native memory (machine-local):</strong> Claude Code Auto Memory plus <code>claude --resume</code>/<code>--continue</code> restore prior sessions from <span class="path">~/.claude</span>, outside the repo. Cursor Memories and Antigravity's <span class="path">~/.gemini</span> store fill the same role there.</li>
+    <li><strong>Tool-native memory (machine-local):</strong> Claude Code Auto Memory plus <code>claude --resume</code>/<code>--continue</code> restore prior sessions from <code>~/.claude</code>, outside the repo. Cursor Memories and Antigravity's <code>~/.gemini</code> store fill the same role there.</li>
     <li><strong>The ticket (team-shared, cross-editor):</strong> status, open questions and next steps. When an agent handoff report must outlive the session, paste it into the ticket or PR description and never commit it as a file. Resuming = re-read the ticket + the last handoff report there. This is the layer that follows you to a second machine or a second editor. Machine-local memory does not.</li>
     <li><strong>The repo (system-level only):</strong> ADRs, diagrams, runbooks: durable decisions, never session state.</li>
   </ul>
@@ -632,15 +684,15 @@ Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · 
 <section id="repo" data-eyebrow="Fork">
   <h2>Install and fork</h2>
   <h3>Install</h3>
-  <p>The repository is the marketplace (<span class="path">.claude-plugin/marketplace.json</span> at the root). In Claude Code:</p>
+  <p>The repository is the marketplace (<code>.claude-plugin/marketplace.json</code> at the root). In Claude Code:</p>
 <pre><code>/plugin marketplace add themaverik/kanon</code></pre>
   <p>Then install the plugins you need, as shown under Install per editor. Per consuming repo the checklist is three steps: enable plugins (or copy the dist tree), copy and fill the two templates, run <code>install-githooks.sh</code>.</p>
   <h3>Fork and customise</h3>
   <ul>
-    <li>Fork the repo and edit rules, skills and agents under <span class="path">plugins/</span>. Re-run <code>scripts/sync-editors.py</code> to refresh the generated trees in <span class="path">dist/</span>.</li>
+    <li>Fork the repo and edit rules, skills and agents under <code>plugins/</code>. Re-run <code>scripts/sync-editors.py</code> to refresh the generated trees in <code>dist/</code>.</li>
     <li>Optional: if you want your own plugin prefix, run <code>python3 scripts/rename.py --prefix &lt;your-prefix&gt; --org "&lt;Your Org&gt;" --dry-run</code> first, then without <code>--dry-run</code>. Skip it if the <code>kanon</code> names suit you.</li>
     <li>For forks, run <code>scripts/leak-check.sh</code> in CI. It scans the tree for terms you do not want published. Set the <code>BANNED</code> environment variable (a regex such as <code>acme-internal|project-x</code>) to add your own.</li>
-    <li>Version with semver tags so consumers can pin. The vendored airails skills come from upstream (MIT), and attribution is in <span class="path">plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md</span>.</li>
+    <li>Version with semver tags so consumers can pin. The vendored airails skills come from upstream (MIT), and attribution is in <code>plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md</code>.</li>
   </ul>
 </section>
 </main>
@@ -670,6 +722,62 @@ Profile max5 (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · 
     var pre=c.parentNode, s=src.trim();
     pre.setAttribute("data-title", s[0]==="{"?"settings.json":s[0]==="/"?"claude code":/^(python3|bash|git|cargo|npm)\b/.test(s)?"terminal":"text");
   });
+})();
+// Entrances: each section's parts rise in turn as it enters. Without the script nothing is hidden.
+(function(){
+  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.documentElement.classList.add("js");
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll("main section").forEach(function(sec){
+    var parts=sec.querySelectorAll(":scope > h2, :scope > p, :scope > h3, .ledger > li, .stations > .station, .mod-lead > *, .mod-limits > *, .mod-pair > div, :scope > .table-scroll, :scope > pre, :scope > .two > *");
+    parts.forEach(function(el,i){el.classList.add("rv");el.style.setProperty("--d",Math.min(i,6)*75+"ms");io.observe(el)});
+  });
+})();
+// Scroll tracking: the link of the section under the nav is marked current; on phones the row keeps it in view.
+(function(){
+  var nav=document.querySelector("nav.toc"); if(!nav||!("IntersectionObserver" in window)) return;
+  var links={}; nav.querySelectorAll('a[href^="#"]').forEach(function(a){links[a.getAttribute("href").slice(1)]=a});
+  var visible={}, current=null;
+  function mark(id){
+    if(id===current) return; current=id;
+    Object.keys(links).forEach(function(k){links[k].removeAttribute("aria-current")});
+    var a=links[id]; if(!a) return;
+    a.setAttribute("aria-current","true");
+    if(nav.scrollWidth>nav.clientWidth) nav.scrollTo({left:a.offsetLeft-nav.clientWidth/2+a.offsetWidth/2,behavior:"smooth"});
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){visible[e.target.id]=e.isIntersecting});
+    var ids=Object.keys(links).filter(function(id){return visible[id]});
+    mark(ids.length?ids[0]:null);
+  },{rootMargin:"-80px 0px -55% 0px"});
+  Object.keys(links).forEach(function(id){var el=document.getElementById(id); if(el) io.observe(el)});
+})();
+// Band demo: the same target, ceiling and verdict math as cache-keeper's meter.ts, at a 60K floor.
+(function(){
+  var form=document.getElementById("band-controls");
+  if(!form) return;
+  var FLOOR=60, PLANS={pro:{room:80,grace:5,cap:180},max5:{room:130,grace:15,cap:250},max20:{room:170,grace:40,cap:300}};
+  var plan=document.getElementById("bc-plan"), ctx=document.getElementById("bc-ctx"), heavy=document.getElementById("bc-heavy");
+  var out=document.getElementById("bc-out"), ctxEl=document.getElementById("band-ctx"), prof=document.getElementById("band-profile"), verdict=document.getElementById("band-verdict");
+  function render(){
+    var p=PLANS[plan.value], k=+ctx.value;
+    var target=Math.min(FLOOR+p.room,p.cap-p.grace), ceiling=target+p.grace;
+    var level=k>=ceiling?"high":k>=target?"warn":"ok";
+    var tag="", say="Below the "+target+"K target: nothing happens.";
+    if(level==="high"){tag=" (due: ceiling)";say="Past the "+ceiling+"K ceiling: it compacts, light turn or not.";}
+    else if(level==="warn"&&heavy.checked){tag=" (due: heavy work)";say="Past the "+target+"K target with work in flight: it compacts now.";}
+    else if(level==="warn"){tag=" (holding: light turn)";say="Past the "+target+"K target, but the last turn was light: it holds inside the "+p.grace+"K grace.";}
+    out.textContent=k+"K";
+    ctxEl.textContent="ctx "+k+"k ("+Math.round(k/10)+"%)"+(level==="high"?" quality risk":"");
+    ctxEl.setAttribute("data-level",level);
+    prof.textContent="Profile "+plan.value+" (auto) · main opus/medium · agents sonnet/medium · fable 0/1 · compact @"+target+"k-"+ceiling+"k floor "+FLOOR+"k"+tag+" · display only";
+    prof.classList.toggle("due",tag.indexOf("due")>=0);
+    verdict.textContent=say;
+  }
+  form.hidden=false;
+  form.addEventListener("input",render);
+  form.addEventListener("submit",function(e){e.preventDefault()});
+  render();
 })();
 </script>
 </body>

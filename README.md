@@ -1,3 +1,5 @@
+<img src="assets/kanon-mark.svg" width="72" height="72" alt="Kanōn mark: a measuring rod whose graduation ticks trace the letter K">
+
 # Kanōn
 
 A ticket-driven, verifier-backed engineering standard for AI coding agents. One canonical source, with generated versions for Claude Code, Cursor, VS Code, Codex and Antigravity.
