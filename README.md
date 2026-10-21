@@ -17,7 +17,7 @@ Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as
 - **Visibility in session mods.** Cache time left, context size, 5-hour and weekly use, and session cost show on every turn. Handoff & Clear is one key, and collision-guard asks before you edit a file another session just changed.
 - **Layered plugins.** Enable core plus your stack, and nothing else loads. About 1.4–2.5K tokens are fixed per session, not counting MCP tool schemas. Eight tech stack recipes cover Quarkus, Spring Boot, Kotlin, NestJS, Next.js, plain TypeScript and Rust.
 - **Audited prompts.** The CLAUDE.md template, agents, skills and rules are audited with `/claude-api prompt-audit` against current Claude models (Opus 5.5, Sonnet 5.5, Fable 5.1), so instructions written for older models get caught. The template is about 1.05K tokens.
-- **Deterministic safety gates.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses. CI runs 17 bats tests on them, plus `claude plugin validate`, a leak check and a dist drift check.
+- **Deterministic safety gates.** Hooks block unticketed commits, committed session notes, container and database changes by agents, and dependency-cooldown bypasses. CI runs 17 bats tests on them, plus `claude plugin validate`, a leak check and a generation check for every editor.
 - **Verifiers, not opinions.** Reviewers are read-only and quote ArchUnit, dependency-cruiser, clippy and cargo-deny output. Tests prove themselves with mutation testing (PIT, Stryker, cargo-mutants), not a coverage percent.
 - **Industry standards, with sources.** Every rule and reference file ends with the source behind each pattern it names: 370 citations across 53 files. Kanōn's own stances are marked *(Kanōn)*.
 - **One source, five editors.** Generated dialects for Claude Code, Cursor, VS Code, Codex and Antigravity, plus a paste-in block for plain chat.
@@ -114,7 +114,7 @@ Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo r
 }
 ```
 
-**Other editors:** run `python3 scripts/sync-editors.py --repo <repo> --stacks java --tools cursor`, or copy the matching tree from `dist/`. Add `tools` to `--stacks` for the kanon-tools skills. [Editor-Parity.md](Editor-Parity.md) lists what ports and what doesn't.
+**Other editors:** run `python3 scripts/sync-editors.py --repo <repo> --stacks java --tools cursor`. It needs only Python 3. Add `tools` to `--stacks` for the kanon-tools skills. [Editor-Parity.md](Editor-Parity.md) lists what ports and what doesn't.
 
 **Prerequisites:**
 - `uv`, for Serena MCP.
@@ -132,7 +132,7 @@ Then copy `plugins/kanon-core/templates/CLAUDE.md` and `AGENTS.md` to the repo r
 
 To use your own plugin prefix and org name, run `python3 scripts/rename.py --prefix <your-prefix> --org "<Your Org>" --dry-run`, then run it again without `--dry-run`. Then:
 - Add your internal names to `BANNED` and run `scripts/leak-check.sh` in CI.
-- Pin a release tag (`v2.0.0`) and enforce it with managed settings. Releases follow semver, and [CHANGELOG.md](CHANGELOG.md) lists what each one breaks.
+- Pin a release tag (`v2.1.0`) and enforce it with managed settings. Releases follow semver, and [CHANGELOG.md](CHANGELOG.md) lists what each one breaks.
 
 ## License
 

@@ -222,7 +222,7 @@ footer p{max-width:75ch}
     <a class="btn ghost" href="https://github.com/themaverik/kanon#readme">Documentation</a>
     <a class="btn ghost" href="https://github.com/themaverik/kanon">GitHub</a>
   </div>
-  <p class="release">Version 2.0.0, with 10 plugins for 5 editors. <a href="CHANGELOG.md">Read the changelog</a>.</p>
+  <p class="release">Version 2.1.0, with 10 plugins for 5 editors. <a href="CHANGELOG.md">Read the changelog</a>.</p>
   <div class="integrations">
     <p>Works with</p>
     <ul class="chips" aria-label="Supported editors">
@@ -303,7 +303,7 @@ footer p{max-width:75ch}
 
 <section id="install" data-eyebrow="Install">
   <h2>Install per editor</h2>
-  <p>Claude Code consumes the plugin package natively. Every other editor gets a generated dialect: run <code>scripts/sync-editors.py</code> against your repo, or copy the matching pre-generated tree from <code>dist/</code> (full java+ts+web builds).</p>
+  <p>Claude Code consumes the plugin package natively. Every other editor gets a generated dialect: run <code>scripts/sync-editors.py</code> against your repo. It needs only Python 3.</p>
 
   <div class="stations">
     <div class="station">
@@ -323,7 +323,6 @@ footer p{max-width:75ch}
       <span class="stationlabel">Generated</span>
       <h3>Cursor</h3>
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools cursor
-# or: cp -r dist/cursor/.cursor &lt;repo&gt;/</code></pre>
       <p>Produces <code>.cursor/rules/*.mdc</code> (glob auto-attach), <code>.cursor/skills/</code> (verbatim SKILL.md standard, incl. agent charters as <code>persona-*</code> skills), <code>.cursor/mcp.json</code> (Serena). AGENTS.md at the root is read natively.</p>
     </div>
 
@@ -331,7 +330,6 @@ footer p{max-width:75ch}
       <span class="stationlabel">Generated</span>
       <h3>VS Code (Copilot)</h3>
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks ts,web --tools vscode
-# or: cp -r dist/vscode/.github dist/vscode/.vscode &lt;repo&gt;/</code></pre>
       <p>Produces <code>.github/instructions/*.instructions.md</code> (applyTo globs), <code>.github/skills/</code>, real custom agents in <code>.github/agents/*.agent.md</code>, <code>.github/copilot-instructions.md</code> pointing at AGENTS.md, and <code>.vscode/mcp.json</code>.</p>
     </div>
 
@@ -339,16 +337,13 @@ footer p{max-width:75ch}
       <span class="stationlabel">Generated</span>
       <h3>Codex</h3>
 <pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools codex
-# or: cp -r dist/codex/.codex &lt;repo&gt;/</code></pre>
       <p>Codex reads <code>AGENTS.md</code> natively, and skills land in <code>.codex/skills/</code>. Verify the project-level skills path against your Codex version. The global fallback is <code>~/.codex/skills</code>.</p>
     </div>
 
     <div class="station">
       <span class="stationlabel">Generated, two directory names</span>
       <h3>Antigravity: latest and legacy</h3>
-<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools antigravity --legacy-agent-dir
-# or: cp -r dist/antigravity/.agents &lt;repo&gt;/          (current installs)
-#     cp -r dist/antigravity/.agent  &lt;repo&gt;/          (pre-rename installs)</code></pre>
+<pre><code>python3 scripts/sync-editors.py --repo &lt;repo&gt; --stacks java --tools antigravity --legacy-agent-dir</code></pre>
       <p>Current Antigravity reads <code>.agents/</code> (rules, skills, mcp_config.json). Pre-rename installs read the singular <code>.agent/</code>, so the generator emits both with <code>--legacy-agent-dir</code>. Rules stay under Antigravity's 12,000-char/file cap (the generator warns if a rule outgrows it). Set the env-mutation equivalent in Settings → Security → Terminal Command Deny List (<code>rm -rf</code>, <code>docker rm</code>, <code>DROP TABLE</code>…).</p>
     </div>
 
@@ -686,10 +681,10 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
   <h3>Install</h3>
   <p>The repository is the marketplace (<code>.claude-plugin/marketplace.json</code> at the root). In Claude Code:</p>
 <pre><code>/plugin marketplace add themaverik/kanon</code></pre>
-  <p>Then install the plugins you need, as shown under Install per editor. Per consuming repo the checklist is three steps: enable plugins (or copy the dist tree), copy and fill the two templates, run <code>install-githooks.sh</code>.</p>
+  <p>Then install the plugins you need, as shown under Install per editor. Per consuming repo the checklist is three steps: enable plugins (or run <code>sync-editors.py</code>), copy and fill the two templates, run <code>install-githooks.sh</code>.</p>
   <h3>Fork and customise</h3>
   <ul>
-    <li>Fork the repo and edit rules, skills and agents under <code>plugins/</code>. Re-run <code>scripts/sync-editors.py</code> to refresh the generated trees in <code>dist/</code>.</li>
+    <li>Fork the repo and edit rules, skills and agents under <code>plugins/</code>. Re-run <code>scripts/sync-editors.py</code> against your repos to pick up the changes.</li>
     <li>Optional: if you want your own plugin prefix, run <code>python3 scripts/rename.py --prefix &lt;your-prefix&gt; --org "&lt;Your Org&gt;" --dry-run</code> first, then without <code>--dry-run</code>. Skip it if the <code>kanon</code> names suit you.</li>
     <li>For forks, run <code>scripts/leak-check.sh</code> in CI. It scans the tree for terms you do not want published. Set the <code>BANNED</code> environment variable (a regex such as <code>acme-internal|project-x</code>) to add your own.</li>
     <li>Version with semver tags so consumers can pin. The vendored airails skills come from upstream (MIT), and attribution is in <code>plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md</code>.</li>

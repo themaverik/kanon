@@ -25,19 +25,12 @@ jobs:
       - name: Leak check
         run: bash scripts/leak-check.sh
 
-  dist-drift:
+  # dist/ is not committed; this only proves every editor dialect still generates.
+  editors:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: bash scripts/build-dist.sh
-      # porcelain also catches new untracked files, which git diff misses.
-      - name: Fail if dist/ is stale
-        run: |
-          if [ -n "$(git status --porcelain dist)" ]; then
-            git status --porcelain dist
-            echo "dist/ is stale. Run scripts/build-dist.sh and commit the result." >&2
-            exit 1
-          fi
 
   hooks:
     runs-on: ubuntu-latest

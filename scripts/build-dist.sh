@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerate dist/ for every editor. CI runs this and fails on any diff.
+# Generate every editor dialect into dist/ (git-ignored). CI runs it to prove generation works.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 stacks=java,java-airails,ts,web,rust,tools
