@@ -4,7 +4,7 @@ Kanōn follows [Semantic Versioning](https://semver.org/). Each release is a `vX
 
 ## Unreleased
 
-- New opt-in plugin kanon-web-design 1.0.0: 10 vendored frontend design skills, unchanged from upstream. tasteskill v2 (`design-taste-frontend`, MIT), impeccable (Apache 2.0) and eight of Emil Kowalski's skills (MIT): animate, animation-performance, animation-vocabulary, break-ui, emil-design-eng, find-animation-opportunities, improve-animations, review-animations. Attribution and pinned commits are in `plugins/kanon-web-design/skills/WEB-DESIGN-NOTICE.md`, license texts in `plugins/kanon-web-design/LICENSES/`. kanon-web 1.1.0: the frontend-discipline router says which of them does which job. Install with `/plugin install kanon-web-design@kanon`, or add `web-design` to `--stacks` for other editors.
+- New opt-in plugin kanon-web-design 1.0.0: 10 vendored frontend design skills, unchanged from upstream. tasteskill v2 (`design-taste-frontend`, MIT), impeccable (Apache 2.0) and eight of Emil Kowalski's skills (MIT): animate, animation-performance, animation-vocabulary, break-ui, emil-design-eng, find-animation-opportunities, improve-animations, review-animations. Attribution and pinned commits are in `plugins/kanon-web-design/skills/Web-Design-Notice.md`, license texts in `plugins/kanon-web-design/LICENSES/`. kanon-web 1.1.0: the frontend-discipline router says which of them does which job. Install with `/plugin install kanon-web-design@kanon`, or add `web-design` to `--stacks` for other editors.
 
 ## 2.1.0 (Oct 2026)
 
