@@ -184,7 +184,7 @@ def emit_references(repo, dirs):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
-    ap.add_argument("--stacks", default="", help="comma list: java,java-airails,ts,web,rust,tools")
+    ap.add_argument("--stacks", default="", help="comma list: java,java-airails,ts,web,web-design,rust,tools")
     ap.add_argument("--tools", default="cursor,vscode,antigravity,codex")
     ap.add_argument("--legacy-agent-dir", action="store_true",
                     help="Antigravity: also emit legacy .agent/ (singular) for pre-rename installs")

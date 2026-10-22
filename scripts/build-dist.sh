@@ -2,7 +2,7 @@
 # Generate every editor dialect into dist/ (git-ignored). CI runs it to prove generation works.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-stacks=java,java-airails,ts,web,rust,tools
+stacks=java,java-airails,ts,web,web-design,rust,tools
 for t in claude cursor vscode antigravity codex; do
   mkdir -p "dist/$t"
   rm -f "dist/$t/AGENTS.md"

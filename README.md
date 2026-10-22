@@ -31,6 +31,7 @@ Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as
 | kanon-java-airails | Java repos, opt-in | 8 vendored [airails](plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md) skills. sbce, ears-tests and continuous-testing run only as slash commands |
 | kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript, NestJS and hexagonal rules |
 | kanon-web | frontend repos | frontend-discipline, web rules |
+| kanon-web-design | frontend repos, opt-in | 10 vendored [design skills](plugins/kanon-web-design/skills/WEB-DESIGN-NOTICE.md): tasteskill v2, impeccable and Emil Kowalski's motion and UI-polish skills |
 | kanon-rust | Rust repos | rust-reviewer, rust-discipline, Rust and axum rules |
 | kanon-tools | any repo, opt-in | docker-dev, remove-ai-marks and diagram-on-the-fly skills |
 | cache-keeper | any repo (mod) | cache countdown, context size, rate limits, session cost, Handoff & Clear |
@@ -94,6 +95,7 @@ Kanōn holds only its own stance: ticket keys, mutation evidence, read-only revi
 /plugin install kanon-core@kanon
 /plugin install kanon-java@kanon      # or kanon-ts, kanon-web, kanon-rust
 /plugin install kanon-java-airails@kanon   # optional, Java only
+/plugin install kanon-web-design@kanon     # optional, frontend design skills
 /plugin install kanon-tools@kanon          # optional utility skills
 ```
 

@@ -60,6 +60,8 @@ installs read `.agent/` (singular). `--legacy-agent-dir` emits both.
 - `disable-model-invocation` (sbce, ears-tests, continuous-testing) is a Claude
   Code key. Other editors may still pick those skills by description. Leave
   `java-airails` out of `--stacks` if you don't want them.
+- `web-design` adds about 4.6 MB of skills, mostly tasteskill's and impeccable's
+  libraries and scripts. Add it to `--stacks` only in frontend repos that use them.
 - VS Code custom agents (.agent.md) and skills locations are evolving.
   `chat.agentSkillsLocations` can point at a different skills dir if your org
   standardizes elsewhere.
