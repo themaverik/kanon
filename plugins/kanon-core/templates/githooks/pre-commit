@@ -8,7 +8,7 @@
 # It deliberately does NOT run the statistical rewrite (Layer B). That needs a model and
 # changes wording, which must never happen unattended inside a commit.
 #
-# NEVER BLOCKS A COMMIT. Not installed, not running, missing dependency, malformed response,
+# The watermark pass NEVER BLOCKS A COMMIT. Not installed, not running, missing dependency, malformed response,
 # internal error - every one of them means "skip cleaning" and never "fail the commit". A hook
 # that blocks work when an optional local daemon is absent gets disabled by everyone in a week.
 #
@@ -18,9 +18,14 @@
 # abort the hook with a non-zero status, because git reads that as "reject this commit".
 set -o pipefail 2>/dev/null || true
 
-# Doc naming is the one check here that blocks: a bad name is cheap to fix now and
-# expensive once links point at it. Bypass once with ALLOW_DOC_NAME=1.
-python3 "$(dirname "$0")/doc-name-check.py" --staged || exit 1
+# The one exception: a bad doc name blocks, because it is cheap to fix now and expensive
+# once links point at it. Only exit 3 (a real violation) blocks; a missing python3 or a
+# crash in the checker lets the commit through. Bypass once with ALLOW_DOC_NAME=1.
+check="$(dirname "$0")/doc-name-check.py"
+if command -v python3 >/dev/null 2>&1 && [ -f "$check" ]; then
+  python3 "$check" --staged
+  [ $? -eq 3 ] && exit 1
+fi
 
 [ "${SKIP_WATERMARK_HOOK:-0}" = "1" ] && exit 0
 

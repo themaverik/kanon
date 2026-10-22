@@ -11,6 +11,9 @@ Modes:
   --all       every tracked .md file (CI).
   PATH ...    the given paths.
 
+Violations exit 3 outside --hook, so callers can tell them from a crash (exit 1).
+Paths outside a git repository are never checked.
+
 Paths matching a glob in <repo root>/.docnames-exempt (one per line, # comments)
 are skipped; use it for vendored trees that keep their upstream names.
 Override once with ALLOW_DOC_NAME=1.
@@ -35,7 +38,9 @@ STANDARD = {
 KEBAB = re.compile(r"^[a-z0-9][a-z0-9.]*(-[a-z0-9][a-z0-9.]*)*\.md$")
 TITLE = re.compile(r"^[A-Z][A-Za-z0-9.]*(-([A-Z0-9][A-Za-z0-9.]*|v[0-9][0-9.]*))*\.md$")
 ADR = re.compile(r"^ADR-[0-9]{3}-[a-z0-9]+(-[a-z0-9]+)*\.md$")
-REDIRECTS = (">", ">>", ">|")
+REDIRECTS = (">", ">>", ">|", "&>", "&>>")
+HEREDOC = re.compile(r"<<-?[ \t]*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1([^\n]*)\n.*?\n[ \t]*\2[ \t]*(?=\n|$)", re.S)
+PREFIXES = {"sudo", "command", "env", "nohup", "time"}
 WRITERS = {"cp", "mv", "install", "ln"}
 
 
@@ -43,8 +48,10 @@ def name_ok(base):
     if base in STANDARD or ADR.match(base) or KEBAB.match(base):
         return True
     stem = base[:-3]
-    # Title-Case, not ALL-CAPS: WEB-DESIGN-NOTICE.md is not a standard name.
-    return bool(TITLE.match(base)) and stem != stem.upper()
+    # Title-Case, not ALL-CAPS: WEB-DESIGN-NOTICE.md is not a standard name. Version
+    # segments (v2) are dropped first so README-v2.md does not pass on its lower-case v.
+    words = re.sub(r"(^|-)v[0-9][0-9.]*", "", stem)
+    return bool(TITLE.match(base)) and words != words.upper()
 
 
 def repo_root(path):
@@ -74,19 +81,23 @@ def exempt(path):
 
 def violations(paths):
     return [p for p in paths
-            if p.endswith(".md") and not name_ok(os.path.basename(p)) and not exempt(p)]
+            if p.endswith(".md") and not name_ok(os.path.basename(p))
+            and repo_root(os.path.abspath(p)) and not exempt(p)]
 
 
 def simple_commands(cmd):
+    # Heredoc bodies are data, not arguments; keep the line that opens them.
+    cmd = HEREDOC.sub(lambda m: m.group(3), cmd)
     try:
-        lex = shlex.shlex(cmd, posix=True, punctuation_chars=";&|<>")
+        lex = shlex.shlex(cmd, posix=True, punctuation_chars=";&|<>\n")
+        lex.whitespace = " \t\r"
         lex.whitespace_split = True
         tokens = list(lex)
     except ValueError:
         tokens = cmd.split()
     cur = []
     for t in tokens:
-        if t and set(t) <= set(";&|"):
+        if t and set(t) <= set(";&|\n") and t not in ("&>", "&>>"):
             if cur:
                 yield cur
             cur = []
@@ -100,22 +111,31 @@ def bash_targets(cmd, cwd):
     """Markdown paths a shell command would create or rename into."""
     out = []
     for words in simple_commands(cmd):
-        out += [words[i + 1] for i, w in enumerate(words[:-1]) if w in REDIRECTS]
-        args = [w for w in words if not set(w) <= set("<>|")]
-        if not args:
-            continue
-        prog, rest = os.path.basename(args[0]), args[1:]
-        if prog == "git" and rest[:1] == ["mv"]:
-            prog, rest = "mv", rest[1:]
-        plain = [a for a in rest if not a.startswith("-")]
-        if prog in ("touch", "tee"):
-            out += plain
-        elif prog in WRITERS and len(plain) >= 2:
-            if os.path.isdir(os.path.join(cwd, plain[-1])):
-                out += [os.path.join(plain[-1], os.path.basename(s.rstrip("/"))) for s in plain[:-1]]
-            else:
-                out.append(plain[-1])
-    return [p if os.path.isabs(p) else os.path.join(cwd, p) for p in out if p.endswith(".md")]
+        targets = [words[i + 1] for i, w in enumerate(words[:-1]) if w in REDIRECTS]
+        args = [w for w in words if not set(w) <= set("<>|&")]
+        while args and (re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", args[0]) or args[0] in PREFIXES):
+            args = args[1:]
+        if args:
+            prog, rest = os.path.basename(args[0]), args[1:]
+            if prog == "git" and rest[:1] == ["mv"]:
+                prog, rest = "mv", rest[1:]
+            if prog == "cd":
+                cwd = os.path.normpath(os.path.join(cwd, os.path.expanduser(rest[0]))) if rest else os.path.expanduser("~")
+                continue
+            plain = [a for a in rest if not a.startswith("-")]
+            tdir = next((rest[i + 1] for i, a in enumerate(rest[:-1]) if a in ("-t", "--target-directory")), None)
+            if tdir:
+                plain.remove(tdir)
+                targets += [os.path.join(tdir, os.path.basename(s.rstrip("/"))) for s in plain]
+            elif prog in ("touch", "tee"):
+                targets += plain
+            elif prog in WRITERS and len(plain) >= 2:
+                if os.path.isdir(os.path.join(cwd, plain[-1])):
+                    targets += [os.path.join(plain[-1], os.path.basename(s.rstrip("/"))) for s in plain[:-1]]
+                else:
+                    targets.append(plain[-1])
+        out += [p if os.path.isabs(p) else os.path.join(cwd, p) for p in targets if p.endswith(".md")]
+    return out
 
 
 def hook():
@@ -139,7 +159,8 @@ def hook():
           " breaks the doc naming convention. Use hyphenated Title-Case for docs "
           "(Editor-Parity.md) or kebab-case for config and reference files (git-conventions.md). "
           "Standard files (README.md, NOTICE.md, SKILL.md ...) and ADR-NNN-slug.md are exempt; "
-          "vendored trees go in .docnames-exempt. Override once with ALLOW_DOC_NAME=1.",
+          "vendored trees go in .docnames-exempt. Rename the file; only the user can bypass "
+          "(ALLOW_DOC_NAME=1 in the environment Claude Code runs in).",
           file=sys.stderr)
     return 2
 
@@ -155,7 +176,12 @@ def main(argv):
     if argv[:1] == ["--hook"]:
         return hook()
     if argv[:1] == ["--staged"]:
-        paths = git_list("diff", "--cached", "--name-only", "--diff-filter=AR")
+        # A rename that keeps its basename (git mv OLD_NAME.md archive/) names nothing new.
+        paths = []
+        for line in git_list("diff", "--cached", "--name-status", "--diff-filter=AR"):
+            f = line.split("\t")
+            if f[0].startswith("A") or os.path.basename(f[1]) != os.path.basename(f[2]):
+                paths.append(f[-1])
     elif argv[:1] == ["--all"]:
         paths = git_list("ls-files", "*.md")
     else:
@@ -166,7 +192,7 @@ def main(argv):
     if bad:
         print("Rename to hyphenated Title-Case or kebab-case, or add a glob to .docnames-exempt. "
               "Bypass once with ALLOW_DOC_NAME=1.", file=sys.stderr)
-    return 1 if bad else 0
+    return 3 if bad else 0
 
 
 if __name__ == "__main__":

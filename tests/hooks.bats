@@ -111,27 +111,46 @@ run_hook() { run bash -c "printf '%s' \"\$1\" | \"$HOOKS/$2\"" _ "$1"; }
   grep -q 'Co-Authored-By: Claude' "$msg"
 }
 
+# Paths outside a git repo are never checked, so these point inside this repo.
+R="$BATS_TEST_DIRNAME/.."
+
 @test "doc-name-guard blocks an ALL-CAPS name written by a heredoc" {
-  run_hook "$(bash_payload "cat > /tmp/WEB-DESIGN-NOTICE.md <<'X'
+  run_hook "$(bash_payload "cat > $R/WEB-DESIGN-NOTICE.md <<'X'
 hi
 X")" doc-name-guard.sh
   [ "$status" -eq 2 ]
 }
 
-@test "doc-name-guard blocks a bad name from git mv and tee" {
-  run_hook "$(bash_payload 'git mv Good-Doc.md REALM_SETUP.md')" doc-name-guard.sh
+@test "doc-name-guard blocks a bad name from git mv, tee, &> and cp -t" {
+  run_hook "$(bash_payload "git mv $R/README.md $R/REALM_SETUP.md")" doc-name-guard.sh
   [ "$status" -eq 2 ]
-  run_hook "$(bash_payload 'echo x | tee -a notes/MyNotes_v2.md')" doc-name-guard.sh
+  run_hook "$(bash_payload "echo x | tee -a $R/MyNotes_v2.md")" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+  run_hook "$(bash_payload "make &>$R/BUILD_LOG.md")" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+  run_hook "$(bash_payload "cp -t $R/tests /x/SETUP_GUIDE.md")" doc-name-guard.sh
   [ "$status" -eq 2 ]
 }
 
 @test "doc-name-guard blocks Write of a new file with a bad name" {
-  run_hook "$(file_payload /tmp/kanon-bats-missing/SETUP_GUIDE.md)" doc-name-guard.sh
+  run_hook "$(file_payload "$R/SETUP_GUIDE.md")" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+}
+
+@test "doc-name-guard sees past env prefixes, sudo and cd" {
+  run_hook "$(bash_payload "FOO=1 sudo touch $R/BAD_X.md")" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+  run_hook "$(bash_payload "cd $R/tests && touch BAD_X.md")" doc-name-guard.sh
   [ "$status" -eq 2 ]
 }
 
 @test "doc-name-guard allows Title-Case, kebab-case, ADR and standard names" {
-  run_hook "$(bash_payload 'echo x > /tmp/Editor-Parity.md; touch git-conventions.md ADR-007-use-madr.md NOTICE.md CODE_OF_CONDUCT.md')" doc-name-guard.sh
+  run_hook "$(bash_payload "cd $R && echo x > Editor-Parity.md; touch git-conventions.md ADR-007-use-madr.md NOTICE.md CODE_OF_CONDUCT.md")" doc-name-guard.sh
+  [ "$status" -eq 0 ]
+}
+
+@test "doc-name-guard skips paths outside a git repo" {
+  run_hook "$(bash_payload 'touch /tmp/REVIEW_NOTES.md')" doc-name-guard.sh
   [ "$status" -eq 0 ]
 }
 
@@ -140,7 +159,23 @@ X")" doc-name-guard.sh
   [ "$status" -eq 0 ]
 }
 
-@test "doc-name-guard honours ALLOW_DOC_NAME=1" {
-  ALLOW_DOC_NAME=1 run_hook "$(bash_payload 'touch BAD_NAME.md')" doc-name-guard.sh
+@test "doc-name-guard honours ALLOW_DOC_NAME=1 set by the user" {
+  ALLOW_DOC_NAME=1 run_hook "$(bash_payload "cat > $R/BAD_NAME.md")" doc-name-guard.sh
+  [ "$status" -eq 0 ]
+}
+
+@test "doc-name-guard ignores names inside heredoc bodies" {
+  run_hook "$(bash_payload "cat > $R/Good-Doc.md <<'EOF'
+renamed -> REALM_SETUP.md
+EOF
+git commit -F- <<'EOF'
+fix > $R/BAD_X.md
+EOF")" doc-name-guard.sh
+  [ "$status" -eq 0 ]
+}
+
+@test "doc-name-guard splits multi-line commands" {
+  run_hook "$(bash_payload "touch $R/good.md
+cat $R/OLD_NAME.md")" doc-name-guard.sh
   [ "$status" -eq 0 ]
 }
