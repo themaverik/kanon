@@ -14,7 +14,12 @@ Read `.kanon/references/documentation-standards.md` for full conventions.
 - Exception: status indicators in README.md only
   (done, in progress, not started, new release, declined)
 - File naming: kebab-case for config/reference files, hyphenated Title-Case for docs/ files *(Kanōn)*
-- Exception: README.md, CHANGELOG.md, LICENSE, CONTRIBUTING.md keep standard names
+- Exception: GitHub and open-source standard files keep their names (README, CHANGELOG, CONTRIBUTING,
+  LICENSE, COPYING, NOTICE, CODE_OF_CONDUCT, SECURITY, SUPPORT ...), as do names a tool looks up
+  (CLAUDE.md, AGENTS.md, SKILL.md, DESIGN.md, PRODUCT.md, index.md). Vendored trees keep upstream
+  names: list them in `.docnames-exempt`
+- Enforced by `doc-name-check.py`: the doc-name-guard hook (Write and Bash), pre-commit and CI.
+  ALL-CAPS names such as `WEB-DESIGN-NOTICE.md` fail
 - Exception: ADR files follow MADR standard: `ADR-NNN-<kebab-slug>.md` (uppercase prefix)
 - Document titles: Title Case inside the file
 - `docs/adr/index.md` is auto-maintained. Never edit directly

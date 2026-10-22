@@ -10,7 +10,7 @@
     {
       "name": "kanon-core",
       "source": "./plugins/kanon-core",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "description": "Engineering standard core: execution discipline, implementer/design/review/failure-mode agents, ADRs, guard hooks, Serena MCP. Enable in every repo."
     },
     {

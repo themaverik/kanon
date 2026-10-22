@@ -5,7 +5,7 @@ All ten skills in this plugin are vendored unchanged from upstream. Full license
 | Skills | Upstream | Commit | License |
 |---|---|---|---|
 | design-taste-frontend (tasteskill v2) | https://github.com/Leonxlnx/taste-skill | `6010f91` | MIT, Copyright (c) 2026 Leonxlnx |
-| impeccable | https://github.com/pbakaus/impeccable (`.claude/skills/impeccable`) | `dad8dbb` | Apache 2.0, with its third-party notices in `impeccable-NOTICE.md` |
+| impeccable | https://github.com/pbakaus/impeccable (`.claude/skills/impeccable`) | `dad8dbb` | Apache 2.0, with its third-party notices in `impeccable-notice.md` |
 | animate, animation-performance, animation-vocabulary, break-ui, emil-design-eng, find-animation-opportunities, improve-animations, review-animations | https://github.com/emilkowalski/skills | `2d22863` | MIT, Copyright (c) 2026 Emil Kowalski |
 
 To update, copy the skill folders from a newer upstream commit and change the commit column. No local edits to re-apply.

@@ -18,6 +18,15 @@
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/artifact-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash|Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/doc-name-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [

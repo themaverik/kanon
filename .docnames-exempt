@@ -1,0 +1,3 @@
+# Vendored skills keep their upstream file names (checked by doc-name-check.py).
+plugins/kanon-java-airails/skills/*/*
+plugins/kanon-web-design/skills/*/*

@@ -28,7 +28,7 @@ Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as
 |---|---|---|
 | kanon-core | every repo | implementer, backend-architect, architect-review and failure-mode-engineer agents, karpathy-guidelines, adr-manager, commit-craft, common rules, 6 hook checks, Serena MCP, CLAUDE.md/AGENTS.md templates |
 | kanon-java | Java/Kotlin repos | Quarkus or Spring Boot, picked from the repo. quarkus-reviewer, spring-reviewer, java-discipline, java rules |
-| kanon-java-airails | Java repos, opt-in | 8 vendored [airails](plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md) skills. sbce, ears-tests and continuous-testing run only as slash commands |
+| kanon-java-airails | Java repos, opt-in | 8 vendored [airails](plugins/kanon-java-airails/skills/Airails-Notice.md) skills. sbce, ears-tests and continuous-testing run only as slash commands |
 | kanon-ts | TS backend repos | nestjs-boundary-reviewer, typescript-discipline, typescript, NestJS and hexagonal rules |
 | kanon-web | frontend repos | frontend-discipline, web rules |
 | kanon-web-design | frontend repos, opt-in | 10 vendored [design skills](plugins/kanon-web-design/skills/Web-Design-Notice.md): tasteskill v2, impeccable and Emil Kowalski's motion and UI-polish skills |

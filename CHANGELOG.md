@@ -4,6 +4,9 @@ Kanōn follows [Semantic Versioning](https://semver.org/). Each release is a `vX
 
 ## Unreleased
 
+- New doc-name-guard: `doc-name-check.py` blocks new Markdown names that are neither hyphenated Title-Case, kebab-case, `ADR-NNN-slug.md` nor a standard file (README, NOTICE, COPYING, CODE_OF_CONDUCT, SKILL.md, DESIGN.md ...). It runs as a PreToolUse hook on Write and on Bash (redirects, heredocs, `tee`, `touch`, `cp`, `mv`, `git mv`), in pre-commit for staged additions and renames, and in CI over every tracked `.md`. Existing files are not checked, so legacy names do not block edits. Vendored trees are listed in `.docnames-exempt`. Bypass once with `ALLOW_DOC_NAME=1`. kanon-core 2.2.0.
+- `AIRAILS-NOTICE.md` is now `Airails-Notice.md`.
+
 - New opt-in plugin kanon-web-design 1.0.0: 10 vendored frontend design skills, unchanged from upstream. tasteskill v2 (`design-taste-frontend`, MIT), impeccable (Apache 2.0) and eight of Emil Kowalski's skills (MIT): animate, animation-performance, animation-vocabulary, break-ui, emil-design-eng, find-animation-opportunities, improve-animations, review-animations. Attribution and pinned commits are in `plugins/kanon-web-design/skills/Web-Design-Notice.md`, license texts in `plugins/kanon-web-design/LICENSES/`. kanon-web 1.1.0: the frontend-discipline router says which of them does which job. Install with `/plugin install kanon-web-design@kanon`, or add `web-design` to `--stacks` for other editors.
 
 ## 2.1.0 (Oct 2026)

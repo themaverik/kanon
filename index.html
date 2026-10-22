@@ -687,7 +687,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <li>Fork the repo and edit rules, skills and agents under <code>plugins/</code>. Re-run <code>scripts/sync-editors.py</code> against your repos to pick up the changes.</li>
     <li>Optional: if you want your own plugin prefix, run <code>python3 scripts/rename.py --prefix &lt;your-prefix&gt; --org "&lt;Your Org&gt;" --dry-run</code> first, then without <code>--dry-run</code>. Skip it if the <code>kanon</code> names suit you.</li>
     <li>For forks, run <code>scripts/leak-check.sh</code> in CI. It scans the tree for terms you do not want published. Set the <code>BANNED</code> environment variable (a regex such as <code>acme-internal|project-x</code>) to add your own.</li>
-    <li>Version with semver tags so consumers can pin. The vendored airails skills come from upstream (MIT), and attribution is in <code>plugins/kanon-java-airails/skills/AIRAILS-NOTICE.md</code>.</li>
+    <li>Version with semver tags so consumers can pin. The vendored airails skills come from upstream (MIT), and attribution is in <code>plugins/kanon-java-airails/skills/Airails-Notice.md</code>.</li>
   </ul>
 </section>
 </main>

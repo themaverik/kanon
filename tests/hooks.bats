@@ -110,3 +110,37 @@ run_hook() { run bash -c "printf '%s' \"\$1\" | \"$HOOKS/$2\"" _ "$1"; }
   SKIP_ATTRIBUTION_HOOK=1 run "$GITHOOKS/commit-msg" "$msg"
   grep -q 'Co-Authored-By: Claude' "$msg"
 }
+
+@test "doc-name-guard blocks an ALL-CAPS name written by a heredoc" {
+  run_hook "$(bash_payload "cat > /tmp/WEB-DESIGN-NOTICE.md <<'X'
+hi
+X")" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+}
+
+@test "doc-name-guard blocks a bad name from git mv and tee" {
+  run_hook "$(bash_payload 'git mv Good-Doc.md REALM_SETUP.md')" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+  run_hook "$(bash_payload 'echo x | tee -a notes/MyNotes_v2.md')" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+}
+
+@test "doc-name-guard blocks Write of a new file with a bad name" {
+  run_hook "$(file_payload /tmp/kanon-bats-missing/SETUP_GUIDE.md)" doc-name-guard.sh
+  [ "$status" -eq 2 ]
+}
+
+@test "doc-name-guard allows Title-Case, kebab-case, ADR and standard names" {
+  run_hook "$(bash_payload 'echo x > /tmp/Editor-Parity.md; touch git-conventions.md ADR-007-use-madr.md NOTICE.md CODE_OF_CONDUCT.md')" doc-name-guard.sh
+  [ "$status" -eq 0 ]
+}
+
+@test "doc-name-guard ignores names that only appear in a commit message" {
+  run_hook "$(bash_payload "git commit -m 'rename WEB-DESIGN-NOTICE.md'")" doc-name-guard.sh
+  [ "$status" -eq 0 ]
+}
+
+@test "doc-name-guard honours ALLOW_DOC_NAME=1" {
+  ALLOW_DOC_NAME=1 run_hook "$(bash_payload 'touch BAD_NAME.md')" doc-name-guard.sh
+  [ "$status" -eq 0 ]
+}

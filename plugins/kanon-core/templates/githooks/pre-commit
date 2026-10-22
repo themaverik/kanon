@@ -18,6 +18,10 @@
 # abort the hook with a non-zero status, because git reads that as "reject this commit".
 set -o pipefail 2>/dev/null || true
 
+# Doc naming is the one check here that blocks: a bad name is cheap to fix now and
+# expensive once links point at it. Bypass once with ALLOW_DOC_NAME=1.
+python3 "$(dirname "$0")/doc-name-check.py" --staged || exit 1
+
 [ "${SKIP_WATERMARK_HOOK:-0}" = "1" ] && exit 0
 
 # Not installed is a normal state, not an error. Say nothing and get out of the way.

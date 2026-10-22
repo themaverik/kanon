@@ -27,6 +27,9 @@ echo
 echo "commit-msg strips AI attribution trailers (Co-Authored-By: Claude, \"Generated with\")"
 echo "and keeps human co-authors. Bypass once with: SKIP_ATTRIBUTION_HOOK=1 git commit ..."
 echo
+echo "pre-commit also blocks new Markdown names that break the doc naming convention."
+echo "Vendored trees go in .docnames-exempt. Bypass once with: ALLOW_DOC_NAME=1 git commit ..."
+echo
 echo "pre-push blocks pushes whose outgoing commits add secrets (key patterns, private"
 echo "keys, dotenv files; extend with BANNED='term1|term2'). Findings print masked."
 echo "Bypass once with: SKIP_SECRET_HOOK=1 git push ..."

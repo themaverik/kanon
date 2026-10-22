@@ -24,6 +24,8 @@ jobs:
           for d in plugins/*/; do claude plugin validate "$d"; done
       - name: Leak check
         run: bash scripts/leak-check.sh
+      - name: Doc names
+        run: python3 plugins/kanon-core/templates/githooks/doc-name-check.py --all
 
   # dist/ is not committed; this only proves every editor dialect still generates.
   editors:
