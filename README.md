@@ -34,6 +34,7 @@ Kanōn stays lean by measuring. Every rule earns its tokens, every check runs as
 | kanon-web-design | frontend repos, opt-in | 10 vendored [design skills](plugins/kanon-web-design/skills/Web-Design-Notice.md): tasteskill v2, impeccable and Emil Kowalski's motion and UI-polish skills |
 | kanon-rust | Rust repos | rust-reviewer, rust-discipline, Rust and axum rules |
 | kanon-tools | any repo, opt-in | docker-dev, remove-ai-marks and diagram-on-the-fly skills |
+| kanon-memory | any repo, opt-in | reviewed shared memory: capture hook, content filter, `/promote-memory`, `/memory-triage`, memory-check |
 | cache-keeper | any repo (mod) | cache countdown, context size, rate limits, session cost, Handoff & Clear |
 | collision-guard | any repo (mod) | asks before editing a file another session just changed |
 | prompt-enhancer | any repo (mod) | rewrites a draft prompt into your template, unsent |
@@ -81,6 +82,41 @@ The engine's own auto-compaction fires near the model's window (about 967K on a 
 
 The thresholds are Kanōn's own reading of these sources, not published figures. No long-context scores are public yet for Opus 5.5 or Fable 5.1, so 256K is a conservative line, not a measured one.
 
+## Shared Memory
+
+kanon-memory turns what agents learn in one session into reviewed, cited rules the whole team loads. Nothing reaches the repo without a human approving each entry.
+
+```mermaid
+flowchart LR
+  M[Auto memory<br/>read-only] -->|Stop / PreCompact hook| F{Content filter}
+  F -->|secret or invisible Unicode| B[Blocked, text withheld]
+  F -->|personal data| K[Masked placeholders]
+  F -->|sensitive path or legal keyword| H[Held for review]
+  K --> C[Candidates file<br/>outside the repo]
+  H --> C
+  C -->|/promote-memory, per-entry approval| L[.claude/rules/learned/]
+  L -->|memory-check in pre-commit and CI| PR[Reviewed PR]
+```
+*Only cited facts are captured, and only approved ones are written to the repo.*
+
+- **Capture.** Lines in auto memory that cite a `path:line` existing in the repo go to `~/.claude/projects/<project>/kanon-memory-candidates.jsonl`. Memory files are never edited or deleted.
+- **Filter.**
+  - Secrets (cloud, VCS, chat and payment keys, LLM keys, private keys, JWTs, credential URLs, assigned secrets, high-entropy strings) and invisible Unicode block the entry; its text is never stored.
+  - Personal data is replaced with typed placeholders: `<EMAIL>`, `<PHONE_IN>`, `<AADHAAR>` (Verhoeff-checked), `<PAN>`, `<GSTIN>`, `<IFSC>`, `<VOTER_ID>`, `<IP>`.
+  - Entries citing sensitive paths or matching legal keywords are held for explicit review.
+  - Findings name the rule, never the matched value.
+- **Promote.** `/promote-memory` shows each candidate and its flags, waits for approval per entry, and writes `- <fact> (`path:line`) [TICKET-123, expires YYYY-MM-DD]` bullets.
+- **Check.** `memory-check.py --staged` (pre-commit) or `--all` (CI) fails on a dead citation, a missing ticket key, an expired entry, a secret or unmasked personal data. Expired entries are renewed or removed by a reviewed PR, never deleted automatically.
+- **Triage.** `/memory-triage` reads existing memory and instruction files and writes a keep or review report outside every repo. It changes nothing.
+
+Tune it per repo in `.kanon-memory.json`:
+
+```json
+{ "sensitive_paths": ["data/", "fixtures/real/"], "sensitive_keywords": ["case no", "land record"], "expiry_days": 90 }
+```
+
+Patterns cannot catch names or postal addresses in free text, so the per-entry review is the last line of defence. Keep personal data out of memory to begin with.
+
 ## What Kanōn does not cover
 
 Kanōn holds only its own stance: ticket keys, mutation evidence, read-only reviewers and the hooks that enforce them. For general workflow (brainstorming, planning, TDD, debugging), install one of these alongside it:
@@ -97,6 +133,7 @@ Kanōn holds only its own stance: ticket keys, mutation evidence, read-only revi
 /plugin install kanon-java-airails@kanon   # optional, Java only
 /plugin install kanon-web-design@kanon     # optional, frontend design skills
 /plugin install kanon-tools@kanon          # optional utility skills
+/plugin install kanon-memory@kanon         # optional reviewed shared memory
 ```
 
 Claude Code plugins can't ship rules, so sync them into the repo once, and again after each update:
