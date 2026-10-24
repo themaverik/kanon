@@ -51,6 +51,10 @@ If unsure, default to Trivial and ask before escalating.
 
 Opus on any agent only with explicit approval per invocation.
 
+## External Documentation
+
+Follow AGENTS.md "External Documentation": Context7 for library docs, Exa for the rest, and a `Docs:` source line on any answer that states library or API behaviour.
+
 ## Session State and Repo Docs
 
 Committed docs describe the system: ADRs (`docs/adr/`), diagrams (`docs/diagrams/`), runbooks, API docs. Session state never enters the tree (artifact-guard enforces):

@@ -4,6 +4,8 @@ Kanōn follows [Semantic Versioning](https://semver.org/). Each release is a `vX
 
 ## Unreleased
 
+- AGENTS.md and CLAUDE.md templates gain an External Documentation section: Context7 for library and API docs, Exa for the rest (built-in web search when neither is connected). Answers that state library or API behaviour end with a `Docs:` source line, including `Docs: memory (not verified)` when nothing was looked up. pr-reviewer and architect-review cite external guidance the same way. `templates/mcp.enterprise.json` adds optional Context7 and Exa remote servers, with keys read from `CONTEXT7_API_KEY` and `EXA_API_KEY`.
+
 - New read-only `pr-reviewer` agent in kanon-core, distilled from Addy Osmani's MIT `code-review-and-quality` skill: five review axes (correctness, readability, architecture fit, security, performance), PR size bands (~100 good, ~300 acceptable, ~1000 split), tests reviewed first against mutation output, and missing verification evidence blocks approval. It replaces the official code-review plugin as the default reviewer in the CLAUDE.md template and the workflow rule. `rules/common/code-review.md` gains the size and description checks, an FYI level, and the rule that every finding is labelled.
 
 ## 2.2.0 (Oct 2026)

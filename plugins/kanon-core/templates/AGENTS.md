@@ -35,6 +35,14 @@ Every non-trivial task references a work-item ticket (Jira/Linear). Branch `type
 - **TypeScript/NestJS**: strict mode; constructor DI; import other modules only via exported surfaces; domain layers import no framework code in hexagonal repos; validate inbound DTOs at the edge; no floating promises. Boundaries via dependency-cruiser; dead code via knip.
 - **Frontend**: respect server/client component boundaries; accessibility and performance rules per rules/web.
 
+## External Documentation
+
+Training data lags library releases, so look up library, framework, SDK and CLI behaviour before relying on it.
+
+- Use Context7, when connected, for library and API docs, including well-known libraries.
+- Use Exa, when connected, for what Context7 lacks: pricing, changelogs, issues, articles. Otherwise use the built-in web search.
+- End any answer that states library or API behaviour with one source line, so the reader can tell looked-up facts from recalled ones: `Docs: Context7 <library-id>`, `Docs: Exa <url>`, `Docs: web <url>`, or `Docs: memory (not verified)`.
+
 ## Context Budget
 
 Assume a constrained token budget. Work from the diff and the brief; read only what the task requires; never scan the repo wholesale or re-read what is in context. If the task genuinely needs more than ~15 files or a repo-wide pass, stop and ask with the reason instead of proceeding. State the expected cost class (small/medium/large) before any long-running autonomous run; medium and large need explicit approval.
