@@ -1,0 +1,8 @@
+{
+  "name": "kanon-memory",
+  "version": "0.1.0",
+  "description": "Reviewed shared memory: captures cited facts from auto memory outside the repo, filters secrets and personal data, and promotes only entries a human approves.",
+  "author": {
+    "name": "themaverik"
+  }
+}

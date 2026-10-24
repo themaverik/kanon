@@ -56,6 +56,12 @@
       "description": "Optional utility skills: docker-dev for local containers, remove-ai-marks for published text, diagram-on-the-fly for quick diagrams. Enable where you want them."
     },
     {
+      "name": "kanon-memory",
+      "source": "./plugins/kanon-memory",
+      "version": "0.1.0",
+      "description": "Opt-in reviewed shared memory: captures cited facts outside the repo, blocks secrets, masks personal data, and promotes only entries a human approves. Enable where the team shares agent knowledge."
+    },
+    {
       "name": "cache-keeper",
       "source": "./plugins/cache-keeper",
       "version": "0.3.0",

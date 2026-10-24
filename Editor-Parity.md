@@ -38,7 +38,9 @@ installs read `.agent/` (singular). `--legacy-agent-dir` emits both.
   configuration, and the charter notes the intent.
 - **Native Auto Memory / ADR flow.** ADRs in `docs/adr/` are editor-agnostic
   by design. Session memory is each tool's own feature and is never
-  committed (artifact policy holds via AGENTS.md + review).
+  committed (artifact policy holds via AGENTS.md + review). kanon-memory's capture
+  hook is Claude Code only; `memory-check.py` is plain Python, so the pre-commit and
+  CI gate on `.claude/rules/learned/` works for every editor.
 - **Plugin marketplace distribution.** Cursor/VS Code/Antigravity have no
   equivalent installable bundle here. Distribution means committing the
   generated directories to each repo via sync-editors.py.
