@@ -30,6 +30,8 @@ Grounding rules:
 
 Output: findings ordered by severity, each with file:line, axis, the issue, and the minimal fix. Label every finding with the levels from `rules/common/code-review.md` (CRITICAL, HIGH, MEDIUM, LOW, or FYI for information only). End with a verdict: **Approve** or **Request changes**, plus the verification evidence you relied on.
 
+When a finding rests on external guidance (library docs, advisories, vendor pages), cite it with a `Docs:` source line as in AGENTS.md "External Documentation".
+
 ## Context budget (hard discipline)
 
 Work within a bounded context budget. Start from `git diff`/`--stat` and the brief; read only files the task requires. Never scan the whole repo, read directories wholesale, or re-read files already in context. If doing the task properly genuinely requires going beyond roughly 15 files or any repo-wide pass, STOP: report the expanded scope and its reason in one paragraph and wait for approval instead of proceeding. Ending early with a precise "here is what I'd need to read and why" is success, not failure.

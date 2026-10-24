@@ -1,10 +1,20 @@
 {
-  "_comment": "Enterprise additions. Merge into managed .mcp.json only where the org runs the backing service.",
+  "_comment": "Enterprise additions. Merge into managed .mcp.json only where the org runs the backing service or holds the API key.",
   "mcpServers": {
     "sonarqube": {
       "command": "docker",
       "args": ["run", "-i", "--rm", "-e", "SONARQUBE_TOKEN", "-e", "SONARQUBE_URL", "mcp/sonarqube"],
       "env": { "SONARQUBE_TOKEN": "${SONARQUBE_TOKEN}", "SONARQUBE_URL": "${SONARQUBE_URL}" }
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": { "Authorization": "Bearer ${CONTEXT7_API_KEY}" }
+    },
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": { "x-api-key": "${EXA_API_KEY}" }
     }
   }
 }
