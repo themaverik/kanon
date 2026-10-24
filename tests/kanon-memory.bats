@@ -30,6 +30,11 @@ setup_repo() {
   [[ "${lines[1]}" != *"ravi@"* ]]
 }
 
+@test "filter does not treat long file paths or kebab names as secrets" {
+  run scan "see plugins/kanon-core/templates/githooks/doc-name-check.py:12 and m4-12-backlog-item-12-connector-mode-credentials"
+  [ "${lines[0]}" = "clean" ]
+}
+
 @test "filter leaves an invalid Aadhaar checksum alone" {
   run scan "order 2345 6789 0125 shipped"
   [ "${lines[0]}" = "clean" ]

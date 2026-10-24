@@ -78,8 +78,10 @@ def _entropy(s):
 
 
 def _high_entropy(text):
-    for tok in re.findall(r"[A-Za-z0-9+/=_-]{32,}", text):
-        if re.search(r"[A-Za-z]", tok) and re.search(r"\d", tok) and _entropy(tok) > 4.2:
+    # Slashes split tokens so file paths never count; a key mixes upper, lower and digits.
+    for tok in re.findall(r"[A-Za-z0-9+=_-]{32,}", text):
+        mixed = all(re.search(c, tok) for c in (r"[A-Z]", r"[a-z]", r"\d"))
+        if mixed and _entropy(tok) > 4.2:
             return True
     return False
 
