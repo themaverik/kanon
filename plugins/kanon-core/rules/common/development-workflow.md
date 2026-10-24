@@ -22,7 +22,7 @@ Pick the scope tier first (see `CLAUDE.md`). Trivial changes skip to the build g
    one. Contract or schema changes go to `backend-architect`. Decisions become ticket-linked ADRs. *(Kanōn)*
 3. **Mutation evidence.** Run mutation testing on the changed code. Kill or document survivors
    (see [testing.md](./testing.md)). *(Kanōn)*
-4. **Read-only review.** `architect-review` plus the stack reviewer. Reviewers never edit. *(Kanōn)*
+4. **Read-only review.** `pr-reviewer` on every PR, `architect-review` for structural changes, plus the stack reviewer. Reviewers never edit. *(Kanōn)*
    Address CRITICAL and HIGH issues before merging.
 5. **Commit.** `PROJ-123:` subjects per the `commit-craft` skill.
 

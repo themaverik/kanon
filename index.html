@@ -289,7 +289,7 @@ footer p{max-width:75ch}
   <table>
     <thead><tr><th scope="col">Plugin</th><th scope="col">Enable in</th><th scope="col">Carries</th></tr></thead>
     <tbody>
-    <tr><th scope="row">core</th><td>every repo</td><td>Skills: karpathy-guidelines, adr-manager, commit-craft. Agents: implementer, backend-architect, architect-review, failure-mode-engineer. Common rules plus git and doc policy. Six hook checks: cooldown, env-mutation, ticket (one Bash guard), artifact, post-edit-lint, graph-sync. Serena MCP and the CLAUDE.md &amp; AGENTS.md templates.</td></tr>
+    <tr><th scope="row">core</th><td>every repo</td><td>Skills: karpathy-guidelines, adr-manager, commit-craft. Agents: implementer, backend-architect, pr-reviewer, architect-review, failure-mode-engineer. Common rules plus git and doc policy. Six hook checks: cooldown, env-mutation, ticket (one Bash guard), artifact, post-edit-lint, graph-sync. Serena MCP and the CLAUDE.md &amp; AGENTS.md templates.</td></tr>
     <tr><th scope="row">java</th><td>Java / Kotlin repos</td><td>Agents: quarkus-reviewer and spring-reviewer. Skill: java-discipline, which picks Quarkus or Spring Boot from the repo. Rules: java, kotlin, quarkus and spring, plus the java-services rule.</td></tr>
     <tr><th scope="row">java-airails</th><td>Java repos that want them (opt-in)</td><td>8 vendored <a href="https://github.com/AdamBien/airails">airails</a> skills (MIT): java-conventions, bce, microprofile-server, system-tests and java-distiller load by description. sbce, ears-tests and continuous-testing run only as slash commands.</td></tr>
     <tr><th scope="row">ts</th><td>TS backend repos</td><td>Agent: nestjs-boundary-reviewer. Skill: typescript-discipline. Rules: typescript (including Vitest/Jest, supertest and Testcontainers testing), plus the nestjs and framework-neutral hexagonal rules.</td></tr>
@@ -513,7 +513,7 @@ Output: code in fenced blocks. End nontrivial answers with four short sections: 
     <li><strong>Budget gate</strong>: every dispatch is classed by expected peak context, S (&lt;60K) / M (60–150K) / L (&gt;150K), measured against real subagent peaks (median ~105K). Approval follows the plan: M and L on Pro, L on Max, Team and API. Escalating above the plan's agent model (Sonnet by default) always needs approval, and Fable is capped per session (Pro 0, Max 5x 1, Max 20x 2). cache-keeper's cost mode can enforce the model rules.</li>
     <li><strong>Implementer</strong>: fresh context, env-mutation and cooldown guards, ~15-file stop rule, and the mandatory six-section handoff report (what changed, deviations from the brief, premises verified or corrected, noticed but not touched, commands run, how to verify).</li>
     <li><strong>Verify</strong>: PIT/Stryker mutants and jqwik/kotest/fast-check properties are the evidence. Coverage percent is not.</li>
-    <li><strong>Review</strong>: architect-review plus the stack reviewer (quarkus / spring / nestjs-boundary), all read-only. Design changes are recorded as ticket-linked ADRs.</li>
+    <li><strong>Review</strong>: pr-reviewer on every PR, architect-review plus the stack reviewer (quarkus / spring / nestjs-boundary), all read-only. Design changes are recorded as ticket-linked ADRs.</li>
     <li><strong>Commit &amp; deliver</strong>: commit-craft message (KEY: one-liner + bullets, no AI footers), ticket-guard backstop, remove-ai-marks (kanon-tools) on published artifacts.</li>
   </ul>
 </section>

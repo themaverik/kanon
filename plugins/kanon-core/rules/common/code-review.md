@@ -35,6 +35,8 @@ Before marking code complete:
 - [ ] No console.log or debug statements
 - [ ] Tests exist for new functionality
 - [ ] Mutation testing shows no undocumented survivors in changed code *(Kanōn)*
+- [ ] PR is one logical change: ~100 lines good, ~300 acceptable, ~1000 split; refactors separate from features
+- [ ] PR description says what changed, why, and how it was verified
 
 ## Security Review Triggers
 
@@ -56,6 +58,9 @@ Before marking code complete:
 | HIGH | Bug or significant quality issue | **WARN** - Should fix before merge |
 | MEDIUM | Maintainability concern | **INFO** - Consider fixing |
 | LOW | Style or minor suggestion | **NOTE** - Optional |
+| FYI | Context for the author, no change expected | **INFO** - None |
+
+Label every finding. An unlabelled comment or a bare "LGTM" is not a review.
 
 ## Agent Usage
 
@@ -63,6 +68,7 @@ Use these agents for code review:
 
 | Agent | Purpose |
 |-------|---------|
+| **pr-reviewer** | Every PR: correctness, readability, architecture fit, security, performance |
 | **architect-review** | Layering, boundaries, SOLID, distributed-systems patterns |
 | **quarkus-reviewer** / **spring-reviewer** | Java framework idioms, CDI/Spring, JPA, security config |
 | **nestjs-boundary-reviewer** | TypeScript module boundaries, DI, dead exports |
@@ -76,7 +82,7 @@ Use these agents for code review:
 3. Review code quality checklist
 4. Run relevant tests
 5. Run mutation testing on the changed code
-6. Use appropriate agent for detailed review
+6. Run pr-reviewer, plus architect-review and the stack reviewer where they apply
 ```
 
 ## Approval Criteria
@@ -96,6 +102,7 @@ This rule works with:
 ## Sources
 
 - Code review: Michael Fagan, "Design and Code Inspections to Reduce Errors in Program Development", 1976, doi:10.1147/sj.153.0182; Google, "Engineering Practices: Code Review", https://google.github.io/eng-practices/review/
+- Five-axis review, change sizing and severity labels: Addy Osmani, agent-skills `code-review-and-quality` (MIT), https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md
 - Continuous integration: Martin Fowler, "Continuous Integration", https://martinfowler.com/articles/continuousIntegration.html
 - Mutation testing: Richard DeMillo, Richard Lipton and Frederick Sayward, "Hints on Test Data Selection: Help for the Practicing Programmer", 1978, doi:10.1109/C-M.1978.218136
 - SOLID: Robert C. Martin, *Agile Software Development: Principles, Patterns, and Practices*, 2002

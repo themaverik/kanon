@@ -33,7 +33,7 @@ If unsure, default to Trivial and ask before escalating.
 3. **Design** (contracts/schemas change) - dispatch `backend-architect`; capture the decision via `adr-manager` (ticket-linked).
 4. **Implement** - dispatch `implementer` with ticket key + success criteria in the brief. Its handoff report is the interface; never resume its transcript.
 5. **Verify** - build/test gates; risky paths get `failure-mode-engineer` (mutation/property verdicts, not coverage percent).
-6. **Review** - official code-review plugin generally; `architect-review` for structural changes; the stack reviewer per repo type. Reviews cover the diff plus touched files only.
+6. **Review** - `pr-reviewer` on every PR; `architect-review` for structural changes; the stack reviewer per repo type. Reviews cover the diff plus touched files only.
 7. **Record** - ADR for decisions. Work-item status lives in the ticket, not in repo files.
 8. **Deliverables** - run `remove-ai-marks` (kanon-tools) on generated docs/artifacts before publishing.
 
@@ -43,6 +43,7 @@ If unsure, default to Trivial and ask before escalating.
 |---|---|---|
 | Build a scoped change | implementer | writes; env-mutation blocked |
 | Service/API/schema design | backend-architect | design doc only |
+| PR review (five axes) | pr-reviewer | read-only, every PR |
 | Structural review | architect-review | read-only, Milestone tier |
 | How does this break | failure-mode-engineer | writes tests; verifier-backed |
 | Quarkus / Spring Boot idiom review | quarkus-reviewer / spring-reviewer (kanon-java) | read-only |
